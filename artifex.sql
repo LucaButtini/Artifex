@@ -15,7 +15,8 @@ create table visitatori(
 	email varchar(100),
 	nazionalita varchar(100),
 	telefono varchar(50),
-	lingua_base varchar(50)
+	lingua_base varchar(50),
+	password varchar(100)
 );
 
 
