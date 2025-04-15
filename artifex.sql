@@ -26,14 +26,26 @@ create table visite(
  	luogo varchar(100)
 );
 
+create table guide(
+ matricola_guida int primary key auto_increment,
+ nome varchar(100),
+ cognome varchar(100),
+ data_nascita date,
+ luogo_nascita varchar(100)
+);
+
+
 
 create table eventi(
 	id_evento int primary key auto_increment,
 	prezzo double,
 	min_persone int,
-	max_persone int
+	max_persone int,
+	guida int,
+	foreign key (guida) references guide(matricola_guida)
 );
 
+-- funzione come carrello 
 create table prenotazioni(
 visitatore varchar(50),
 id_evento int,
@@ -53,4 +65,23 @@ create table eventi_visite(
 	foreign key (id_evento) references eventi(id_evento)
 );
 
+
+create table lingue(
+	nome varchar(50) primary key
+);
+
+create table conoscenze(
+	livello varchar(50) primary key
+);
+
+-- ternaria lingua conoscenza e guida
+create table avere(
+guida int,
+lingua varchar(50),
+livello varchar(50),
+primary key(guida, lingua, livello),
+foreign key (guida) references guide(matricola_guida),
+foreign key (lingua) references lingue(nome),
+foreign key (livello) references conoscenze(livello)
+);
 
