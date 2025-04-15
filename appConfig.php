@@ -1,6 +1,6 @@
 <?php
-return[
-  'prjName' => 'Artifex/',
+return [
+    'prjName' => 'Artifex/',
     'baseURL' => 'http://localhost/',
-    'css' => 'Public\Style\mystyle.css'
+    'css' => 'Public/Style/mystyle.css'
 ];

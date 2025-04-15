@@ -1,6 +1,9 @@
 RewriteEngine On
 
-# Reindirizza tutte le richieste a index.php
+# Impostare il RewriteBase alla cartella del progetto, ovvero Artifex
+RewriteBase /Artifex/
+
+# Se la richiesta non è un file o una directory esistente, reindirizza a index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [L]
