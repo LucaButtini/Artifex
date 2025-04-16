@@ -2,7 +2,7 @@
 ?>
     </div>
     <footer>
-        <div class="bg-primary py-5 mt-5 text-center">
+        <div class="bg-dark py-5 mt-5 text-center">
             <p class="display-6 mb-3 text-white">ARTIFEX TOURISM</p>
             <small class="text-white-50">&copy; Buttini Luca 5-E. All rights reserved.</small>
         </div>
