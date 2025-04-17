@@ -26,9 +26,13 @@ $routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
 $routerClass->addRoute('GET', 'home/services', 'ServiceController', 'presentation3');
 $routerClass->addRoute('GET', 'form/insert/visitor', 'UserController', 'formInsertOneVisitor'); // FORM REGISTRAZIONE
 $routerClass->addRoute('GET', 'error/errorpage', 'HomeController', 'showErrorPage');
+$routerClass->addRoute('GET', 'form/login/admin', 'AdminController', 'formLoginAdmin'); // FORM LOGIN AMMINISTRATORE
+$routerClass->addRoute('GET', 'form/login/visitor', 'UserController', 'formLoginVisitor'); // FORM LOGIN VISITATORE
 
 // ROTTE POST
 $routerClass->addRoute('POST', 'insert/onevisitor', 'UserController', 'insertOneVisitor'); // INSERIMENTO VISITATORE
+$routerClass->addRoute('POST', 'login/admin', 'AdminController', 'loginAdmin'); // LOGIN AMMINISTRATORE
+$routerClass->addRoute('POST', 'login/visitor', 'UserController', 'loginVisitor'); // LOGIN VISITATORE
 $routerClass->addRoute('POST', 'home/index', 'HomeController', 'presentation11');
 $routerClass->addRoute('POST', 'home/services', 'ServiceController', 'presentation33');
 

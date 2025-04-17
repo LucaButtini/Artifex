@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model;
 require dirname(__DIR__,2). '/Functions/functions.php';
 use Exception;
@@ -40,21 +41,34 @@ class Visitor {
             $stmt->bindValue(':lingua_base', $visitor['lingua_base']);
             $stmt->bindValue(':password', $visitor['password']);
             if(!$stmt->execute()) {
-                throw new \Exception("Errore nell'esecuzione della query");
+                throw new Exception("Errore nell'esecuzione della query");
             }
             if($stmt->rowCount() == 0) {
-                throw new \Exception("Nessuna riga inserita");
+                throw new Exception("Nessuna riga inserita");
             }
             $stmt->closeCursor();
-            return true;
-
-        } catch(\Exception $e) {
-            if (isset($stmt)) {
-                $stmt->closeCursor();
-            }
+        } catch(Exception $e) {
+            $stmt->closeCursor();
             logError($e);
             return false;
         }
+        return true;
     }
 
+    // Ottieni un visitatore per email (per il login)
+    public function getVisitorByEmail(string $email): ?array {
+        $query = 'SELECT * FROM visitatori WHERE email = :email';
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $visitor = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            return $visitor ? $visitor : null; // Restituisce il visitatore se trovato
+        } catch(Exception $e) {
+            logError($e);
+            return null;
+        }
+    }
 }

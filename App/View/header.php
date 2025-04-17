@@ -43,10 +43,10 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
             </ul>
 
             <div class="d-flex">
-                <?php if (isset($_SESSION['user_nome'])) { ?>
+                <?php if (isset($_SESSION['visitor'])) { ?>
                     <div class="dropdown">
                         <button class="btn btn-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> <?= $_SESSION['user_nome'] ?>
+                            <i class="bi bi-person-circle"></i> <?= $_SESSION['visitor'] ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                             <li><a class="dropdown-item" href="<?= $baseUrl ?>profile.php"><i class="bi bi-gear-fill"></i> Impostazioni</a></li>
@@ -55,7 +55,7 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
                         </ul>
                     </div>
                 <?php } else { ?>
-                    <a class="btn btn-dark btn-outline-light" href="<?= $baseUrl ?>login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                    <a class="btn btn-dark btn-outline-light" href="<?= $baseUrl ?>form/login/visitor"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                     <a class="btn btn-dark ms-2 btn-outline-light" href="<?= $baseUrl ?>form/insert/visitor"><i class="bi bi-person-plus"></i> Registrati</a>
                 <?php } ?>
             </div>

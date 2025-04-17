@@ -39,7 +39,7 @@ require 'header.php';
             </form>
 
             <p class="text-center mt-3">
-                Hai già un account? <a href="<?= $baseUrl ?>login">Accedi</a>
+                Hai già un account? <a href="<?= $baseUrl ?>form/login/visitor">Accedi</a>
             </p>
         </div>
     </div>
