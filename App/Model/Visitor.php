@@ -19,7 +19,7 @@ class Visitor {
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute();
-            while($visitor = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while($visitor = $stmt->fetch()) {
                 $visitors[] = $visitor;
             }
             $stmt->closeCursor();
@@ -62,7 +62,7 @@ class Visitor {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':email', $email);
             $stmt->execute();
-            $visitor = $stmt->fetch(PDO::FETCH_ASSOC);
+            $visitor = $stmt->fetch();
             $stmt->closeCursor();
 
             return $visitor ? $visitor : null; // Restituisce il visitatore se trovato
