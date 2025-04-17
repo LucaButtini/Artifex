@@ -32,10 +32,10 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'index.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>index.php">Home</a>
+                    <a class="nav-link <?= $page == 'home.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'services.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>services.php">Servizi</a>
+                    <a class="nav-link <?= $page == 'services.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>home/services">Servizi</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= $page == 'events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events.php">Eventi</a>
@@ -56,7 +56,7 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
                     </div>
                 <?php } else { ?>
                     <a class="btn btn-dark btn-outline-light" href="<?= $baseUrl ?>login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-                    <a class="btn btn-dark ms-2 btn-outline-light" href="<?= $baseUrl ?>register.php"><i class="bi bi-person-plus"></i> Registrati</a>
+                    <a class="btn btn-dark ms-2 btn-outline-light" href="<?= $baseUrl ?>form/insert/visitor"><i class="bi bi-person-plus"></i> Registrati</a>
                 <?php } ?>
             </div>
         </div>

@@ -46,9 +46,15 @@ class Visitor {
                 throw new Exception("Nessuna riga inserita");
             }
             $stmt->closeCursor();
+
+            // Se l'inserimento è riuscito, visualizza la pagina di conferma
+            require 'App/View/confirm.html';
+
         } catch(Exception $e) {
             $stmt->closeCursor();
             logError($e);
+            // Se c'è un errore, visualizza la pagina di errore
+            require 'App/View/error.html';
             return false;
         }
         return true;
