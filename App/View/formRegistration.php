@@ -1,6 +1,10 @@
 <?php
+$appConfig = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'appConfig.php';
+$baseUrl = $appConfig['baseURL'] . $appConfig['prjName'];
+
+$fields = require dirname(__DIR__, 1) . DIRECTORY_SEPARATOR . 'Attributes' . DIRECTORY_SEPARATOR . 'visitatoriAttributes.php';
+
 $title = "Registrazione";
-$fields = require 'App\Attributes\visitatoriAttributes.php';
 require 'header.php';
 ?>
 
@@ -17,11 +21,17 @@ require 'header.php';
                 <div class="alert alert-success"><?= $success; ?></div>
             <?php endif; ?>
 
-            <form action="formRegistration.php" method="POST">
+            <form action="<?= $baseUrl ?>insert/onevisitor" method="POST">
                 <?php foreach ($fields as $name => $props): ?>
                     <div class="mb-3">
                         <label for="<?= $name ?>" class="form-label"><?= $props['label'] ?>:</label>
-                        <input type="<?= $props['type'] ?>" class="form-control" id="<?= $name ?>" name="<?= $name ?>" placeholder="Inserisci <?= $props['label'] ?>" required>
+                        <input
+                                type="<?= $props['type'] ?>"
+                                class="form-control"
+                                id="<?= $name ?>"
+                                name="<?= $name ?>"
+                                placeholder="Inserisci <?= $props['label'] ?>"
+                                required>
                     </div>
                 <?php endforeach; ?>
 
@@ -29,7 +39,7 @@ require 'header.php';
             </form>
 
             <p class="text-center mt-3">
-                Hai già un account? <a href="/artifex/login">Accedi</a>
+                Hai già un account? <a href="<?= $baseUrl ?>login">Accedi</a>
             </p>
         </div>
     </div>

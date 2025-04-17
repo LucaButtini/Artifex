@@ -34,17 +34,11 @@ class UserController
 
         if ($this->visitor->createOne($visitor)) {
             $content = "Registrazione completata!";
-            require 'App/View/confirm.html';
+            require 'App/View/confirm.php';
         } else {
             $content = "Errore nella registrazione";
-            require 'App/View/error.html';
+            require 'App/View/error.php';
         }
     }
 
-    // Metodo di prova come show1 del product
-    public function show1(): void
-    {
-        $content = 'Ciao sono show1 nella classe UserController';
-        require 'App/View/content.php';
-    }
 }

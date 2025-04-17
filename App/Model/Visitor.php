@@ -40,23 +40,21 @@ class Visitor {
             $stmt->bindValue(':lingua_base', $visitor['lingua_base']);
             $stmt->bindValue(':password', $visitor['password']);
             if(!$stmt->execute()) {
-                throw new Exception("Errore nell'esecuzione della query");
+                throw new \Exception("Errore nell'esecuzione della query");
             }
             if($stmt->rowCount() == 0) {
-                throw new Exception("Nessuna riga inserita");
+                throw new \Exception("Nessuna riga inserita");
             }
             $stmt->closeCursor();
+            return true;
 
-            // Se l'inserimento è riuscito, visualizza la pagina di conferma
-            require 'App/View/confirm.html';
-
-        } catch(Exception $e) {
-            $stmt->closeCursor();
+        } catch(\Exception $e) {
+            if (isset($stmt)) {
+                $stmt->closeCursor();
+            }
             logError($e);
-            // Se c'è un errore, visualizza la pagina di errore
-            require 'App/View/error.html';
             return false;
         }
-        return true;
     }
+
 }
