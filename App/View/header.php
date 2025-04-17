@@ -13,7 +13,6 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<?= $href ?>">
@@ -23,7 +22,7 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
 <body class="d-flex flex-column min-vh-100">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top py-3">
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark sticky-top py-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= $baseUrl ?>index.php"><strong>Artifex</strong></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -56,8 +55,8 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
                         </ul>
                     </div>
                 <?php } else { ?>
-                    <a class="btn btn-outline-light" href="<?= $baseUrl ?>login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-                    <a class="btn btn-primary ms-2" href="<?= $baseUrl ?>register.php"><i class="bi bi-person-plus"></i> Registrati</a>
+                    <a class="btn btn-dark btn-outline-light" href="<?= $baseUrl ?>login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                    <a class="btn btn-dark ms-2 btn-outline-light" href="<?= $baseUrl ?>register.php"><i class="bi bi-person-plus"></i> Registrati</a>
                 <?php } ?>
             </div>
         </div>
