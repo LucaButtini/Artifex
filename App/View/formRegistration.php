@@ -13,10 +13,12 @@ require 'header.php';
         <div class="card-body">
             <h2 class="text-center text-primary mb-4">Registrati</h2>
 
+            <!-- Messaggio di errore -->
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger"><?= $error; ?></div>
             <?php endif; ?>
 
+            <!-- Messaggio di successo -->
             <?php if (isset($success)): ?>
                 <div class="alert alert-success"><?= $success; ?></div>
             <?php endif; ?>
@@ -31,7 +33,8 @@ require 'header.php';
                                 id="<?= $name ?>"
                                 name="<?= $name ?>"
                                 placeholder="Inserisci <?= $props['label'] ?>"
-                                required>
+                                required
+                        >
                     </div>
                 <?php endforeach; ?>
 
