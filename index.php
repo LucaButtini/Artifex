@@ -28,6 +28,7 @@ $routerClass->addRoute('GET', 'form/insert/visitor', 'UserController', 'formInse
 $routerClass->addRoute('GET', 'error/errorpage', 'HomeController', 'showErrorPage');
 $routerClass->addRoute('GET', 'form/login/admin', 'AdminController', 'formLoginAdmin'); // FORM LOGIN AMMINISTRATORE
 $routerClass->addRoute('GET', 'form/login/visitor', 'UserController', 'formLoginVisitor'); // FORM LOGIN VISITATORE
+$routerClass->addRoute('GET', 'logout', 'UserController', 'logoutPage'); // logout
 
 // ROTTE POST
 $routerClass->addRoute('POST', 'insert/onevisitor', 'UserController', 'insertOneVisitor'); // INSERIMENTO VISITATORE

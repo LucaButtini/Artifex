@@ -24,7 +24,7 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-primary navbar-dark sticky-top py-3">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?= $baseUrl ?>index.php"><strong>Artifex</strong></a>
+        <a class="navbar-brand" href=""><strong>Artifex</strong></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -49,9 +49,7 @@ $page = basename($_SERVER["SCRIPT_NAME"]); // Ottiene il nome della pagina corre
                             <i class="bi bi-person-circle"></i> <?= $_SESSION['visitor'] ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="<?= $baseUrl ?>profile.php"><i class="bi bi-gear-fill"></i> Impostazioni</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="<?= $baseUrl ?>logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                            <li><a class="dropdown-item text-danger" href="<?= $baseUrl ?>logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                         </ul>
                     </div>
                 <?php } else { ?>

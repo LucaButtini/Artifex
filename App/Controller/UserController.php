@@ -19,6 +19,10 @@ class UserController
         require 'App/View/formRegistration.php';
     }
 
+    public function logoutPage():void{
+        require 'App/View/logout.php';
+    }
+
     // Inserisce un nuovo visitatore
     public function insertOneVisitor(): void
     {

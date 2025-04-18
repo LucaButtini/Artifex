@@ -13,7 +13,7 @@ require 'header.php';
         <div class="card-body">
             <h2 class="text-center text-primary mb-4">Registrati</h2>
 
-            <!-- Messaggio di errore -->
+
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger"><?= $error; ?></div>
             <?php endif; ?>
