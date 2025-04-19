@@ -20,7 +20,7 @@ require 'header.php';
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="/Artifex/Public/Immagini/artifex-service1.webp" class="card-img-top rounded card-img" alt="Visite Guidate">
+                <img src="/Artifex/Public/Immagini/artifex-service1.webp" class="card-img-top rounded card-img card-img-fixed" alt="Visite Guidate">
                 <div class="card-body">
                     <h5 class="card-title">Visite Guidate</h5>
                     <p class="card-text">Esplora i luoghi storici con le nostre visite guidate professionali, come i Musei Vaticani e la Cappella Sistina.</p>
@@ -30,7 +30,7 @@ require 'header.php';
         </div>
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="/Artifex/Public/Immagini/artifex-home.webp" class="card-img-top rounded card-img" alt="Eventi Culturali">
+                <img src="/Artifex/Public/Immagini/artifex-service2_1.webp" class="card-img-top rounded card-img card-img-fixed" alt="Eventi Culturali">
                 <div class="card-body">
                     <h5 class="card-title">Eventi Culturali</h5>
                     <p class="card-text">Partecipa ai nostri eventi culturali e scopri nuove esperienze, come concerti e mostre.</p>
@@ -40,7 +40,7 @@ require 'header.php';
         </div>
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="/Artifex/Public/Immagini/artifex-home.webp" class="card-img-top rounded card-img" alt="Prenotazione Eventi">
+                <img src="/Artifex/Public/Immagini/artifex-home.webp" class="card-img-top rounded card-img card-img-fixed" alt="Prenotazione Eventi">
                 <div class="card-body">
                     <h5 class="card-title">Prenotazione Eventi</h5>
                     <p class="card-text">

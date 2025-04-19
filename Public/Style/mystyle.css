@@ -12,6 +12,11 @@ body {
     color: #333;
 }
 
+.card-img-fixed {
+    height: 300px; /* o la dimensione che preferisci */
+    object-fit: cover;
+}
+
 
 .navbar .navbar-brand {
     font-size: 24px;
