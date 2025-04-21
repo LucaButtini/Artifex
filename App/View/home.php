@@ -30,7 +30,7 @@ require 'header.php';
         </div>
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="/Artifex/Public/Immagini/artifex-service2_1.webp" class="card-img-top rounded card-img card-img-fixed" alt="Eventi Culturali">
+                <img src="/Artifex/Public/Immagini/artifex-service2-1.webp" class="card-img-top rounded card-img card-img-fixed" alt="Eventi Culturali">
                 <div class="card-body">
                     <h5 class="card-title">Eventi Culturali</h5>
                     <p class="card-text">Partecipa ai nostri eventi culturali e scopri nuove esperienze, come concerti e mostre.</p>
