@@ -40,7 +40,7 @@ require 'header.php';
         </div>
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="/Artifex/Public/Immagini/artifex-home.webp" class="card-img-top rounded card-img card-img-fixed" alt="Prenotazione Eventi">
+                <img src="/Artifex/Public/Immagini/artifex-service3.webp" class="card-img-top rounded card-img card-img-fixed" alt="Prenotazione Eventi">
                 <div class="card-body">
                     <h5 class="card-title">Prenotazione Eventi</h5>
                     <p class="card-text">

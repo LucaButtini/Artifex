@@ -14,17 +14,17 @@ require 'header.php';
             <h2 class="text-center text-primary mb-4">Registrati</h2>
 
 
-            <?php if (isset($error)): ?>
+            <?php if (isset($error)){ ?>
                 <div class="alert alert-danger"><?= $error; ?></div>
-            <?php endif; ?>
+            <?php }; ?>
 
             <!-- Messaggio di successo -->
-            <?php if (isset($success)): ?>
+            <?php if (isset($success)){ ?>
                 <div class="alert alert-success"><?= $success; ?></div>
-            <?php endif; ?>
+            <?php } ?>
 
             <form action="<?= $baseUrl ?>insert/onevisitor" method="POST">
-                <?php foreach ($fields as $name => $props): ?>
+                <?php foreach ($fields as $name => $props){ ?>
                     <div class="mb-3">
                         <label for="<?= $name ?>" class="form-label"><?= $props['label'] ?>:</label>
                         <input
@@ -36,7 +36,7 @@ require 'header.php';
                                 required
                         >
                     </div>
-                <?php endforeach; ?>
+                <?php } ?>
 
                 <button type="submit" class="btn btn-primary w-100">Registrati</button>
             </form>
