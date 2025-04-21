@@ -1,8 +1,13 @@
 <?php
 
 namespace App\Controller;
-require 'App\Model\Visitor.php';
+
 use App\Model\Visitor;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'App\Model\Visitor.php';
+require 'vendor/autoload.php';
 
 class UserController
 {
@@ -19,7 +24,8 @@ class UserController
         require 'App/View/formRegistration.php';
     }
 
-    public function logoutPage():void{
+    public function logoutPage(): void
+    {
         require 'App/View/logout.php';
     }
 
@@ -33,33 +39,31 @@ class UserController
             $visitor[$attribute] = $_POST[$attribute] ?? '';
         }
 
-        // Hash della password prima del salvataggio
+        // Criptare la password
         $visitor['password'] = password_hash($visitor['password'], PASSWORD_DEFAULT);
 
-        // Definisci baseUrl qui
+        // baseUrl per i link
         $appConfig = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'appConfig.php';
         $baseUrl = $appConfig['baseURL'] . $appConfig['prjName'];
 
         if ($this->visitor->createOne($visitor)) {
+            // Invio mail di benvenuto
+            $this->sendWelcomeEmail($visitor['email'], $visitor['nome']);
+
             $success = "Registrazione completata con successo! <a href='{$baseUrl}form/login/visitor'>Clicca qui per accedere</a>.";
-            // Passa successo e baseUrl alla vista
             require 'App/View/formRegistration.php';
         } else {
             $error = "Errore nella registrazione, riprova più tardi.";
-            // Passa errore alla vista
             require 'App/View/formRegistration.php';
         }
     }
 
-
-
-    // Mostra il form di login per il visitatore
+    // Mostra il form di login
     public function formLoginVisitor(): void
     {
-        require 'App/View/formLoginVisitor.php'; // Vista del form di login
+        require 'App/View/formLoginVisitor.php';
     }
 
-    // Gestisce il login del visitatore
     // Gestisce il login del visitatore
     public function loginVisitor(): void
     {
@@ -70,16 +74,45 @@ class UserController
 
         if ($visitor && password_verify($password, $visitor['password'])) {
             session_start();
-            $_SESSION['visitor'] = $visitor['nome']; // Salviamo il nome del visitatore nella sessione
+            $_SESSION['visitor'] = $visitor['nome'];
 
-            // Dopo il login, redirect alla pagina di conferma
             $content = "Login effettuato con successo!";
-            require 'App/View/confirm.php'; // Mostriamo la pagina di conferma
+            require 'App/View/confirm.php';
             exit;
         } else {
             $error = 'Credenziali non valide!';
-            require 'App/View/formLoginVisitor.php'; // Mostra il form di login con l'errore
+            require 'App/View/formLoginVisitor.php';
         }
     }
 
+    //  mail di benvenuto
+    private function sendWelcomeEmail(string $to, string $name): void
+    {
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'TUA_EMAIL@gmail.com'; // ← CAMBIA con la tua mail
+            $mail->Password   = 'TUA_PASSWORD_APP';    // ← CAMBIA con password app
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            $mail->setFrom('no-reply@artifex.it', 'Artifex');
+            $mail->addAddress($to, $name);
+
+            $mail->Subject = 'Benvenuto su Artifex!';
+            $mail->Body    = "Ciao $name,\n\n"
+                . "Grazie per esserti registrato su Artifex!\n"
+                . "Ora puoi scoprire le nostre visite guidate ed eventi culturali.\n\n"
+                . "A presto!\nIl team di Artifex.";
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Errore invio mail: {$mail->ErrorInfo}");
+        }
+    }
 }
