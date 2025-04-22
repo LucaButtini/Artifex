@@ -18,7 +18,7 @@ class Administrator {
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute();
-            while($admin = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while($admin = $stmt->fetch()) {
                 $admins[] = $admin;
             }
             $stmt->closeCursor();
@@ -49,5 +49,22 @@ class Administrator {
             return false;
         }
         return true;
+    }
+
+    // Ottieni un admin per email (per il login)
+    public function getAdminByEmail(string $email): ?array {
+        $query = 'SELECT * FROM amministratori WHERE email = :email';
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $admin = $stmt->fetch();
+            $stmt->closeCursor();
+
+            return $admin ? $admin : null;
+        } catch(Exception $e) {
+            logError($e);
+            return null;
+        }
     }
 }

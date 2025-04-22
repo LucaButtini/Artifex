@@ -91,4 +91,33 @@ foreign key (id_conoscenza) references conoscenze(id_conoscenza)
 );
 
 
+-- Amministratori
+SELECT * FROM amministratori;
+
+-- Visitatori
+SELECT * FROM visitatori;
+
+-- Visite
+SELECT * FROM visite;
+
+-- Guide
+SELECT * FROM guide;
+
+-- Eventi
+SELECT * FROM eventi;
+
+-- Prenotazioni
+SELECT * FROM prenotazioni;
+
+-- Eventi_Visite
+SELECT * FROM eventi_visite;
+
+-- Lingue
+SELECT * FROM lingue;
+
+-- Conoscenze
+SELECT * FROM conoscenze;
+
+-- Avere (relazione tra guida, lingua, conoscenza)
+SELECT * FROM avere;
 

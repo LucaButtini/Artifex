@@ -18,7 +18,7 @@ class UserController
         $this->visitor = new Visitor($db);
     }
 
-    // Mostra il form di registrazione
+    // form di registrazione
     public function formInsertOneVisitor(): void
     {
         require 'App/View/formRegistration.php';
@@ -29,7 +29,7 @@ class UserController
         require 'App/View/logout.php';
     }
 
-    // Inserisce un nuovo visitatore
+    // nuovo visitatore
     public function insertOneVisitor(): void
     {
         $visitorAttributes = require 'App\Attributes\visitatoriAttributes.php';
@@ -39,7 +39,7 @@ class UserController
             $visitor[$attribute] = $_POST[$attribute] ?? '';
         }
 
-        // Criptare la password
+        //hash password
         $visitor['password'] = password_hash($visitor['password'], PASSWORD_DEFAULT);
 
         // baseUrl per i link
@@ -58,13 +58,13 @@ class UserController
         }
     }
 
-    // Mostra il form di login
+    //  form di login
     public function formLoginVisitor(): void
     {
         require 'App/View/formLoginVisitor.php';
     }
 
-    // Gestisce il login del visitatore
+    //  login del visitatore
     public function loginVisitor(): void
     {
         $email = $_POST['email'] ?? '';

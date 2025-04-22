@@ -38,7 +38,7 @@ require 'header.php';
                     </div>
                 <?php } ?>
 
-                <button type="submit" class="btn btn-primary w-100">Registrati</button>
+                <button type="submit" class="btn btn-dark w-100">Registrati</button>
             </form>
 
             <p class="text-center mt-3">
