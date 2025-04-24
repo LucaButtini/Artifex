@@ -46,6 +46,8 @@ $username = $_SESSION['visitor'] ?? $_SESSION['admin'] ?? null;
                             <i class="bi bi-person-circle"></i> <?= $username ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="<?= $baseUrl ?>info"><i class="bi bi-gear-fill"></i> Info Profilo</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="<?= $baseUrl ?>logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                         </ul>
                     </div>

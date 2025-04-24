@@ -13,30 +13,40 @@ require 'header.php';
         <div class="card-body">
             <h2 class="text-center text-primary mb-4">Registrati</h2>
 
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger"><?= $error ?></div>
+            <?php endif; ?>
 
-            <?php if (isset($error)){ ?>
-                <div class="alert alert-danger"><?= $error; ?></div>
-            <?php }; ?>
-
-            <!-- Messaggio di successo -->
-            <?php if (isset($success)){ ?>
-                <div class="alert alert-success"><?= $success; ?></div>
-            <?php } ?>
+            <?php if (isset($success)): ?>
+                <div class="alert alert-success"><?= $success ?></div>
+            <?php endif; ?>
 
             <form action="<?= $baseUrl ?>insert/onevisitor" method="POST">
-                <?php foreach ($fields as $name => $props){ ?>
+                <?php foreach ($fields as $name => $props): ?>
                     <div class="mb-3">
                         <label for="<?= $name ?>" class="form-label"><?= $props['label'] ?>:</label>
-                        <input
-                                type="<?= $props['type'] ?>"
-                                class="form-control"
-                                id="<?= $name ?>"
-                                name="<?= $name ?>"
-                                placeholder="Inserisci <?= $props['label'] ?>"
-                                required
-                        >
+
+                        <?php if ($name === 'lingua_base' && isset($lingue)): ?>
+                            <select name="<?= $name ?>" id="<?= $name ?>" class="form-control" required>
+                                <option value="" disabled selected>Seleziona una lingua</option>
+                                <?php foreach ($lingue as $ling): ?>
+                                    <option value="<?= $ling['id_lingua'] ?>">
+                                        <?= htmlspecialchars($ling['nome']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php else: ?>
+                            <input
+                                    type="<?= $props['type'] ?>"
+                                    class="form-control"
+                                    id="<?= $name ?>"
+                                    name="<?= $name ?>"
+                                    placeholder="Inserisci <?= $props['label'] ?>"
+                                    required
+                            >
+                        <?php endif; ?>
                     </div>
-                <?php } ?>
+                <?php endforeach; ?>
 
                 <button type="submit" class="btn btn-dark w-100">Registrati</button>
             </form>

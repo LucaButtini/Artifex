@@ -12,6 +12,46 @@ class Visitor {
         $this->db = $db;
     }
 
+    // Ottieni un visitatore per ID
+    public function getById(int $id): array {
+        $sql = "SELECT v.*, l.nome AS lingua_nome
+            FROM visitatori v
+            JOIN lingue l ON v.lingua_base = l.id_lingua
+            WHERE id_visitatore = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $row ?: [];
+    }
+
+// Recupera prenotazioni future del visitatore
+    /*public function getFutureBookings(int $id): array {
+        $sql = "SELECT vi.data_visita, vt.titolo, vt.luogo
+            FROM prenotazioni p
+            JOIN eventi_visite vi ON p.id_evento = vi.id_evento
+            JOIN visite vt ON vi.id_visita = vt.id_visita
+            WHERE p.id_visitatore = :id AND vi.data_visita > NOW()
+            ORDER BY vi.data_visita";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $bookings;
+    }
+
+// Aggiorna la password
+    public function updatePassword(int $id, string $hashedPassword): bool {
+        $sql = "UPDATE visitatori SET password = :pwd WHERE id_visitatore = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':pwd', $hashedPassword);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }*/
+
+
     // Restituisce tutti i visitatori
     public function showAll(): array {
         $visitors = [];

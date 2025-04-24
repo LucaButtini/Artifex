@@ -1,26 +1,42 @@
 <?php
-
 namespace App\Controller;
 
 use App\Model\Visitor;
+use App\Model\Language;             // ← aggiunto
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PDO;
 
-require 'App\Model\Visitor.php';
+require 'App/Model/Visitor.php';
+require 'App/Model/Language.php';    // ← aggiunto
 require 'vendor/autoload.php';
 
 class UserController
 {
+    private PDO $db;                   // ← aggiunto
     protected Visitor $visitor;
 
-    public function __construct($db)
+    public function __construct(PDO $db)
     {
+        $this->db      = $db;         // ← aggiunto
         $this->visitor = new Visitor($db);
     }
 
-    // form di registrazione
+
+// form di registrazione
     public function formInsertOneVisitor(): void
     {
+        // Carica tutte le lingue per il select
+        $languageModel = new Language($this->db);
+        $lingue        = $languageModel->showAll();
+
+        // Carica i metadati dei campi
+        $fields = require 'App/Attributes/visitatoriAttributes.php';
+
+        // baseUrl per i link
+        $appConfig = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'appConfig.php';
+        $baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
+
         require 'App/View/formRegistration.php';
     }
 
@@ -28,6 +44,13 @@ class UserController
     {
         require 'App/View/logout.php';
     }
+
+    public function infoProfilo(): void
+    {
+        require 'App/View/profile.php';
+    }
+
+
 
     // nuovo visitatore
     public function insertOneVisitor(): void
@@ -94,8 +117,8 @@ class UserController
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'TUA_EMAIL@gmail.com'; // ← CAMBIA con la tua mail
-            $mail->Password   = 'TUA_PASSWORD_APP';    // ← CAMBIA con password app
+            $mail->Username   = 'luca.buttini@iisviolamarchesini.edu.it'; // ← CAMBIA con la tua mail
+            $mail->Password   = 'fcpa lstw knyl vtfk';    // ← CAMBIA con password app
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 

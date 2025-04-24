@@ -1,6 +1,6 @@
 <?php
 namespace App\Model;
-require dirname(__DIR__,2). '/Functions/functions.php';
+//require dirname(__DIR__,2). '/Functions/functions.php';
 use Exception;
 use PDO;
 
@@ -18,7 +18,7 @@ class Language {
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute();
-            while ($language = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($language = $stmt->fetch()) {
                 $languages[] = $language;
             }
             $stmt->closeCursor();
