@@ -117,8 +117,8 @@ class UserController
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'luca.buttini@iisviolamarchesini.edu.it'; // ← CAMBIA con la tua mail
-            $mail->Password   = 'fcpa lstw knyl vtfk';    // ← CAMBIA con password app
+            $mail->Username   = ''; // ← CAMBIA con la tua mail
+            $mail->Password   = '';    // ← CAMBIA con password app
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
