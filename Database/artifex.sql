@@ -91,6 +91,8 @@ create table avere(
                       foreign key (id_conoscenza) references conoscenze(id_conoscenza)
 );
 
+
+
 INSERT INTO lingue (nome) VALUES
                               ('Italiano'),
                               ('Inglese'),
@@ -102,11 +104,56 @@ INSERT INTO lingue (nome) VALUES
                               ('Russo');
 
 
+
 INSERT INTO conoscenze (livello) VALUES
                                      ('Base'),
                                      ('Intermedio'),
                                      ('Avanzato'),
                                      ('Madrelingua');
+
+
+-- 1) VISITE GUIDATE
+INSERT INTO visite (titolo, durata_media, luogo) VALUES
+                                                     ('Musei Vaticani e Cappella Sistina', '02:30:00', 'Città del Vaticano'),
+                                                     ('Sito archeologico di Pompei',       '03:00:00', 'Pompei'),
+                                                     ('Galleria degli Uffizi',             '02:00:00', 'Firenze'),
+                                                     ('Colosseo e Foro Romano',            '02:00:00', 'Roma'),
+                                                     ('Reggia di Caserta',                 '02:45:00', 'Caserta');
+
+-- 2) GUIDE
+INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita) VALUES
+                                                                   ('Marco',  'Rossi',  '1980-05-10', 'Milano'),
+                                                                   ('Anna',   'Bianchi','1975-09-22', 'Roma'),
+                                                                   ('Luca',   'Verdi',  '1990-12-05', 'Firenze'),
+                                                                   ('Giulia', 'Neri',   '1985-03-15', 'Napoli');
+
+-- 3) RELAZIONE GUIDA ↔️ LINGUA ↔️ CONOSCENZA
+-- (lingue e conoscenze sono già state inserite con id 1–8 e 1–4)
+INSERT INTO avere (id_guida, id_lingua, id_conoscenza) VALUES
+                                                           -- Marco Rossi parla Italiano (madre lingua) e Inglese (avanzato)
+                                                           (1, 1, 4), (1, 2, 3),
+                                                           -- Anna Bianchi: Italiano (madre), Francese (intermedio), Inglese (base)
+                                                           (2, 1, 4), (2, 3, 2), (2, 2, 1),
+                                                           -- Luca Verdi: Italiano (madre), Inglese (madre), Spagnolo (intermedio)
+                                                           (3, 1, 4), (3, 2, 4), (3, 4, 2),
+                                                           -- Giulia Neri: Italiano (madre), Inglese (intermedio), Tedesco (base)
+                                                           (4, 1, 4), (4, 2, 2), (4, 5, 1);
+
+-- 4) EVENTI (prezzo, min/max partecipanti, guida)
+INSERT INTO eventi (prezzo, min_persone, max_persone, guida) VALUES
+                                                                 (35.00, 5, 20, 1),  -- evento condotto da Marco Rossi
+                                                                 (30.00, 4, 15, 2),  -- Anna Bianchi
+                                                                 (25.00, 6, 18, 3),  -- Luca Verdi
+                                                                 (40.00, 5, 12, 4),  -- Giulia Neri
+                                                                 (38.00, 5, 20, 1);  -- un secondo evento con Marco
+
+-- 5) PROGRAMMAZIONE EVENTI ‒ associazione visita ↔ evento con data/ora
+INSERT INTO eventi_visite (id_visita, id_evento, data_visita) VALUES
+                                                                  (1, 1, '2025-05-10 10:00:00'),
+                                                                  (2, 2, '2025-05-12 09:30:00'),
+                                                                  (3, 3, '2025-05-13 11:00:00'),
+                                                                  (4, 4, '2025-05-14 15:00:00'),
+                                                                  (5, 5, '2025-05-15 10:00:00');
 
 
 
