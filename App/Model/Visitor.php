@@ -95,6 +95,18 @@ class Visitor {
         return true;
     }
 
+
+    public function updatePassword(int $idVisitatore, string $hashedPassword): bool
+    {
+        $sql = 'UPDATE visitatori SET password = :password WHERE id_visitatore = :id';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':id', $idVisitatore, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+
     // Ottieni un visitatore per email (per il login)
     public function getVisitorByEmail(string $email): ?array {
         $query = "
