@@ -1,6 +1,6 @@
 <?php
 namespace App\Model;
-require dirname(__DIR__,2). '/Functions/functions.php';
+//require dirname(__DIR__,2). '/Functions/functions.php';
 use Exception;
 use PDO;
 
@@ -11,7 +11,6 @@ class EventVisit {
         $this->db = $db;
     }
 
-    // Restituisce tutte le associazioni evento-visita
     public function showAll(): array {
         $eventVisits = [];
         $query = 'SELECT * FROM eventi_visite';
@@ -28,7 +27,6 @@ class EventVisit {
         return $eventVisits;
     }
 
-    // Inserisce una nuova associazione tra visita ed evento
     public function createOne(array $data): bool {
         $query = 'INSERT INTO eventi_visite (id_visita, id_evento, data_visita) VALUES (:id_visita, :id_evento, :data_visita)';
         try {
@@ -49,5 +47,17 @@ class EventVisit {
             return false;
         }
         return true;
+    }
+
+    public function deleteOne(int $idVisita, int $idEvento): bool {
+        try {
+            $stmt = $this->db->prepare('DELETE FROM eventi_visite WHERE id_visita = :v AND id_evento = :e');
+            $stmt->bindParam(':v', $idVisita, PDO::PARAM_INT);
+            $stmt->bindParam(':e', $idEvento, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch(Exception $e){
+            logError($e);
+            return false;
+        }
     }
 }

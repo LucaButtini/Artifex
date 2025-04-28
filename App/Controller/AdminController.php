@@ -3,9 +3,16 @@
 namespace App\Controller;
 
 use App\Model\Administrator;
+use App\Model\Event;
+use App\Model\Visit;
+use App\Model\Guide;
+
 use PDO;
 
 require 'App/Model/Administrator.php';
+require 'App/Model/Event.php';
+require 'App/Model/Visit.php';
+require 'App/Model/Guide.php';
 
 class AdminController
 {
@@ -127,6 +134,26 @@ class AdminController
         require 'App/View/profile.php';
     }
 
+    public function dashboard(): void
+    {
+        session_start();
+        if (! isset($_SESSION['admin'])) {
+            header('Location: /'); // o $baseUrl
+            exit;
+        }
+
+        // Carico i dati (per statistiche / contatori)
+        $eventModel  = new Event($this->db);
+        $visiteModel = new Visit($this->db);
+        $guideModel  = new Guide($this->db);
+
+        $totEventi  = count($eventModel->showAll());
+        $totVisite  = count($visiteModel->showAll());
+        $totGuide   = count($guideModel->showAll());
+
+        // passo tutto alla view
+        require 'App/View/dashboard.php';
+    }
 
 
     // Logout
@@ -135,9 +162,4 @@ class AdminController
         require 'App/View/logout.php';
     }
 
-    // Dashboard
-    public function dashboard(): void
-    {
-        require 'App/View/adminDashboard.php';
-    }
 }

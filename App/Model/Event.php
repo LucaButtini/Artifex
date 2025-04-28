@@ -1,6 +1,6 @@
 <?php
 namespace App\Model;
-require dirname(__DIR__,2). '/Functions/functions.php';
+//require dirname(__DIR__,2). '/Functions/functions.php';
 use Exception;
 use PDO;
 
@@ -50,5 +50,25 @@ class Event {
             return false;
         }
         return true;
+    }
+
+    public function deleteOne(int $id): bool {
+        $stmt = $this->db->prepare('DELETE FROM eventi WHERE id_evento = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    public function update(array $data): bool {
+        $sql = "UPDATE eventi SET titolo = :titolo, prezzo = :prezzo, guida = :guida WHERE id_evento = :id_evento";
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':titolo', $data['event_title']);
+            $stmt->bindValue(':prezzo', $data['event_price']);
+            $stmt->bindValue(':guida', $data['event_guide']);
+            $stmt->bindValue(':id_evento', $data['event_id'], PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            logError($e);
+            return false;
+        }
     }
 }

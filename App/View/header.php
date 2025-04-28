@@ -52,6 +52,13 @@ $username = $visitorSession['nome']
                 <li class="nav-item">
                     <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events.php">Eventi</a>
                 </li>
+                <?php if ($adminSession): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $page==='adminDashboard.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>admin/dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                <?php endif; ?>
 
             </ul>
             <div class="d-flex">

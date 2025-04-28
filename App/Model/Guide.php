@@ -1,6 +1,6 @@
 <?php
 namespace App\Model;
-require dirname(__DIR__,2). '/Functions/functions.php';
+//require dirname(__DIR__,2). '/Functions/functions.php';
 use Exception;
 use PDO;
 
@@ -11,7 +11,6 @@ class Guide {
         $this->db = $db;
     }
 
-    // Restituisce tutte le guide
     public function showAll(): array {
         $guides = [];
         $query = 'SELECT * FROM guide';
@@ -28,7 +27,6 @@ class Guide {
         return $guides;
     }
 
-    // Inserisce una nuova guida
     public function createOne(array $guide): bool {
         $query = 'INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita) VALUES (:nome, :cognome, :data_nascita, :luogo_nascita)';
         try {
@@ -50,5 +48,32 @@ class Guide {
             return false;
         }
         return true;
+    }
+
+    public function deleteOne(int $id): bool {
+        try {
+            $stmt = $this->db->prepare('DELETE FROM guide WHERE id_guida = :id');
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch(Exception $e) {
+            logError($e);
+            return false;
+        }
+    }
+
+    public function update(array $data): bool {
+        $sql = "UPDATE guide SET nome = :nome, cognome = :cognome, data_nascita = :data_nascita, luogo_nascita = :luogo_nascita WHERE id_guida = :id_guida";
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':nome', $data['nome']);
+            $stmt->bindValue(':cognome', $data['cognome']);
+            $stmt->bindValue(':data_nascita', $data['data_nascita']);
+            $stmt->bindValue(':luogo_nascita', $data['luogo_nascita']);
+            $stmt->bindValue(':id_guida', $data['id_guida'], PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch(Exception $e) {
+            logError($e);
+            return false;
+        }
     }
 }
