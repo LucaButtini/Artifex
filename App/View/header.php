@@ -1,16 +1,27 @@
 <?php
+// App/View/header.php
+
 // Avvia la sessione solo se non è già stata avviata
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Config e URL base
 $appConfig = require dirname(__DIR__, 2) . '/appConfig.php';
 $baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
 $href      = $baseUrl . $appConfig['css'];
 
+// Pagina corrente (per l'active link)
 $page      = basename($_SERVER["SCRIPT_NAME"]);
-// Se loggato, prendi visitor o admin
-$username  = $_SESSION['visitor']['nome'] ?? $_SESSION['admin'] ?? null;
+
+// Prendi dal sessione, se presenti, i dati completi di visitatore o admin
+$visitorSession = $_SESSION['visitor'] ?? null;   // deve essere un array ['nome'=>..., 'email'=>..., ...]
+$adminSession   = $_SESSION['admin']   ?? null;   // deve essere un array ['username'=>..., 'email'=>..., ...]
+
+// Il nome da mostrare in navbar
+$username = $visitorSession['nome']
+    ?? $adminSession['username']
+    ?? null;
 ?>
 <!doctype html>
 <html lang="it">
@@ -33,17 +44,17 @@ $username  = $_SESSION['visitor']['nome'] ?? $_SESSION['admin'] ?? null;
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= $page=='index.php'?'active':''?>" href="<?= $baseUrl ?>">Home</a>
+                    <a class="nav-link <?= $page==='index.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page=='services.php'?'active':''?>" href="<?= $baseUrl ?>home/services">Servizi</a>
+                    <a class="nav-link <?= $page==='services.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>home/services">Servizi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page=='events.php'?'active':''?>" href="<?= $baseUrl ?>events.php">Eventi</a>
+                    <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events.php">Eventi</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <?php if($username): ?>
+                <?php if ($username): ?>
                     <div class="dropdown">
                         <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i> <?= $username ?>

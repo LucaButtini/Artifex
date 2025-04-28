@@ -64,7 +64,6 @@ class AdminController
 
 
     // Esegue il login admin
-// AdminController.php
 
     public function loginAdmin(): void
     {
@@ -76,7 +75,7 @@ class AdminController
 
         if ($admin && password_verify($password, $admin['password'])) {
             session_start();
-            $_SESSION['admin'] = $admin; // <-- SALVA TUTTO L'ARRAY DELL'ADMIN!
+            $_SESSION['admin'] = $admin;
 
             $content = "Login effettuato con successo!";
             require 'App/View/confirm.php';
