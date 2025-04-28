@@ -20,7 +20,9 @@ $admin   = $admin   ?? null;
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <?php if ($admin): ?>
+                        <?php
+                        // Verifica la presenza di un admin o visitor e mostra il nome
+                        if ($admin): ?>
                             Amministratore: <?= $admin['username'] ?>
                         <?php elseif ($visitor): ?>
                             Visitatore: <?= $visitor['nome'] ?>
@@ -40,14 +42,13 @@ $admin   = $admin   ?? null;
                                 <li class="list-group-item"><strong>Email:</strong> <?= $admin['email'] ?></li>
                             <?php endif; ?>
                         </ul>
+                    <?php elseif (!$admin && !$visitor): ?>
+                        <p>Non sei loggato. Effettua il login o registrati.</p>
                     <?php endif; ?>
 
                 </div>
             </div>
         </div>
-
-        <!-- (colonna destra futura: prenotazioni) -->
-        <!-- <div class="col-md-8"> ... </div> -->
     </div>
 
     <!-- Sezione cambio password -->
