@@ -31,7 +31,7 @@ require 'header.php';
                                 <option value="" disabled selected>Seleziona una lingua</option>
                                 <?php foreach ($lingue as $ling): ?>
                                     <option value="<?= $ling['id_lingua'] ?>">
-                                        <?= htmlspecialchars($ling['nome']) ?>
+                                        <?= $ling['nome'] ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

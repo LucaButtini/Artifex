@@ -97,7 +97,13 @@ class Visitor {
 
     // Ottieni un visitatore per email (per il login)
     public function getVisitorByEmail(string $email): ?array {
-        $query = 'SELECT * FROM visitatori WHERE email = :email';
+        $query = "
+        SELECT v.*, l.nome AS lingua_nome
+        FROM visitatori v
+        LEFT JOIN lingue l ON v.lingua_base = l.id_lingua
+        WHERE v.email = :email
+        LIMIT 1
+    ";
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':email', $email);
@@ -105,10 +111,11 @@ class Visitor {
             $visitor = $stmt->fetch();
             $stmt->closeCursor();
 
-            return $visitor ? $visitor : null; // Restituisce il visitatore se trovato
+            return $visitor ?: null;
         } catch(Exception $e) {
             logError($e);
             return null;
         }
     }
+
 }

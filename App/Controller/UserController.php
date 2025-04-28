@@ -2,23 +2,23 @@
 namespace App\Controller;
 
 use App\Model\Visitor;
-use App\Model\Language;             // ← aggiunto
+use App\Model\Language;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PDO;
 
 require 'App/Model/Visitor.php';
-require 'App/Model/Language.php';    // ← aggiunto
+require 'App/Model/Language.php';
 require 'vendor/autoload.php';
 
 class UserController
 {
-    private PDO $db;                   // ← aggiunto
+    private PDO $db;
     protected Visitor $visitor;
 
     public function __construct(PDO $db)
     {
-        $this->db      = $db;         // ← aggiunto
+        $this->db      = $db;
         $this->visitor = new Visitor($db);
     }
 
@@ -26,11 +26,11 @@ class UserController
 // form di registrazione
     public function formInsertOneVisitor(): void
     {
-        // Carica tutte le lingue per il select
+        // lingue per select
         $languageModel = new Language($this->db);
         $lingue        = $languageModel->showAll();
 
-        // Carica i metadati dei campi
+        //dati per i campi
         $fields = require 'App/Attributes/visitatoriAttributes.php';
 
         // baseUrl per i link
@@ -47,8 +47,12 @@ class UserController
 
     public function infoProfilo(): void
     {
+        session_start();
+        $visitor = $_SESSION['visitor'] ?? null;
+
         require 'App/View/profile.php';
     }
+
 
 
 
@@ -97,7 +101,7 @@ class UserController
 
         if ($visitor && password_verify($password, $visitor['password'])) {
             session_start();
-            $_SESSION['visitor'] = $visitor['nome'];
+            $_SESSION['visitor'] = $visitor;
 
             $content = "Login effettuato con successo!";
             require 'App/View/confirm.php';

@@ -1,13 +1,16 @@
 <?php
-session_start();
+// Avvia la sessione solo se non è già stata avviata
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $appConfig = require dirname(__DIR__, 2) . '/appConfig.php';
 $baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
 $href      = $baseUrl . $appConfig['css'];
 
-$page = basename($_SERVER["SCRIPT_NAME"]);
-
+$page      = basename($_SERVER["SCRIPT_NAME"]);
 // Se loggato, prendi visitor o admin
-$username = $_SESSION['visitor'] ?? $_SESSION['admin'] ?? null;
+$username  = $_SESSION['visitor']['nome'] ?? $_SESSION['admin'] ?? null;
 ?>
 <!doctype html>
 <html lang="it">
@@ -30,37 +33,44 @@ $username = $_SESSION['visitor'] ?? $_SESSION['admin'] ?? null;
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'index.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>">Home</a>
+                    <a class="nav-link <?= $page=='index.php'?'active':''?>" href="<?= $baseUrl ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'services.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>home/services">Servizi</a>
+                    <a class="nav-link <?= $page=='services.php'?'active':''?>" href="<?= $baseUrl ?>home/services">Servizi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events.php">Eventi</a>
+                    <a class="nav-link <?= $page=='events.php'?'active':''?>" href="<?= $baseUrl ?>events.php">Eventi</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <?php if ($username){ ?>
+                <?php if($username): ?>
                     <div class="dropdown">
                         <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i> <?= $username ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="<?= $baseUrl ?>info"><i class="bi bi-gear-fill"></i> Info Profilo</a></li>
+                            <li>
+                                <a class="dropdown-item" href="<?= $baseUrl ?>info">
+                                    <i class="bi bi-gear-fill"></i> Info Profilo
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="<?= $baseUrl ?>logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="<?= $baseUrl ?>logout">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                <?php } else { ?>
-                    <a class="btn btn-dark btn-outline-light" href="<?= $baseUrl ?>form/login/visitor">
+                <?php else: ?>
+                    <a class="btn btn-dark btn-outline-light me-2" href="<?= $baseUrl ?>form/login/visitor">
                         <i class="bi bi-box-arrow-in-right"></i> Login
                     </a>
-                    <a class="btn btn-dark ms-2 btn-outline-light" href="<?= $baseUrl ?>form/insert/visitor">
+                    <a class="btn btn-dark btn-outline-light" href="<?= $baseUrl ?>form/insert/visitor">
                         <i class="bi bi-person-plus"></i> Registrati
                     </a>
-                <?php } ?>
+                <?php endif; ?>
             </div>
-
         </div>
     </div>
 </nav>

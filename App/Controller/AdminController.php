@@ -55,7 +55,17 @@ class AdminController
         require 'App/View/formLoginAdmin.php';
     }
 
+    public function infoProfilo(): void
+    {
+        session_start();
+        $admin = $_SESSION['admin'] ?? null;
+        require 'App/View/profile.php';
+    }
+
+
     // Esegue il login admin
+// AdminController.php
+
     public function loginAdmin(): void
     {
         $email    = $_POST['email']    ?? '';
@@ -66,7 +76,8 @@ class AdminController
 
         if ($admin && password_verify($password, $admin['password'])) {
             session_start();
-            $_SESSION['admin'] = $admin['username'];
+            $_SESSION['admin'] = $admin; // <-- SALVA TUTTO L'ARRAY DELL'ADMIN!
+
             $content = "Login effettuato con successo!";
             require 'App/View/confirm.php';
             exit;
@@ -75,6 +86,7 @@ class AdminController
             require 'App/View/formLoginAdmin.php';
         }
     }
+
 
     // Logout
     public function logoutPage(): void
