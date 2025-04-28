@@ -2,7 +2,7 @@
 // App/View/profile.php
 
 $appConfig = require dirname(__DIR__,2) . DIRECTORY_SEPARATOR . 'appConfig.php';
-$baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
+$baseUrl = rtrim($appConfig['baseURL'] . $appConfig['prjName'], '/');
 $title     = 'Il Mio Profilo';
 
 require 'header.php';
@@ -62,7 +62,7 @@ $admin   = $admin   ?? null;
                 <div class="alert alert-success"><?= $pwdSuccess ?></div>
             <?php endif; ?>
 
-            <form action="<?= $baseUrl ?>profile/changePassword" method="POST" class="row g-3">
+            <form action="<?= $baseUrl?>changePwd" method="POST" class="row g-3">
                 <div class="col-md-4">
                     <label for="old_password" class="form-label">Password Attuale</label>
                     <input type="password" class="form-control" id="old_password" name="old_password" required>

@@ -37,6 +37,8 @@ $routerClass->addRoute('POST', 'login/admin', 'AdminController', 'loginAdmin'); 
 $routerClass->addRoute('POST', 'login/visitor', 'UserController', 'loginVisitor'); // LOGIN VISITATORE
 $routerClass->addRoute('POST', 'home/index', 'HomeController', 'presentation11');
 $routerClass->addRoute('POST', 'home/services', 'ServiceController', 'presentation33');
+$routerClass->addRoute('POST', 'changepwd', 'UserController', 'changePassword'); // CAMBIO PASSWORD
+
 
 // MATCH E CHIAMATA DEL CONTROLLER/AZIONE
 $reValue = $routerClass->match($url, $method);

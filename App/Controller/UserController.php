@@ -112,6 +112,74 @@ class UserController
         }
     }
 
+    public function changePassword(): void
+    {
+        session_start();
+        $visitor = $_SESSION['visitor'] ?? null;
+        $admin = $_SESSION['admin'] ?? null;
+
+        // Se l'utente non è loggato
+        if (!$visitor && !$admin) {
+            $error = 'Devi effettuare il login per cambiare la password.';
+            require 'App/View/profile.php';
+            return;
+        }
+
+        // Recupero i dati inviati dal form
+        $oldPassword = $_POST['old_password'] ?? '';
+        $newPassword = $_POST['new_password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+
+        // Controllo se la nuova password e la conferma corrispondono
+        if ($newPassword !== $confirmPassword) {
+            $pwdError = 'La nuova password e la conferma della password non corrispondono.';
+            require 'App/View/profile.php';
+            return;
+        }
+
+        // Verifica la vecchia password
+        $user = $visitor ?? $admin; // Controlliamo se è un visitatore o un admin
+        if ($user && password_verify($oldPassword, $user['password'])) {
+            // Se la vecchia password è corretta, aggiorniamo con la nuova
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+            // Verifica che l'ID dell'utente esista e non sia null
+            if (!empty($user['id'])) {
+                // Aggiorna la password nel database (aggiorna la password dell'utente)
+                $this->updatePassword($user['id'], $hashedPassword);
+
+                // Aggiorna la password nella sessione
+                $_SESSION[$visitor ? 'visitor' : 'admin']['password'] = $hashedPassword;
+
+                // Successo
+                $pwdSuccess = 'La tua password è stata aggiornata con successo!';
+                require 'App/View/profile.php';
+            } else {
+                // Se non c'è l'ID dell'utente
+                $pwdError = 'Errore: ID utente non trovato.';
+                require 'App/View/profile.php';
+            }
+        } else {
+            // Se la vecchia password non è corretta
+            $pwdError = 'La vecchia password non è corretta.';
+            require 'App/View/profile.php';
+        }
+    }
+
+
+
+// Funzione per aggiornare la password nel database
+    private function updatePassword(int $userId, string $newPassword): void
+    {
+        $stmt = $this->db->prepare('UPDATE visitors SET password = :password WHERE id = :id');
+        $stmt->bindParam(':password', $newPassword);
+        $stmt->bindParam(':id', $userId);
+        $stmt->execute();
+    }
+
+
+
+
     //  mail di benvenuto
     private function sendWelcomeEmail(string $to, string $name): void
     {
