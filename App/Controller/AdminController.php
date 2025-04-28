@@ -63,6 +63,7 @@ class AdminController
     }
 
 
+
     // Esegue il login admin
 
     public function loginAdmin(): void
@@ -85,6 +86,47 @@ class AdminController
             require 'App/View/formLoginAdmin.php';
         }
     }
+
+    public function changePassword(): void
+    {
+        session_start();
+        $admin = $_SESSION['admin'] ?? null;
+
+        if (!$admin) {
+            $error = 'Devi effettuare il login per cambiare la password.';
+            require 'App/View/profile.php';
+            return;
+        }
+
+        $oldPassword     = $_POST['old_password'] ?? '';
+        $newPassword     = $_POST['new_password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+
+        if ($newPassword !== $confirmPassword) {
+            $pwdError = 'La nuova password e la conferma non corrispondono.';
+            require 'App/View/profile.php';
+            return;
+        }
+
+        if (!password_verify($oldPassword, $admin['password'])) {
+            $pwdError = 'La vecchia password non è corretta.';
+            require 'App/View/profile.php';
+            return;
+        }
+
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $username = $admin['username'];
+
+        if ($this->administrator->updatePassword($username, $hashedPassword)) {
+            $_SESSION['admin']['password'] = $hashedPassword;
+            $pwdSuccess = 'La tua password è stata aggiornata con successo!';
+        } else {
+            $pwdError = 'Errore nell\'aggiornamento della password.';
+        }
+
+        require 'App/View/profile.php';
+    }
+
 
 
     // Logout

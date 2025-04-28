@@ -11,6 +11,17 @@ class Administrator {
         $this->db = $db;
     }
 
+    public function updatePassword(string $username, string $hashedPassword): bool
+    {
+        $sql = 'UPDATE amministratori SET password = :password WHERE username = :username';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':username', $username);
+
+        return $stmt->execute();
+    }
+
+
     // Restituisce tutti gli amministratori
     public function showAll(): array {
         $admins = [];

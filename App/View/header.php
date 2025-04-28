@@ -15,8 +15,8 @@ $href      = $baseUrl . $appConfig['css'];
 $page      = basename($_SERVER["SCRIPT_NAME"]);
 
 // Prendi dal sessione, se presenti, i dati completi di visitatore o admin
-$visitorSession = $_SESSION['visitor'] ?? null;   // deve essere un array ['nome'=>..., 'email'=>..., ...]
-$adminSession   = $_SESSION['admin']   ?? null;   // deve essere un array ['username'=>..., 'email'=>..., ...]
+$visitorSession = $_SESSION['visitor'] ?? null;
+$adminSession   = $_SESSION['admin']   ?? null;
 
 // Il nome da mostrare in navbar
 $username = $visitorSession['nome']
@@ -52,6 +52,7 @@ $username = $visitorSession['nome']
                 <li class="nav-item">
                     <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events.php">Eventi</a>
                 </li>
+
             </ul>
             <div class="d-flex">
                 <?php if ($username): ?>

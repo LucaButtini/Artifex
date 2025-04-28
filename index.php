@@ -30,6 +30,7 @@ $routerClass->addRoute('GET', 'form/login/admin', 'AdminController', 'formLoginA
 $routerClass->addRoute('GET', 'form/login/visitor', 'UserController', 'formLoginVisitor'); // FORM LOGIN VISITATORE
 $routerClass->addRoute('GET', 'logout', 'UserController', 'logoutPage'); // logout
 $routerClass->addRoute('GET', 'info', 'UserController', 'infoProfilo'); // info profilo
+$routerClass->addRoute('GET', 'info', 'AdminController', 'infoProfilo'); // info profilo
 
 // ROTTE POST
 $routerClass->addRoute('POST', 'insert/onevisitor', 'UserController', 'insertOneVisitor'); // INSERIMENTO VISITATORE
@@ -38,6 +39,7 @@ $routerClass->addRoute('POST', 'login/visitor', 'UserController', 'loginVisitor'
 $routerClass->addRoute('POST', 'home/index', 'HomeController', 'presentation11');
 $routerClass->addRoute('POST', 'home/services', 'ServiceController', 'presentation33');
 $routerClass->addRoute('POST', 'changepwd', 'UserController', 'changePassword'); // CAMBIO PASSWORD
+$routerClass->addRoute('POST', 'changepwd', 'AdminController', 'changePassword'); // CAMBIO PASSWORD
 
 
 // MATCH E CHIAMATA DEL CONTROLLER/AZIONE
