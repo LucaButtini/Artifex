@@ -22,7 +22,7 @@ require 'Router/Router.php';
 $routerClass = new \Router\Router();
 
 // ROTTE GET
-$routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
+/*$routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
 $routerClass->addRoute('GET', 'home/services', 'ServiceController', 'presentation3');
 $routerClass->addRoute('GET', 'form/insert/visitor', 'UserController', 'formInsertOneVisitor'); // FORM REGISTRAZIONE
 $routerClass->addRoute('GET', 'error/errorpage', 'HomeController', 'showErrorPage');
@@ -77,8 +77,57 @@ $routerClass->addRoute('POST', 'admin/schedules/delete', 'AdminScheduleControlle
 
 $routerClass->addRoute('POST', 'admin/guides/create', 'AdminGuideController', 'create'); // Crea guida
 $routerClass->addRoute('POST', 'admin/guides/delete', 'AdminGuideController', 'delete'); // Elimina guida
-$routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update'); // Modifica guida
+$routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update'); // Modifica guida*/
 
+// ROTTE GET
+$routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
+$routerClass->addRoute('GET', 'home/services', 'ServiceController', 'presentation3');
+$routerClass->addRoute('GET', 'form/insert/visitor', 'UserController', 'formInsertOneVisitor');
+$routerClass->addRoute('GET', 'error/errorpage', 'HomeController', 'showErrorPage');
+$routerClass->addRoute('GET', 'form/login/admin', 'AdminController', 'formLoginAdmin');
+$routerClass->addRoute('GET', 'form/login/visitor', 'UserController', 'formLoginVisitor');
+$routerClass->addRoute('GET', 'logout', 'UserController', 'logoutPage');
+$routerClass->addRoute('GET', 'info', 'UserController', 'infoProfilo');
+$routerClass->addRoute('GET', 'info', 'AdminController', 'infoProfilo');
+$routerClass->addRoute('GET', 'admin/dashboard', 'AdminController', 'dashboard');
+
+// EVENTI
+$routerClass->addRoute('GET', 'admin/events', 'AdminEventController', 'index');
+$routerClass->addRoute('GET', 'admin/events/create', 'AdminEventController', 'createForm');
+$routerClass->addRoute('GET', 'admin/events/edit/{id}', 'AdminEventController', 'editForm');
+
+// PROGRAMMAZIONI
+$routerClass->addRoute('GET', 'admin/schedules', 'AdminScheduleController', 'index');
+$routerClass->addRoute('GET', 'admin/schedules/create', 'AdminScheduleController', 'createForm');
+
+// GUIDE
+$routerClass->addRoute('GET', 'admin/guides', 'AdminGuideController', 'index');
+$routerClass->addRoute('GET', 'admin/guides/create', 'AdminGuideController', 'createForm');
+$routerClass->addRoute('GET', 'admin/guides/edit/{id}', 'AdminGuideController', 'editForm');
+
+
+// ROTTE POST
+$routerClass->addRoute('POST', 'insert/onevisitor', 'UserController', 'insertOneVisitor');
+$routerClass->addRoute('POST', 'login/admin', 'AdminController', 'loginAdmin');
+$routerClass->addRoute('POST', 'login/visitor', 'UserController', 'loginVisitor');
+$routerClass->addRoute('POST', 'home/index', 'HomeController', 'presentation11');
+$routerClass->addRoute('POST', 'home/services', 'ServiceController', 'presentation33');
+$routerClass->addRoute('POST', 'changepwd', 'UserController', 'changePassword');
+$routerClass->addRoute('POST', 'changepwd', 'AdminController', 'changePassword');
+
+// EVENTI
+$routerClass->addRoute('POST', 'admin/events/create', 'AdminEventController', 'create');
+$routerClass->addRoute('POST', 'admin/events/delete', 'AdminEventController', 'delete');
+$routerClass->addRoute('POST', 'admin/events/update', 'AdminEventController', 'update');
+
+// PROGRAMMAZIONI
+$routerClass->addRoute('POST', 'admin/schedules/create', 'AdminScheduleController', 'create');
+$routerClass->addRoute('POST', 'admin/schedules/delete', 'AdminScheduleController', 'delete');
+
+// GUIDE
+$routerClass->addRoute('POST', 'admin/guides/create', 'AdminGuideController', 'create');
+$routerClass->addRoute('POST', 'admin/guides/delete', 'AdminGuideController', 'delete');
+$routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update');
 
 
 // MATCH E CHIAMATA DEL CONTROLLER/AZIONE

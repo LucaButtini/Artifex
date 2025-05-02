@@ -1,83 +1,68 @@
 <?php
 // App/View/dashboard.php
-$appConfig = require dirname(__DIR__, 2) . '/appConfig.php';
-$baseUrl = rtrim($appConfig['baseURL'] . $appConfig['prjName'], '/');
-
+$appConfig = require dirname(__DIR__,2) . '/appConfig.php';
+$baseUrl   = rtrim($appConfig['baseURL'] . $appConfig['prjName'], '/');
 require 'header.php';
 ?>
-
 <div class="container mt-5">
     <h1 class="mb-4">Dashboard Amministratore</h1>
 
-    <!-- Sezione statistiche -->
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Eventi</h5>
-                    <p class="card-text">Totale Eventi: <?= htmlspecialchars($totEventi) ?></p>
-                    <a href="<?= $baseUrl ?>/admin/events" class="btn btn-light">Visualizza Eventi</a>
+    <!-- Statistiche -->
+    <div class="row mb-4">
+        <?php foreach ([
+                           ['label'=>'Eventi','count'=>$totEventi,'route'=>'events','bg'=>'primary'],
+                           ['label'=>'Visite','count'=>$totVisite,'route'=>'schedules','bg'=>'success'],
+                           ['label'=>'Guide','count'=>$totGuide,'route'=>'guides','bg'=>'warning'],
+                       ] as $card): ?>
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-<?= $card['bg'] ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $card['label'] ?></h5>
+                        <p class="card-text">Totale <?= $card['label'] ?>: <?= htmlspecialchars($card['count']) ?></p>
+                        <a href="<?= $baseUrl ?>/admin/<?= $card['route'] ?>" class="btn btn-light">
+                            Visualizza <?= $card['label'] ?>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Visite</h5>
-                    <p class="card-text">Totale Visite: <?= htmlspecialchars($totVisite) ?></p>
-                    <a href="<?= $baseUrl ?>/admin/schedules" class="btn btn-light">Visualizza Visite</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <h5 class="card-title">Guide</h5>
-                    <p class="card-text">Totale Guide: <?= htmlspecialchars($totGuide) ?></p>
-                    <a href="<?= $baseUrl ?>/admin/guides" class="btn btn-light">Visualizza Guide</a>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
-    <!-- Eventi recenti -->
-    <h3 class="mb-3">Eventi Recenti</h3>
-    <table class="table table-striped">
+    <!-- Eventi Recenti -->
+    <h3>Eventi Recenti</h3>
+    <table class="table table-striped mb-4">
         <thead>
         <tr>
-            <th>ID Evento</th><th>Nome Evento</th><th>Data</th><th>Azioni</th>
+            <th>ID</th>
+            <th>Titolo Visita</th>
+            <th>Data/Ora</th>
+            <th>Azioni</th>
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($eventModel)): ?>
-            <?php foreach ($eventModel->showAll() as $event): ?>
+        <?php if (!empty($recentEvents)): ?>
+            <?php foreach ($recentEvents as $ev): ?>
                 <tr>
-                    <td><?= htmlspecialchars($event['id_evento']) ?></td>
-                    <td><?= htmlspecialchars($event['nome']) ?></td>
-                    <td><?= htmlspecialchars($event['data_evento']) ?></td>
+                    <td><?= htmlspecialchars($ev['id_evento']) ?></td>
+                    <td><?= htmlspecialchars($ev['titolo']) ?></td>
+                    <td><?= htmlspecialchars($ev['data_visita']) ?></td>
                     <td>
-                        <a href="<?= $baseUrl ?>/admin/events/edit/<?= htmlspecialchars($event['id_evento']) ?>" class="btn btn-sm btn-primary">Modifica</a>
-                        <form action="<?= $baseUrl ?>/admin/events/delete" method="POST" style="display:inline">
-                            <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id_evento']) ?>">
-                            <button class="btn btn-sm btn-danger">Elimina</button>
-                        </form>
+                        <a href="<?= $baseUrl ?>/admin/events/edit/<?= htmlspecialchars($ev['id_evento']) ?>"
+                           class="btn btn-sm btn-primary">Modifica</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="4">Nessun evento disponibile.</td></tr>
+            <tr><td colspan="4">Nessuna programmazione trovata.</td></tr>
         <?php endif; ?>
         </tbody>
     </table>
 
-    <!-- Link di navigazione per gestire i dati -->
-    <div class="mt-4">
-        <a href="<?= $baseUrl ?>/admin/events/create" class="btn btn-success">Aggiungi Evento</a>
+    <!-- Link rapide -->
+    <div class="mb-5">
+        <a href="<?= $baseUrl ?>/admin/events/create"    class="btn btn-success">Aggiungi Evento</a>
         <a href="<?= $baseUrl ?>/admin/schedules/create" class="btn btn-success">Aggiungi Programmazione</a>
-        <a href="<?= $baseUrl ?>/admin/guides/create" class="btn btn-success">Aggiungi Guida</a>
+        <a href="<?= $baseUrl ?>/admin/guides/create"    class="btn btn-success">Aggiungi Guida</a>
     </div>
 </div>
-
 <?php require 'footer.php'; ?>

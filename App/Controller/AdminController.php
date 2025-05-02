@@ -138,20 +138,31 @@ class AdminController
     {
         session_start();
         if (!isset($_SESSION['admin'])) {
-            header('Location: /'); // o $baseUrl
-            exit;
+            header('Location: /'); exit;
         }
 
-        // Carico i dati (per statistiche / contatori)
+        // 1) Contatori
         $eventModel  = new Event($this->db);
         $visiteModel = new Visit($this->db);
         $guideModel  = new Guide($this->db);
 
-        $totEventi  = count($eventModel->showAll());
-        $totVisite  = count($visiteModel->showAll());
-        $totGuide   = count($guideModel->showAll());
+        $totEventi = count($eventModel->showAll());
+        $totVisite = count($visiteModel->showAll());
+        $totGuide  = count($guideModel->showAll());
 
-        // passo tutto alla view
+        // 2) Eventi recenti: prendi gli ultimi 5 dalla tabella eventi_visite
+        $sql = "
+          SELECT ev.id_evento, v.titolo, ev.data_visita
+          FROM eventi_visite ev
+          JOIN visite v        ON ev.id_visita = v.id_visita
+          ORDER BY ev.data_visita DESC
+          LIMIT 5
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $recentEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+
         require 'App/View/dashboard.php';
     }
 
