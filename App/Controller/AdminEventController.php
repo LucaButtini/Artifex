@@ -1,62 +1,61 @@
 <?php
-// App/Controller/AdminEventController.php
+
 namespace App\Controller;
 
 use App\Model\Event;
 use PDO;
 
-class AdminEventController
-{
+class AdminEventController {
     private PDO $db;
-    private Event $model;
+    private Event $eventModel;
 
-    public function __construct(PDO $db)
-    {
-        $this->db    = $db;
-        $this->model = new Event($db);
+    public function __construct(PDO $db) {
+        $this->db = $db;
+        $this->eventModel = new Event($db);
     }
 
-    // Lista tutti gli eventi
-    public function index(): void
-    {
-        $events  = $this->model->showAll();
-        require 'App/View/adminEvents.php';
+    // Mostra la lista degli eventi
+    public function index(): void {
+        $events = $this->eventModel->showAll();
+        require 'App/View/adminEvents/index.php'; // Passa la lista degli eventi alla vista
     }
 
-    // Mostra il form per crearne uno nuovo
-    public function createForm(): void
-    {
-        require 'App/View/adminEventCreate.php';
+    // Crea un nuovo evento
+    public function createForm(): void {
+        require 'App/View/adminEvents/createForm.php'; // Mostra il form di creazione
     }
 
-    // Processa la creazione
-    public function create(): void
-    {
-        $payload = [
-            'prezzo'      => $_POST['prezzo'] ?? 0,
-            'min_persone' => $_POST['min_persone'] ?? 0,
-            'max_persone' => $_POST['max_persone'] ?? 0,
-            'guida'       => $_POST['guida'] ?? 0,
-        ];
-        $this->model->createOne($payload);
-        header("Location: /{$this->getBaseUrl()}admin/events");
-        exit;
+    public function create(): void {
+        $eventData = $_POST; // Recupera i dati dal form
+        if ($this->eventModel->createOne($eventData)) {
+            header('Location: /admin/events'); // Reindirizza alla lista eventi
+        } else {
+            // Gestisci errore
+        }
     }
 
-    // Elimina un evento
-    public function delete(): void
-    {
-        $id = (int)($_POST['id_evento'] ?? 0);
-        $stmt = $this->db->prepare('DELETE FROM eventi WHERE id_evento = :id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        header("Location: /{$this->getBaseUrl()}admin/events");
-        exit;
+    // Modifica evento
+    public function editForm(int $id): void {
+        $event = $this->eventModel->getEventById($id);
+        require 'App/View/adminEvents/editForm.php'; // Mostra il form di modifica
     }
 
-    private function getBaseUrl(): string
-    {
-        $cfg = require dirname(__DIR__, 2) . '/appConfig.php';
-        return trim($cfg['baseURL'] . $cfg['prjName'], '/').'/';
+    public function update(): void {
+        $eventData = $_POST;
+        if ($this->eventModel->update($eventData)) {
+            header('Location: /admin/events');
+        } else {
+            // Gestisci errore
+        }
+    }
+
+    // Elimina evento
+    public function delete(): void {
+        $eventId = $_POST['event_id'];
+        if ($this->eventModel->deleteOne($eventId)) {
+            header('Location: /admin/events');
+        } else {
+            // Gestisci errore
+        }
     }
 }

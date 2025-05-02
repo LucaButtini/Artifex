@@ -137,7 +137,7 @@ class AdminController
     public function dashboard(): void
     {
         session_start();
-        if (! isset($_SESSION['admin'])) {
+        if (!isset($_SESSION['admin'])) {
             header('Location: /'); // o $baseUrl
             exit;
         }
@@ -154,6 +154,7 @@ class AdminController
         // passo tutto alla view
         require 'App/View/dashboard.php';
     }
+
 
 
     // Logout
