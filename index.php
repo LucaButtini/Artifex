@@ -90,6 +90,8 @@ $routerClass->addRoute('GET', 'logout', 'UserController', 'logoutPage');
 $routerClass->addRoute('GET', 'info', 'UserController', 'infoProfilo');
 $routerClass->addRoute('GET', 'info', 'AdminController', 'infoProfilo');
 $routerClass->addRoute('GET', 'admin/dashboard', 'AdminController', 'dashboard');
+$routerClass->addRoute('GET', 'visits', 'ServiceController', 'listVisits');
+$routerClass->addRoute('GET', 'events', 'ServiceController', 'listEvents');
 
 // EVENTI
 $routerClass->addRoute('GET', 'admin/events', 'AdminEventController', 'index');

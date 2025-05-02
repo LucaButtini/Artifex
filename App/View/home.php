@@ -1,5 +1,7 @@
 <?php
 $title = 'Home';
+$appConfig = require dirname(__DIR__, 2) . '/appConfig.php';
+$baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
 require 'header.php';
 ?>
 
@@ -24,7 +26,7 @@ require 'header.php';
                 <div class="card-body">
                     <h5 class="card-title">Visite Guidate</h5>
                     <p class="card-text">Esplora i luoghi storici con le nostre visite guidate professionali, come i Musei Vaticani e la Cappella Sistina.</p>
-                    <a href="/artifex/home/guided-tours" class="btn btn-dark">Scopri di più</a>
+                    <a href="<?= $baseUrl ?>visits" class="btn btn-dark">Scopri di più</a>
                 </div>
             </div>
         </div>
@@ -34,7 +36,7 @@ require 'header.php';
                 <div class="card-body">
                     <h5 class="card-title">Eventi Culturali</h5>
                     <p class="card-text">Partecipa ai nostri eventi culturali e scopri nuove esperienze, come concerti e mostre.</p>
-                    <a href="/artifex/home/cultural-events" class="btn btn-dark">Scopri di più</a>
+                    <a href="<?= $baseUrl ?>events" class="btn btn-dark">Scopri di più</a>
                 </div>
             </div>
         </div>

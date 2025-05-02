@@ -13,7 +13,11 @@ class Event {
     // Restituisce tutti gli eventi
     public function showAll(): array {
         $events = [];
-        $query = 'SELECT * FROM eventi';
+        $query = 'SELECT e.*, ev.data_visita, v.titolo AS titolo_visita, v.luogo, v.durata_media
+              FROM eventi e
+              JOIN eventi_visite ev ON e.id_evento = ev.id_evento
+              JOIN visite v ON ev.id_visita = v.id_visita
+              ORDER BY ev.data_visita ASC';
         try {
             $stmt = $this->db->prepare($query);
             $stmt->execute();
@@ -26,6 +30,7 @@ class Event {
         }
         return $events;
     }
+
 
     // Inserisce un nuovo evento
     public function createOne(array $event): bool {
