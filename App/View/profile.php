@@ -7,8 +7,8 @@ $title   = 'Il Mio Profilo';
 
 require 'header.php';
 
-$visitor = $visitor ?? null;
-$admin   = $admin ?? null;
+$visitor = $_SESSION['visitor'] ?? null;
+$admin = $_SESSION['admin'] ?? null;
 ?>
 
 <div class="container mt-5 mb-5">
