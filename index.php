@@ -1,7 +1,7 @@
 <?php
 
 $appConfig = require 'appConfig.php';
-
+/*
 $url = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -13,6 +13,21 @@ if (strpos($url, $prefix) === 0) {
     $url = substr($url, strlen($prefix));
 }
 $url = trim($url, '/');
+*/
+
+// all'inizio di index.php, subito dopo aver letto REQUEST_URI
+$fullUri = $_SERVER['REQUEST_URI'];
+$path = parse_url($fullUri, PHP_URL_PATH);     // "/Artifex/home/book-events"
+$url = strtolower($path);
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Rimozione del prefisso tipo /artifex
+$prefix = '/' . strtolower($appConfig['prjName']);
+if (strpos($url, $prefix) === 0) {
+    $url = substr($url, strlen($prefix));     // "/home/book-events"
+}
+$url = trim($url, '/');                        // "home/book-events"
+
 
 require 'Database/DBconn.php';
 $dataBaseConfig = require 'Database/databaseConfig.php';
@@ -20,6 +35,9 @@ $db = Database\DBconn::getDB($dataBaseConfig);
 
 require 'Router/Router.php';
 $routerClass = new \Router\Router();
+
+
+
 
 // ROTTE GET
 /*$routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
@@ -130,6 +148,14 @@ $routerClass->addRoute('POST', 'admin/schedules/delete', 'AdminScheduleControlle
 $routerClass->addRoute('POST', 'admin/guides/create', 'AdminGuideController', 'create');
 $routerClass->addRoute('POST', 'admin/guides/delete', 'AdminGuideController', 'delete');
 $routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update');
+
+$routerClass->addRoute('GET',  'home/book-events',   'ServiceController', 'bookEventForm');
+$routerClass->addRoute('POST', 'home/book-events',   'ServiceController', 'bookEventSubmit');
+
+
+
+
+
 
 
 // MATCH E CHIAMATA DEL CONTROLLER/AZIONE

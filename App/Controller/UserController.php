@@ -164,13 +164,6 @@ class UserController
     }
 
 
-
-
-
-
-
-
-
     //  mail di benvenuto
     private function sendWelcomeEmail(string $to, string $name): void
     {

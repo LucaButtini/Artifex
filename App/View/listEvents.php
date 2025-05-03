@@ -26,9 +26,12 @@ require 'header.php';
                                 <li><strong>Durata:</strong> <?= $ore ?> ore <?= $minuti ?> minuti</li>
                                 <li><strong>Prezzo:</strong> €<?= number_format($evento['prezzo'], 2) ?></li>
                                 <li><strong>Partecipanti:</strong> <?= $evento['min_persone'] ?>–<?= $evento['max_persone'] ?></li>
-                                <li><strong>Guida ID:</strong> <?= $evento['guida'] ?></li>
+                                <li><strong>Guida:</strong> <?= htmlspecialchars($evento['guida_nome'] . ' ' . $evento['guida_cognome']) ?></li>
+
                             </ul>
-                            <a href="/artifex/home/book-events?id=<?= $evento['id_evento'] ?>" class="btn btn-dark mt-3">Prenota</a>
+                            <a href="/Artifex/home/book-events?id=<?= $evento['id_evento'] ?>" class="btn btn-dark mt-3">Prenota</a>
+
+
                         </div>
                     </div>
                 </div>

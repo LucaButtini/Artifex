@@ -13,10 +13,18 @@ class Event {
     // Restituisce tutti gli eventi
     public function showAll(): array {
         $events = [];
-        $query = 'SELECT e.*, ev.data_visita, v.titolo AS titolo_visita, v.luogo, v.durata_media
+        $query = 'SELECT 
+                e.*, 
+                ev.data_visita, 
+                v.titolo AS titolo_visita, 
+                v.luogo, 
+                v.durata_media,
+                g.nome AS guida_nome,
+                g.cognome AS guida_cognome
               FROM eventi e
               JOIN eventi_visite ev ON e.id_evento = ev.id_evento
               JOIN visite v ON ev.id_visita = v.id_visita
+              JOIN guide g ON e.guida = g.id_guida
               ORDER BY ev.data_visita ASC';
         try {
             $stmt = $this->db->prepare($query);
