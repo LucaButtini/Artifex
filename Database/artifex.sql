@@ -210,3 +210,11 @@ FROM eventi e
          JOIN visite v ON ev.id_visita=v.id_visita
          JOIN guide g ON e.guida=g.id_guida
 WHERE e.id_evento = :id
+
+
+SELECT vi.data_visita, vt.titolo, vt.luogo
+FROM prenotazioni p
+         JOIN eventi_visite vi ON p.id_evento = vi.id_evento
+         JOIN visite vt ON vi.id_visita = vt.id_visita
+WHERE p.id_visitatore = :id AND p.pagata = 1
+ORDER BY vi.data_visita;
