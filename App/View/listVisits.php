@@ -29,8 +29,8 @@ require 'header.php';
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?= htmlspecialchars($visita['titolo']) ?></h5>
-                            <p class="card-text flex-grow-1"><?= htmlspecialchars($visita['luogo']) ?></p>
+                            <h5 class="card-title text-primary"><strong><?= htmlspecialchars($visita['titolo']) ?></strong></h5>
+                            <p class="card-text flex-grow-1"><strong>Luogo:</strong> <?= htmlspecialchars($visita['luogo']) ?></p>
                             <ul class="list-unstyled mt-2">
                                 <li><strong>Durata:</strong> <?= $ore ?> ore <?= $minuti ?> minuti</li>
                             </ul>

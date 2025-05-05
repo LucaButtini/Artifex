@@ -13,7 +13,7 @@ require 'header.php';
     <!--<div class="mb-4">
         <img src="/Artifex/Public/Immagini/artifex-service2-1.webp" alt="Immagine home Artifex" class="img-fluid rounded shadow home-image" id="imEv">
     </div>-->
-    <div style="height: 1200px; overflow: hidden; border-radius: 10px;">
+    <div style="height: 900px; overflow: hidden; border-radius: 10px;">
         <img src="/Artifex/Public/Immagini/artifex-service2-1.webp"
              alt="Immagine home Artifex"
              class=" w-100 img-fluid rounded shadow home-image"
@@ -36,7 +36,7 @@ require 'header.php';
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?= htmlspecialchars($evento['titolo_visita']) ?></h5>
+                            <h5 class="card-title text-primary"><strong><?= htmlspecialchars($evento['titolo_visita']) ?></strong></h5>
                             <ul class="list-unstyled mt-2 flex-grow-1">
                                 <li><strong>Luogo:</strong> <?= htmlspecialchars($evento['luogo']) ?></li>
                                 <li><strong>Data:</strong> <?= $data_formattata ?></li>
