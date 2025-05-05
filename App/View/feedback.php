@@ -10,7 +10,7 @@ require 'header.php'; ?>
         <?= htmlspecialchars($message) ?>
     </div>
     <div class="text-center mt-3">
-        <a href="<?= $baseUrl ?>events" class="btn btn-outline-primary">Torna agli eventi</a>
+        <a href="<?= $baseUrl ?>" class="btn btn-outline-primary">Torna alla home</a>
     </div>
 </div>
 

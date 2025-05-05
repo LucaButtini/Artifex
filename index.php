@@ -38,65 +38,6 @@ $routerClass = new \Router\Router();
 
 
 
-
-// ROTTE GET
-/*$routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
-$routerClass->addRoute('GET', 'home/services', 'ServiceController', 'presentation3');
-$routerClass->addRoute('GET', 'form/insert/visitor', 'UserController', 'formInsertOneVisitor'); // FORM REGISTRAZIONE
-$routerClass->addRoute('GET', 'error/errorpage', 'HomeController', 'showErrorPage');
-$routerClass->addRoute('GET', 'form/login/admin', 'AdminController', 'formLoginAdmin'); // FORM LOGIN AMMINISTRATORE
-$routerClass->addRoute('GET', 'form/login/visitor', 'UserController', 'formLoginVisitor'); // FORM LOGIN VISITATORE
-$routerClass->addRoute('GET', 'logout', 'UserController', 'logoutPage'); // logout
-$routerClass->addRoute('GET', 'info', 'UserController', 'infoProfilo'); // info profilo
-$routerClass->addRoute('GET', 'info', 'AdminController', 'infoProfilo'); // info profilo
-$routerClass->addRoute('GET', 'admin/dashboard', 'AdminController', 'dashboard');
-$routerClass->addRoute('GET',  'admin/events',    'AdminEventController',    'index');
-$routerClass->addRoute('GET',  'admin/events/create', 'AdminEventController','createForm');
-$routerClass->addRoute('GET',  'admin/schedules', 'AdminScheduleController', 'index');
-$routerClass->addRoute('GET',  'admin/schedules/create','AdminScheduleController','createForm');
-$routerClass->addRoute('GET',  'admin/guides',    'AdminGuideController',    'index');
-$routerClass->addRoute('GET',  'admin/guides/create','AdminGuideController',  'createForm');
-
-$routerClass->addRoute('GET', 'admin/events', 'AdminEventController', 'index'); // Visualizza gli eventi
-$routerClass->addRoute('GET', 'admin/events/create', 'AdminEventController', 'createForm'); // Aggiungi nuovo evento
-$routerClass->addRoute('GET', 'admin/events/edit/{id}', 'AdminEventController', 'editForm'); // Modifica evento
-
-$routerClass->addRoute('GET', 'admin/schedules', 'AdminScheduleController', 'index'); // Visualizza le programmazioni
-$routerClass->addRoute('GET', 'admin/schedules/create', 'AdminScheduleController', 'createForm'); // Aggiungi nuova programmazione
-
-$routerClass->addRoute('GET', 'admin/guides', 'AdminGuideController', 'index'); // Visualizza le guide
-$routerClass->addRoute('GET', 'admin/guides/create', 'AdminGuideController', 'createForm'); // Aggiungi nuova guida
-$routerClass->addRoute('GET', 'admin/guides/edit/{id}', 'AdminGuideController', 'editForm'); // Modifica guida
-
-
-
-// ROTTE POST
-$routerClass->addRoute('POST', 'insert/onevisitor', 'UserController', 'insertOneVisitor'); // INSERIMENTO VISITATORE
-$routerClass->addRoute('POST', 'login/admin', 'AdminController', 'loginAdmin'); // LOGIN AMMINISTRATORE
-$routerClass->addRoute('POST', 'login/visitor', 'UserController', 'loginVisitor'); // LOGIN VISITATORE
-$routerClass->addRoute('POST', 'home/index', 'HomeController', 'presentation11');
-$routerClass->addRoute('POST', 'home/services', 'ServiceController', 'presentation33');
-$routerClass->addRoute('POST', 'changepwd', 'UserController', 'changePassword'); // CAMBIO PASSWORD
-$routerClass->addRoute('POST', 'changepwd', 'AdminController', 'changePassword'); // CAMBIO PASSWORD
-$routerClass->addRoute('POST', 'admin/events/create', 'AdminEventController', 'create');
-$routerClass->addRoute('POST', 'admin/events/delete', 'AdminEventController', 'delete');
-$routerClass->addRoute('POST', 'admin/schedules/create','AdminScheduleController','create');
-$routerClass->addRoute('POST', 'admin/schedules/delete','AdminScheduleController','delete');
-$routerClass->addRoute('POST', 'admin/guides/create',  'AdminGuideController',    'create');
-$routerClass->addRoute('POST', 'admin/guides/delete',  'AdminGuideController',    'delete');
-
-// Rotte POST per le azioni
-$routerClass->addRoute('POST', 'admin/events/create', 'AdminEventController', 'create'); // Crea un evento
-$routerClass->addRoute('POST', 'admin/events/delete', 'AdminEventController', 'delete'); // Elimina evento
-$routerClass->addRoute('POST', 'admin/events/update', 'AdminEventController', 'update'); // Modifica evento
-
-$routerClass->addRoute('POST', 'admin/schedules/create', 'AdminScheduleController', 'create'); // Crea programmazione
-$routerClass->addRoute('POST', 'admin/schedules/delete', 'AdminScheduleController', 'delete'); // Elimina programmazione
-
-$routerClass->addRoute('POST', 'admin/guides/create', 'AdminGuideController', 'create'); // Crea guida
-$routerClass->addRoute('POST', 'admin/guides/delete', 'AdminGuideController', 'delete'); // Elimina guida
-$routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update'); // Modifica guida*/
-
 // ROTTE GET
 $routerClass->addRoute('GET', '', 'HomeController', 'presentationHome');
 $routerClass->addRoute('GET', 'home/services', 'ServiceController', 'presentation3');
@@ -154,6 +95,9 @@ $routerClass->addRoute('POST', 'book-events',   'ServiceController', 'bookEventS
 $routerClass->addRoute('GET', 'cart', 'CartController', 'index');
 $routerClass->addRoute('POST', 'cart/remove', 'CartController', 'remove');
 
+// Cart checkout
+$routerClass->addRoute('GET',  'cart/checkout',  'CartController', 'checkoutForm');
+$routerClass->addRoute('POST', 'cart/checkout',  'CartController', 'checkoutSubmit');
 
 
 

@@ -7,7 +7,7 @@ $baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
 require 'header.php';
 ?>
 
-<h1 class="text-center mb-4">Il tuo Carrello</h1>
+<h1 class="display-4 text-center""><strong>Il tuo Carrello</strong></h1>
 
 <?php if (empty($eventDs)): ?>
     <div class="alert alert-warning text-center">
@@ -47,7 +47,7 @@ require 'header.php';
 
         <div class="text-center mt-4">
             <h4>Totale: €<?= number_format($totalPrice, 2, ',', '.') ?></h4>
-            <a href="<?= $baseUrl?>payment" class="btn btn-success">Vai al pagamento</a>
+            <a href="<?= $baseUrl?>cart/checkout" class="btn btn-success">Vai al pagamento</a>
         </div>
 <?php endif; ?>
 
