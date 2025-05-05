@@ -146,8 +146,8 @@ INSERT INTO eventi (prezzo, min_persone, max_persone, guida) VALUES
                                                                  (30.00, 4, 15, 2),  -- Anna Bianchi
                                                                  (25.00, 6, 18, 3),  -- Luca Verdi
                                                                  (40.00, 5, 12, 4),  -- Giulia Neri
-                                                                 (38.00, 5, 20, 1),  -- un secondo evento con Marco
-                                                                 (33.00, 6, 18, 3);  -- evento condotto da Luca Verdi
+                                                                 (38.00, 5, 20, 1),
+                                                                 (32.00, 3, 14, 2);  -- un secondo evento con Marco
 
 -- 5) PROGRAMMAZIONE EVENTI ‒ associazione visita ↔ evento con data/ora
 INSERT INTO eventi_visite (id_visita, id_evento, data_visita) VALUES
@@ -195,3 +195,16 @@ SELECT * FROM avere;
 
 
 
+SELECT p.id_evento
+FROM prenotazioni p
+         LEFT JOIN eventi_visite ev ON p.id_evento = ev.id_evento
+WHERE ev.id_evento IS NULL;
+
+
+
+SELECT e.*, ev.data_visita, v.titolo AS titolo_visita, v.luogo, v.durata_media, g.nome AS guida_nome, g.cognome AS guida_cognome
+FROM eventi e
+         JOIN eventi_visite ev ON e.id_evento=ev.id_evento
+         JOIN visite v ON ev.id_visita=v.id_visita
+         JOIN guide g ON e.guida=g.id_guida
+WHERE e.id_evento = :id
