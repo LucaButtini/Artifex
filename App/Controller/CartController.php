@@ -5,6 +5,7 @@ use App\Model\Booking;
 use App\Model\Event;
 
 require 'App/Model/Booking.php';
+require 'App/Model/Event.php';
 require 'vendor/autoload.php';
 class CartController
 {
@@ -39,16 +40,23 @@ class CartController
         $eventModel = new Event($this->db);
         $eventDs = [];
         foreach ($myBookings as $b) {
-            $eventDs[] = $this->db
-                ->prepare("SELECT e.*, ev.data_visita, v.titolo AS titolo_visita, v.luogo, v.durata_media, g.nome AS guida_nome, g.cognome AS guida_cognome
-                           FROM eventi e
-                           JOIN eventi_visite ev ON e.id_evento=ev.id_evento
-                           JOIN visite v ON ev.id_visita=v.id_visita
-                           JOIN guide g ON e.guida=g.id_guida
-                           WHERE e.id_evento = :id")
-                ->execute([':id'=>$b['id_evento']])
-                ->fetch(\PDO::FETCH_ASSOC);
+            $stmt = $this->db->prepare("SELECT e.*, ev.data_visita, v.titolo AS titolo_visita, v.luogo, v.durata_media, g.nome AS guida_nome, g.cognome AS guida_cognome
+        FROM eventi e
+        JOIN eventi_visite ev ON e.id_evento = ev.id_evento
+        JOIN visite v ON ev.id_visita = v.id_visita
+        JOIN guide g ON e.guida = g.id_guida
+        WHERE e.id_evento = :id");
+
+            if (!$stmt || !$stmt->execute([':id' => $b['id_evento']])) {
+                continue; // salta se errore
+            }
+
+            $event = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if ($event) {
+                $eventDs[] = $event;
+            }
         }
+
 
         require 'App/View/cart.php';
     }
