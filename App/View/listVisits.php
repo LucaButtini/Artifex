@@ -3,8 +3,18 @@ $title = 'Elenco Visite';
 require 'header.php';
 ?>
 
-<div class="container mt-5">
-    <h1 class="mb-4 text-center">Visite Guidate Disponibili</h1>
+
+    <div class="text-center mt-5 mb-5">
+        <h1 class="display-4"><strong>Visite Guidate</strong></h1>
+        <p class="lead" style="max-width: 700px; margin: 1rem auto;">
+            Queste sono le nostre visite guidate,
+            immergiti nella storia e prova nuove emozioni!
+        </p>
+
+        <div class="mb-4">
+            <img src="/Artifex/Public/Immagini/artifex-service1.webp" alt="Immagine home Artifex" class="img-fluid rounded shadow home-image">
+        </div>
+    </div>
 
     <?php if (empty($visite)): ?>
         <p class="text-center">Al momento non ci sono visite disponibili.</p>
@@ -31,7 +41,7 @@ require 'header.php';
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-</div>
+
 
 <?php
 require 'footer.php';

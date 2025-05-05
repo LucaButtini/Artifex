@@ -118,7 +118,8 @@ INSERT INTO visite (titolo, durata_media, luogo) VALUES
                                                      ('Sito archeologico di Pompei',       '03:00:00', 'Pompei'),
                                                      ('Galleria degli Uffizi',             '02:00:00', 'Firenze'),
                                                      ('Colosseo e Foro Romano',            '02:00:00', 'Roma'),
-                                                     ('Reggia di Caserta',                 '02:45:00', 'Caserta');
+                                                     ('Reggia di Caserta',                 '02:45:00', 'Caserta'),
+                                                     ('Basilica di San Marco e Palazzo Ducale', '02:15:00', 'Venezia');
 
 -- 2) GUIDE
 INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita) VALUES
@@ -145,7 +146,8 @@ INSERT INTO eventi (prezzo, min_persone, max_persone, guida) VALUES
                                                                  (30.00, 4, 15, 2),  -- Anna Bianchi
                                                                  (25.00, 6, 18, 3),  -- Luca Verdi
                                                                  (40.00, 5, 12, 4),  -- Giulia Neri
-                                                                 (38.00, 5, 20, 1);  -- un secondo evento con Marco
+                                                                 (38.00, 5, 20, 1),  -- un secondo evento con Marco
+                                                                 (33.00, 6, 18, 3);  -- evento condotto da Luca Verdi
 
 -- 5) PROGRAMMAZIONE EVENTI ‒ associazione visita ↔ evento con data/ora
 INSERT INTO eventi_visite (id_visita, id_evento, data_visita) VALUES
@@ -153,7 +155,9 @@ INSERT INTO eventi_visite (id_visita, id_evento, data_visita) VALUES
                                                                   (2, 2, '2025-05-12 09:30:00'),
                                                                   (3, 3, '2025-05-13 11:00:00'),
                                                                   (4, 4, '2025-05-14 15:00:00'),
-                                                                  (5, 5, '2025-05-15 10:00:00');
+                                                                  (5, 5, '2025-05-15 10:00:00'),
+                                                                  (6,6, '2025-11-12 16:00:00');
+
 
 
 
@@ -188,5 +192,6 @@ SELECT * FROM conoscenze;
 
 -- Seleziona tutte le relazioni guida-lingua-conoscenza
 SELECT * FROM avere;
+
 
 
