@@ -1,5 +1,8 @@
 <?php
 $title = 'Elenco Eventi';
+$appConfig = require dirname(__DIR__, 2) . '/appConfig.php';
+$baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
+
 require 'header.php';
 ?>
 
@@ -46,7 +49,12 @@ require 'header.php';
                                 <li><strong>Guida:</strong> <?= htmlspecialchars($evento['guida_nome'] . ' ' . $evento['guida_cognome']) ?></li>
 
                             </ul>
-                            <a href="/Artifex/home/book-events?id=<?= $evento['id_evento'] ?>" class="btn btn-dark mt-3">Prenota</a>
+                            <form method="POST" action="<?= $baseUrl?>book-events" class="mt-auto">
+                                <input type="hidden" name="id_evento" value="<?= $evento['id_evento'] ?>">
+                                <input type="hidden" name="confirm"   value="yes">
+                                <button type="submit" class="btn btn-dark w-100">Prenota</button>
+                            </form>
+
 
 
                         </div>

@@ -17,7 +17,7 @@ class ServiceController
         $this->db = $db;
     }
 
-    public function listVisits()
+    public function listVisits():void
     {
         $visitModel = new Visit($this->db);
         $visite = $visitModel->showAll();
@@ -25,14 +25,18 @@ class ServiceController
         require 'App/View/listVisits.php';
     }
 
-    public function listEvents()
+    public function listEvents():void
     {
         $eventModel = new Event($this->db);
         $eventi = $eventModel->showAll();
         require 'App/View/listEvents.php';
     }
-    public function bookEventSubmit()
+    public function bookEventSubmit():void
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $visitor = $_SESSION['visitor'] ?? null;
         /*if (! $visitor) {
             header('Location: /Artifex/form/login/visitor');
@@ -49,36 +53,40 @@ class ServiceController
 
         // controlla se esiste già
         $sql = "SELECT * FROM prenotazioni
-                WHERE id_visitatore = :vid AND id_evento = :eid";
+            WHERE id_visitatore = :vid AND id_evento = :eid";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':vid', $visitor['id_visitatore'], \PDO::PARAM_INT);
         $stmt->bindValue(':eid', $idEvent, \PDO::PARAM_INT);
         $stmt->execute();
         if ($stmt->fetch()) {
-            echo "<div class='alert alert-info'>Hai già prenotato questo evento.</div>";
-            exit;
+            $message = "Hai già prenotato questo evento.";
+            $messageType = "info"; // Bootstrap class
+            require 'App/View/feedback.php';
+            return;
         }
+
 
         // inserisci
         $ins = "INSERT INTO prenotazioni (id_visitatore, id_evento)
-                VALUES (:vid, :eid)";
+            VALUES (:vid, :eid)";
         $stmt2 = $this->db->prepare($ins);
         $stmt2->bindValue(':vid', $visitor['id_visitatore'], \PDO::PARAM_INT);
         $stmt2->bindValue(':eid', $idEvent, \PDO::PARAM_INT);
         $ok = $stmt2->execute();
 
         if ($ok) {
-            echo "<div class='container mt-5 alert alert-success text-center'>
-                   Prenotazione avvenuta con successo!
-                  </div>";
+            $message = "Prenotazione avvenuta con successo!";
+            $messageType = "success"; // alert-success
         } else {
-            echo "<div class='container mt-5 alert alert-danger text-center'>
-                   Errore nella prenotazione, riprova.
-                  </div>";
+            $message = "Errore nella prenotazione. Riprova.";
+            $messageType = "danger"; // alert-danger
         }
+
+        require 'App/View/feedback.php';
+
     }
 
-    public function bookEventForm()
+    public function bookEventForm():void
     {
         $visitor = $_SESSION['visitor'] ?? null;
         // (ho lasciato commented il redirect verso il login)

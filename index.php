@@ -149,8 +149,8 @@ $routerClass->addRoute('POST', 'admin/guides/create', 'AdminGuideController', 'c
 $routerClass->addRoute('POST', 'admin/guides/delete', 'AdminGuideController', 'delete');
 $routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update');
 
-$routerClass->addRoute('GET',  'home/book-events',   'ServiceController', 'bookEventForm');
-$routerClass->addRoute('POST', 'home/book-events',   'ServiceController', 'bookEventSubmit');
+//$routerClass->addRoute('GET',  'home/book-events',   'ServiceController', 'bookEventForm');
+$routerClass->addRoute('POST', 'book-events',   'ServiceController', 'bookEventSubmit');
 
 
 
