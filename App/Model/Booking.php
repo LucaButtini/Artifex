@@ -28,6 +28,23 @@ class Booking {
         return $bookings;
     }
 
+    // Rimuove una prenotazione
+    public function removeBooking(int $id_visitatore, int $id_evento): bool
+    {
+        $query = 'DELETE FROM prenotazioni WHERE id_visitatore = :id_visitatore AND id_evento = :id_evento';
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id_visitatore', $id_visitatore);
+            $stmt->bindValue(':id_evento', $id_evento);
+            $stmt->execute();
+            $stmt->closeCursor();
+            return true;
+        } catch (Exception $e) {
+            logError($e);
+            return false;
+        }
+    }
+
     // Crea una prenotazione per un dato visitatore ed evento
     public function createOne(array $booking): bool {
         $query = 'INSERT INTO prenotazioni (id_visitatore, id_evento) VALUES (:id_visitatore, :id_evento)';

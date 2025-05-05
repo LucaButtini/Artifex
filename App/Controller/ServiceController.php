@@ -14,6 +14,9 @@ class ServiceController
 
     public function __construct($db)
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->db = $db;
     }
 
@@ -27,6 +30,12 @@ class ServiceController
 
     public function listEvents():void
     {
+        $visitor = $_SESSION['visitor'] ?? null;
+        if (!$visitor) {
+            header('Location: /Artifex/form/login/visitor');
+            exit;
+        }
+
         $eventModel = new Event($this->db);
         $eventi = $eventModel->showAll();
         require 'App/View/listEvents.php';

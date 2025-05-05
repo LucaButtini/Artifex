@@ -7,6 +7,7 @@ use App\Model\Event;
 require 'App/Model/Booking.php';
 require 'App/Model/Event.php';
 require 'vendor/autoload.php';
+
 class CartController
 {
     private $db;
@@ -23,7 +24,7 @@ class CartController
     public function index(): void
     {
         $visitor = $_SESSION['visitor'] ?? null;
-        if (! $visitor) {
+        if (!$visitor) {
             header('Location: /Artifex/form/login/visitor');
             exit;
         }
@@ -33,7 +34,6 @@ class CartController
         $all = $bookingModel->showAll();
 
         // Filtro solo quelle dello user
-        $myIds = array_column($all, 'id_evento', 'id_visitatore');
         $myBookings = array_filter($all, fn($b) => $b['id_visitatore'] == $visitor['id_visitatore']);
 
         // Carico i dettagli evento per ognuna
@@ -57,7 +57,28 @@ class CartController
             }
         }
 
-
         require 'App/View/cart.php';
     }
+
+    // Rimuove una prenotazione dal carrello
+    public function remove(): void
+    {
+        $visitor = $_SESSION['visitor'] ?? null;
+        if (!$visitor) {
+            header('Location: /Artifex/form/login/visitor');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_evento'])) {
+            $id_evento = $_POST['id_evento'];
+
+            $bookingModel = new Booking($this->db);
+            if ($bookingModel->removeBooking($visitor['id_visitatore'], $id_evento)) {
+                // Redirigi al carrello aggiornato
+                header('Location: /Artifex/cart');
+                exit;
+            }
+        }
+    }
 }
+
