@@ -47,10 +47,13 @@ $username = $visitorSession['nome']
                     <a class="nav-link <?= $page==='index.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page==='services.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>home/services">Servizi</a>
+                    <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>visits">Visite</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events.php">Eventi</a>
+                    <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events">Eventi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>cart">Carrello</a>
                 </li>
                 <?php if ($adminSession): ?>
                     <li class="nav-item">
