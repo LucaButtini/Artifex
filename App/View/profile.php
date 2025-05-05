@@ -43,6 +43,31 @@ $admin = $_SESSION['admin'] ?? null;
             </div>
         </div>
 
+
+        <?php if (isset($visitor)): ?>
+            <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Le tue prenotazioni confermate</h5>
+
+                    <?php if (empty($bookings)): ?>
+                        <p>Non hai prenotazioni confermate.</p>
+                    <?php else: ?>
+                        <ul class="list-group">
+                            <?php foreach ($bookings as $booking):
+                                ?>
+                                <li class="list-group-item">
+                                    <strong><?= htmlspecialchars($booking['titolo']) ?></strong><br>
+                                    Data: <?= date('d/m/Y H:i', strtotime($booking['data_visita'])) ?><br>
+                                    Luogo: <?= htmlspecialchars($booking['luogo']) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+
         <!-- Sezione cambio password -->
         <div class="card shadow-sm mt-4">
             <div class="card-body">

@@ -57,10 +57,12 @@ create table eventi(
 create table prenotazioni(
                              id_visitatore int,
                              id_evento int,
+                             pagata boolean default false,
                              primary key(id_visitatore, id_evento),
                              foreign key (id_visitatore) references visitatori(id_visitatore),
                              foreign key (id_evento) references eventi(id_evento)
 );
+
 
 
 

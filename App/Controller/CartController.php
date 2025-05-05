@@ -33,8 +33,10 @@ class CartController
         $bookingModel = new Booking($this->db);
         $all = $bookingModel->showAll();
 
-        // Filtro solo quelle dello user
-        $myBookings = array_filter($all, fn($b) => $b['id_visitatore'] == $visitor['id_visitatore']);
+        $myBookings = array_filter($all, fn($b) =>
+            $b['id_visitatore'] == $visitor['id_visitatore'] && !$b['pagata']
+        );
+
 
         // Carico i dettagli evento per ognuna
         $eventModel = new Event($this->db);
@@ -93,7 +95,10 @@ class CartController
         // prendi tutte le prenotazioni di questo visitatore
         $bookingModel = new Booking($this->db);
         $all         = $bookingModel->showAll();
-        $myBookings  = array_filter($all, fn($b) => $b['id_visitatore']==$visitor['id_visitatore']);
+        $myBookings = array_filter($all, fn($b) =>
+            $b['id_visitatore'] == $visitor['id_visitatore'] && !$b['pagata']
+        );
+
 
         // ottieni dettagli eventi
         $events = [];
@@ -125,11 +130,12 @@ class CartController
             exit;
         }
 
-        // elimina tutte le prenotazioni di questo visitatore
+// segna come pagate tutte le prenotazioni del visitatore
         $stmt = $this->db->prepare(
-            "DELETE FROM prenotazioni WHERE id_visitatore = :vid"
+            "UPDATE prenotazioni SET pagata = TRUE WHERE id_visitatore = :vid"
         );
-        $stmt->execute([':vid'=>$visitor['id_visitatore']]);
+        $stmt->execute([':vid' => $visitor['id_visitatore']]);
+
 
         // messaggio di conferma
         $message     = "Pagamento ricevuto! Le tue prenotazioni sono confermate.";

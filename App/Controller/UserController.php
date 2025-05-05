@@ -18,6 +18,9 @@ class UserController
 
     public function __construct(PDO $db)
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->db      = $db;
         $this->visitor = new Visitor($db);
     }
@@ -45,15 +48,21 @@ class UserController
         require 'App/View/logout.php';
     }
 
-// App/Controller/UserController.php
     public function infoProfilo(): void
     {
         session_start();
         $visitor = $_SESSION['visitor'] ?? null;
-        $admin   = $_SESSION['admin']   ?? null;  // <-- aggiungi questa riga
+        $admin   = $_SESSION['admin'] ?? null;
+
+        $bookings = [];
+
+        if ($visitor) {
+            $bookings = $this->visitor->getPaidBookings($visitor['id_visitatore']);
+        }
 
         require 'App/View/profile.php';
     }
+
 
 
 
