@@ -152,6 +152,8 @@ $routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'u
 //$routerClass->addRoute('GET',  'home/book-events',   'ServiceController', 'bookEventForm');
 $routerClass->addRoute('POST', 'book-events',   'ServiceController', 'bookEventSubmit');
 $routerClass->addRoute('GET', 'cart', 'CartController', 'index');
+$routerClass->addRoute('POST', 'cart/remove', 'CartController', 'remove');
+
 
 
 
