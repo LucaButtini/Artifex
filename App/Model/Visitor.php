@@ -132,12 +132,16 @@ class Visitor {
 
     // Recupera prenotazioni pagate del visitatore
     public function getPaidBookings(int $id): array {
-        $sql = "SELECT vi.data_visita, vt.titolo, vt.luogo
-        FROM prenotazioni p
-        JOIN eventi_visite vi ON p.id_evento = vi.id_evento
-        JOIN visite vt ON vi.id_visita = vt.id_visita
-        WHERE p.id_visitatore = :id AND p.pagata = 1
-        ORDER BY vi.data_visita";
+        $sql = "SELECT 
+                vi.data_visita, 
+                vt.titolo, 
+                vt.luogo
+            FROM prenotazioni p
+            JOIN eventi_visite vi ON p.id_evento = vi.id_evento
+            JOIN visite vt       ON vi.id_visita = vt.id_visita
+            WHERE p.id_visitatore = :id
+              AND p.pagata = 1
+            ORDER BY vi.data_visita";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();

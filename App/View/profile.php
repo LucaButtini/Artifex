@@ -1,6 +1,6 @@
 <?php
 // App/View/profile.php
-
+//$bookings = $bookings ?? [];
 $appConfig = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'appConfig.php';
 $baseUrl = rtrim($appConfig['baseURL'] . $appConfig['prjName'], '/');
 $title   = 'Il Mio Profilo';
@@ -42,7 +42,6 @@ $admin = $_SESSION['admin'] ?? null;
                 </div>
             </div>
         </div>
-
 
         <?php if (isset($visitor)): ?>
             <div class="card shadow-sm mt-4">

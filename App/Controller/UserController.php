@@ -50,20 +50,20 @@ class UserController
 
     public function infoProfilo(): void
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $visitor = $_SESSION['visitor'] ?? null;
-        $admin   = $_SESSION['admin'] ?? null;
+        $admin   = $_SESSION['admin']   ?? null;
 
         $bookings = [];
-
         if ($visitor) {
             $bookings = $this->visitor->getPaidBookings($visitor['id_visitatore']);
         }
 
         require 'App/View/profile.php';
     }
-
-
 
 
 
@@ -112,7 +112,7 @@ class UserController
         $visitor = $this->visitor->getVisitorByEmail($email);
 
         if ($visitor && password_verify($password, $visitor['password'])) {
-            session_start();
+            //session_start();
             $_SESSION['visitor'] = $visitor;
 
             $content = "Login effettuato con successo!";
