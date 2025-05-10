@@ -48,7 +48,7 @@ require 'header.php';
                     <p class="card-text">
                         Aggiungi più visite al tuo carrello e completa la prenotazione con un unico pagamento.
                     </p>
-                    <a href="/artifex/home/book-events" class="btn btn-dark">Scopri di più</a>
+                    <a href="<?= $baseUrl ?>cart" class="btn btn-dark">Scopri di più</a>
                 </div>
             </div>
         </div>
