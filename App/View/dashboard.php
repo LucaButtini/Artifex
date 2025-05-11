@@ -1,68 +1,157 @@
 <?php
 // App/View/dashboard.php
-$appConfig = require dirname(__DIR__,2) . '/appConfig.php';
+$appConfig = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'appConfig.php';
 $baseUrl   = rtrim($appConfig['baseURL'] . $appConfig['prjName'], '/');
+$title     = 'Dashboard Amministratore';
 require 'header.php';
 ?>
+
 <div class="container mt-5">
     <h1 class="mb-4">Dashboard Amministratore</h1>
 
-    <!-- Statistiche -->
-    <div class="row mb-4">
-        <?php foreach ([
-                           ['label'=>'Eventi','count'=>$totEventi,'route'=>'events','bg'=>'primary'],
-                           ['label'=>'Visite','count'=>$totVisite,'route'=>'schedules','bg'=>'success'],
-                           ['label'=>'Guide','count'=>$totGuide,'route'=>'guides','bg'=>'warning'],
-                       ] as $card): ?>
-            <div class="col-md-4 mb-3">
-                <div class="card text-white bg-<?= $card['bg'] ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $card['label'] ?></h5>
-                        <p class="card-text">Totale <?= $card['label'] ?>: <?= htmlspecialchars($card['count']) ?></p>
-                        <a href="<?= $baseUrl ?>/admin/<?= $card['route'] ?>" class="btn btn-light">
-                            Visualizza <?= $card['label'] ?>
-                        </a>
-                    </div>
+    <!-- 1) Contatori -->
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Eventi</h5>
+                    <p class="card-text display-4"><?= $totEventi ?></p>
                 </div>
             </div>
-        <?php endforeach; ?>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Visite programmate</h5>
+                    <p class="card-text display-4"><?= $totVisite ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Guide</h5>
+                    <p class="card-text display-4"><?= $totGuide ?></p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Eventi Recenti -->
-    <h3>Eventi Recenti</h3>
-    <table class="table table-striped mb-4">
+    <!-- 2) Ultimi 5 eventi pianificati -->
+    <h2>Ultimi eventi pianificati</h2>
+    <table class="table table-striped mb-5">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>ID Evento</th>
             <th>Titolo Visita</th>
-            <th>Data/Ora</th>
+            <th>Data Visita</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($recentEvents as $ev): ?>
+            <tr>
+                <td><?= htmlspecialchars($ev['id_evento']) ?></td>
+                <td><?= htmlspecialchars($ev['titolo']) ?></td>
+                <td><?= date('d/m/Y H:i', strtotime($ev['data_visita'])) ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <!-- 3) Elenco completo di Visite -->
+    <h2>Visite guidate</h2>
+    <a href="<?= $baseUrl ?>visits_create" class="btn btn-sm btn-success mb-3">Nuova Visita</a>
+    <table class="table table-bordered mb-5">
+        <thead>
+        <tr>
+            <th>ID Visita</th>
+            <th>Titolo</th>
+            <th>Durata</th>
+            <th>Luogo</th>
             <th>Azioni</th>
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($recentEvents)): ?>
-            <?php foreach ($recentEvents as $ev): ?>
-                <tr>
-                    <td><?= htmlspecialchars($ev['id_evento']) ?></td>
-                    <td><?= htmlspecialchars($ev['titolo']) ?></td>
-                    <td><?= htmlspecialchars($ev['data_visita']) ?></td>
-                    <td>
-                        <a href="<?= $baseUrl ?>/admin/events/edit/<?= htmlspecialchars($ev['id_evento']) ?>"
-                           class="btn btn-sm btn-primary">Modifica</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr><td colspan="4">Nessuna programmazione trovata.</td></tr>
-        <?php endif; ?>
+        <?php foreach ($visiteModel->showAll() as $v): ?>
+            <tr>
+                <td><?= $v['id_visita'] ?></td>
+                <td><?= htmlspecialchars($v['titolo']) ?></td>
+                <td><?= substr($v['durata_media'],0,5) ?></td>
+                <td><?= htmlspecialchars($v['luogo']) ?></td>
+                <td>
+                    <a href="<?= $baseUrl ?>visits_edit/<?= $v['id_visita'] ?>" class="btn btn-sm btn-primary">Modifica</a>
+                    <a href="<?= $baseUrl ?>visits_delete/<?= $v['id_visita'] ?>" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Sei sicuro di voler eliminare questa visita?')">Elimina</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
 
-    <!-- Link rapide -->
-    <div class="mb-5">
-        <a href="<?= $baseUrl ?>/admin/events/create"    class="btn btn-success">Aggiungi Evento</a>
-        <a href="<?= $baseUrl ?>/admin/schedules/create" class="btn btn-success">Aggiungi Programmazione</a>
-        <a href="<?= $baseUrl ?>/admin/guides/create"    class="btn btn-success">Aggiungi Guida</a>
-    </div>
+    <!-- 4) Elenco completo di Eventi -->
+    <h2>Eventi</h2>
+    <a href="<?= $baseUrl ?>events_create" class="btn btn-sm btn-success mb-3">Nuovo Evento</a>
+    <table class="table table-bordered mb-5">
+        <thead>
+        <tr>
+            <th>ID Evento</th>
+            <th>Prezzo</th>
+            <th>Min Persone</th>
+            <th>Max Persone</th>
+            <th>Guida</th>
+            <th>Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($eventModel->showAll() as $e): ?>
+            <tr>
+                <td><?= $e['id_evento'] ?></td>
+                <td>€<?= number_format($e['prezzo'],2,',','.') ?></td>
+                <td><?= $e['min_persone'] ?></td>
+                <td><?= $e['max_persone'] ?></td>
+                <td><?= htmlspecialchars($e['guida']) ?></td>
+                <td>
+                    <a href="<?= $baseUrl ?>events_edit/<?= $e['id_evento'] ?>" class="btn btn-sm btn-primary">Modifica</a>
+                    <a href="<?= $baseUrl ?>events_delete/<?= $e['id_evento'] ?>" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Eliminare questo evento?')">Elimina</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <!-- 5) Elenco completo di Guide -->
+    <h2>Guide</h2>
+    <a href="<?= $baseUrl ?>guides_create" class="btn btn-sm btn-success mb-3">Nuova Guida</a>
+    <table class="table table-bordered mb-5">
+        <thead>
+        <tr>
+            <th>ID Guida</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Data Nascita</th>
+            <th>Luogo Nascita</th>
+            <th>Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($guideModel->showAll() as $g): ?>
+            <tr>
+                <td><?= $g['id_guida'] ?></td>
+                <td><?= htmlspecialchars($g['nome']) ?></td>
+                <td><?= htmlspecialchars($g['cognome']) ?></td>
+                <td><?= date('d/m/Y', strtotime($g['data_nascita'])) ?></td>
+                <td><?= htmlspecialchars($g['luogo_nascita']) ?></td>
+                <td>
+                    <a href="<?= $baseUrl ?>guides_edit/<?= $g['id_guida'] ?>" class="btn btn-sm btn-primary">Modifica</a>
+                    <a href="<?= $baseUrl ?>guides_delete/<?= $g['id_guida'] ?>" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Eliminare questa guida?')">Elimina</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
 </div>
+
 <?php require 'footer.php'; ?>

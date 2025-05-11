@@ -99,6 +99,30 @@ $routerClass->addRoute('POST', 'cart/remove', 'CartController', 'remove');
 $routerClass->addRoute('GET',  'cart/checkout',  'CartController', 'checkoutForm');
 $routerClass->addRoute('POST', 'cart/checkout',  'CartController', 'checkoutSubmit');
 
+// EVENTI
+$routerClass->addRoute('GET',  'events',                 'AdminController', 'events');
+$routerClass->addRoute('GET',  'events_create',          'AdminController', 'createEventForm');
+$routerClass->addRoute('GET',  'events_edit/{id}',       'AdminController', 'editEventForm');
+$routerClass->addRoute('POST', 'events_create',          'AdminController', 'createEvent');
+$routerClass->addRoute('POST', 'events_update',          'AdminController', 'updateEvent');
+$routerClass->addRoute('GET',  'events_delete/{id}',     'AdminController', 'deleteEvent');
+
+// VISITE
+$routerClass->addRoute('GET',  'visits',                 'AdminController', 'visits');
+$routerClass->addRoute('GET',  'visits_create',          'AdminController', 'createVisitForm');
+$routerClass->addRoute('GET',  'visits_edit/{id}',       'AdminController', 'editVisitForm');
+$routerClass->addRoute('POST', 'visits_create',          'AdminController', 'createVisit');
+$routerClass->addRoute('POST', 'visits_update',          'AdminController', 'updateVisit');
+$routerClass->addRoute('GET',  'visits_delete/{id}',     'AdminController', 'deleteVisit');
+
+// GUIDE
+$routerClass->addRoute('GET',  'guides',                 'AdminController', 'guides');
+$routerClass->addRoute('GET',  'guides_create',          'AdminController', 'createGuideForm');
+$routerClass->addRoute('GET',  'guides_edit/{id}',       'AdminController', 'editGuideForm');
+$routerClass->addRoute('POST', 'guides_create',          'AdminController', 'createGuide');
+$routerClass->addRoute('POST', 'guides_update',          'AdminController', 'updateGuide');
+$routerClass->addRoute('GET',  'guides_delete/{id}',     'AdminController', 'deleteGuide');
+
 
 
 

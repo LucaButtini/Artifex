@@ -167,6 +167,177 @@ class AdminController
     }
 
 
+    //zona dashboard
+
+// Eventi
+    public function events(): void {
+        session_start();
+        $eventModel = new Event($this->db);
+        $events = $eventModel->showAll();
+        require 'App/View/events_index.php'; // link corretto senza sottocartelle
+    }
+
+    public function createEventForm(): void {
+        require 'App/View/events_create.php'; // link corretto senza sottocartelle
+    }
+
+    public function editEventForm(): void {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $eventModel = new Event($this->db);
+            $event = $eventModel->getById($id);
+            require 'App/View/events_edit.php'; // link corretto senza sottocartelle
+        } else {
+            header('Location: /admin/events');
+        }
+    }
+
+    public function createEvent(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $eventModel = new Event($this->db);
+            $eventModel->insert($_POST);
+            header('Location: /admin/events');
+            exit;
+        }
+        header('Location: /admin/events');
+    }
+
+    public function updateEvent(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $eventModel = new Event($this->db);
+            $eventModel->update($_POST);
+            header('Location: /admin/events');
+            exit;
+        }
+        header('Location: /admin/events');
+    }
+
+    public function deleteEvent(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            if ($id) {
+                $eventModel = new Event($this->db);
+                $eventModel->delete($id);
+            }
+            header('Location: /admin/events');
+            exit;
+        }
+        header('Location: /admin/events');
+    }
+
+// Visite
+    public function visits(): void {
+        session_start();
+        $visitModel = new Visit($this->db);
+        $visits = $visitModel->showAll();
+        require 'App/View/visits_index.php'; // link corretto senza sottocartelle
+    }
+
+    public function createVisitForm(): void {
+        require 'App/View/visits_create.php'; // link corretto senza sottocartelle
+    }
+
+    public function editVisitForm(): void {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $visitModel = new Visit($this->db);
+            $visit = $visitModel->getById($id);
+            require 'App/View/visits_edit.php'; // link corretto senza sottocartelle
+        } else {
+            header('Location: /admin/visits');
+        }
+    }
+
+    public function createVisit(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $visitModel = new Visit($this->db);
+            $visitModel->insert($_POST);
+            header('Location: /admin/visits');
+            exit;
+        }
+        header('Location: /admin/visits');
+    }
+
+    public function updateVisit(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $visitModel = new Visit($this->db);
+            $visitModel->update($_POST);
+            header('Location: /admin/visits');
+            exit;
+        }
+        header('Location: /admin/visits');
+    }
+
+    public function deleteVisit(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            if ($id) {
+                $visitModel = new Visit($this->db);
+                $visitModel->delete($id);
+            }
+            header('Location: /admin/visits');
+            exit;
+        }
+        header('Location: /admin/visits');
+    }
+
+// Guide
+    public function guides(): void {
+        session_start();
+        $guideModel = new Guide($this->db);
+        $guides = $guideModel->showAll();
+        require 'App/View/guides_index.php'; // link corretto senza sottocartelle
+    }
+
+    public function createGuideForm(): void {
+        require 'App/View/guides_create.php'; // link corretto senza sottocartelle
+    }
+
+    public function editGuideForm(): void {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $guideModel = new Guide($this->db);
+            $guide = $guideModel->getById($id);
+            require 'App/View/guides_edit.php'; // link corretto senza sottocartelle
+        } else {
+            header('Location: /admin/guides');
+        }
+    }
+
+    public function createGuide(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $guideModel = new Guide($this->db);
+            $guideModel->createOne($_POST);
+            header('Location: /admin/guides');
+            exit;
+        }
+        header('Location: /admin/guides');
+    }
+
+    public function updateGuide(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $guideModel = new Guide($this->db);
+            $guideModel->update($_POST);
+            header('Location: /admin/guides');
+            exit;
+        }
+        header('Location: /admin/guides');
+    }
+
+    public function deleteGuide(): void {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            if ($id) {
+                $guideModel = new Guide($this->db);
+                $guideModel->delete($id);
+            }
+            header('Location: /admin/guides');
+            exit;
+        }
+        header('Location: /admin/guides');
+    }
+
+
 
     // Logout
     public function logoutPage(): void
