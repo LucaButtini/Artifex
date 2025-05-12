@@ -100,8 +100,8 @@ class Visitor {
     {
         $sql = 'UPDATE visitatori SET password = :password WHERE id_visitatore = :id';
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->bindParam(':id', $idVisitatore, PDO::PARAM_INT);
+        $stmt->bindValue(':password', $hashedPassword);
+        $stmt->bindValue(':id', $idVisitatore);
 
         return $stmt->execute();
     }

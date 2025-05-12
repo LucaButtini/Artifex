@@ -15,8 +15,8 @@ class Administrator {
     {
         $sql = 'UPDATE amministratori SET password = :password WHERE username = :username';
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->bindParam(':username', $username);
+        $stmt->bindValue(':password', $hashedPassword);
+        $stmt->bindValue(':username', $username);
 
         return $stmt->execute();
     }
