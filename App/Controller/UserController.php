@@ -125,7 +125,7 @@ class UserController
     }
     public function changePassword(): void
     {
-        session_start();
+        //session_start();
         $visitor = $_SESSION['visitor'] ?? null;
 
         // Se non loggato
@@ -157,21 +157,14 @@ class UserController
         // Aggiorna password
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
         $idVisitatore   = $visitor['id_visitatore'] ?? null;
-
-        if ($idVisitatore) {
-            $this->visitor->updatePassword($idVisitatore, $hashedPassword);
-
-            // Aggiorna password anche in sessione
+        if($this->visitor->updatePassword($idVisitatore, $hashedPassword)){
             $_SESSION['visitor']['password'] = $hashedPassword;
-
             $pwdSuccess = 'La tua password è stata aggiornata con successo!';
-            require 'App/View/profile.php';
-        } else {
+        }else{
             $pwdError = 'Errore: ID visitatore non trovato.';
+        }
             require 'App/View/profile.php';
         }
-    }
-
 
     //  mail di benvenuto
     private function sendWelcomeEmail(string $to, string $name): void
