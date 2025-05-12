@@ -72,13 +72,15 @@ $admin = $_SESSION['admin'] ?? null;
             <div class="card-body">
                 <h5 class="card-title">Modifica Password</h5>
 
+
                 <?php if (isset($pwdError)): ?>
                     <div class="alert alert-danger"><?= $pwdError?></div>
                 <?php elseif (isset($pwdSuccess)): ?>
                     <div class="alert alert-success"><?= $pwdSuccess ?></div>
                 <?php endif; ?>
 
-                <form action="<?= $baseUrl ?>/changePwd" method="POST" class="row g-3">
+                <?php if($_SESSION['visitor']) {?>
+                <form action="<?= $baseUrl ?>visitor/changePwd" method="POST" class="row g-3">
                     <div class="col-md-4">
                         <label for="old_password" class="form-label">Password Attuale</label>
                         <input type="password" class="form-control" id="old_password" name="old_password" required>
@@ -95,6 +97,27 @@ $admin = $_SESSION['admin'] ?? null;
                         <button type="submit" class="btn btn-dark">Aggiorna Password</button>
                     </div>
                 </form>
+                <?php }else{
+                //if($_SESSION['admin']) {
+                ?>
+                    <form action="<?= $baseUrl ?>admin/changePwd" method="POST" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="old_password" class="form-label">Password Attuale</label>
+                            <input type="password" class="form-control" id="old_password" name="old_password" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="new_password" class="form-label">Nuova Password</label>
+                            <input type="password" class="form-control" id="new_password" name="new_password" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="confirm_password" class="form-label">Conferma Nuova</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-dark">Aggiorna Password</button>
+                        </div>
+                    </form>
+                <?php }?>
             </div>
         </div>
     <?php else: ?>
