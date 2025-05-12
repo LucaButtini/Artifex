@@ -52,19 +52,9 @@ $routerClass->addRoute('GET', 'admin/dashboard', 'AdminController', 'dashboard')
 $routerClass->addRoute('GET', 'visits', 'ServiceController', 'listVisits');
 $routerClass->addRoute('GET', 'events', 'ServiceController', 'listEvents');
 
-// EVENTI
-$routerClass->addRoute('GET', 'admin/events', 'AdminEventController', 'index');
-$routerClass->addRoute('GET', 'admin/events/create', 'AdminEventController', 'createForm');
-$routerClass->addRoute('GET', 'admin/events/edit/{id}', 'AdminEventController', 'editForm');
-
 // PROGRAMMAZIONI
 $routerClass->addRoute('GET', 'admin/schedules', 'AdminScheduleController', 'index');
 $routerClass->addRoute('GET', 'admin/schedules/create', 'AdminScheduleController', 'createForm');
-
-// GUIDE
-$routerClass->addRoute('GET', 'admin/guides', 'AdminGuideController', 'index');
-$routerClass->addRoute('GET', 'admin/guides/create', 'AdminGuideController', 'createForm');
-$routerClass->addRoute('GET', 'admin/guides/edit/{id}', 'AdminGuideController', 'editForm');
 
 
 // ROTTE POST
@@ -73,22 +63,11 @@ $routerClass->addRoute('POST', 'login/admin', 'AdminController', 'loginAdmin');
 $routerClass->addRoute('POST', 'login/visitor', 'UserController', 'loginVisitor');
 $routerClass->addRoute('POST', 'home/index', 'HomeController', 'presentation11');
 $routerClass->addRoute('POST', 'home/services', 'ServiceController', 'presentation33');
-$routerClass->addRoute('POST', 'changepwd', 'UserController', 'changePassword');
-$routerClass->addRoute('POST', 'changepwd', 'AdminController', 'changePassword');
+// ROUTE POST PER CAMBIO PASSWORD
+$routerClass->addRoute('POST', 'visitor/changepwd', 'UserController', 'changePassword');
+$routerClass->addRoute('POST', 'admin/changepwd', 'AdminController', 'changePassword');
 
-// EVENTI
-$routerClass->addRoute('POST', 'admin/events/create', 'AdminEventController', 'create');
-$routerClass->addRoute('POST', 'admin/events/delete', 'AdminEventController', 'delete');
-$routerClass->addRoute('POST', 'admin/events/update', 'AdminEventController', 'update');
 
-// PROGRAMMAZIONI
-$routerClass->addRoute('POST', 'admin/schedules/create', 'AdminScheduleController', 'create');
-$routerClass->addRoute('POST', 'admin/schedules/delete', 'AdminScheduleController', 'delete');
-
-// GUIDE
-$routerClass->addRoute('POST', 'admin/guides/create', 'AdminGuideController', 'create');
-$routerClass->addRoute('POST', 'admin/guides/delete', 'AdminGuideController', 'delete');
-$routerClass->addRoute('POST', 'admin/guides/update', 'AdminGuideController', 'update');
 
 //$routerClass->addRoute('GET',  'home/book-events',   'ServiceController', 'bookEventForm');
 $routerClass->addRoute('POST', 'book-events',   'ServiceController', 'bookEventSubmit');
@@ -100,7 +79,6 @@ $routerClass->addRoute('GET',  'cart/checkout',  'CartController', 'checkoutForm
 $routerClass->addRoute('POST', 'cart/checkout',  'CartController', 'checkoutSubmit');
 
 // EVENTI
-$routerClass->addRoute('GET',  'events',                 'AdminController', 'events');
 $routerClass->addRoute('GET',  'events_create',          'AdminController', 'createEventForm');
 $routerClass->addRoute('GET',  'events_edit/{id}',       'AdminController', 'editEventForm');
 $routerClass->addRoute('POST', 'events_create',          'AdminController', 'createEvent');
@@ -108,7 +86,6 @@ $routerClass->addRoute('POST', 'events_update',          'AdminController', 'upd
 $routerClass->addRoute('GET',  'events_delete/{id}',     'AdminController', 'deleteEvent');
 
 // VISITE
-$routerClass->addRoute('GET',  'visits',                 'AdminController', 'visits');
 $routerClass->addRoute('GET',  'visits_create',          'AdminController', 'createVisitForm');
 $routerClass->addRoute('GET',  'visits_edit/{id}',       'AdminController', 'editVisitForm');
 $routerClass->addRoute('POST', 'visits_create',          'AdminController', 'createVisit');
