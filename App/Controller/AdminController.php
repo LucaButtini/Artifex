@@ -173,15 +173,39 @@ class AdminController
     }
 
 
-    public function editEventForm(): void {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $eventModel = new Event($this->db);
-            $event = $eventModel->getById($id);
-            require 'App/View/events_edit.php'; // link corretto senza sottocartelle
-        } else {
-            header('Location: /admin/events');
+    public function editEventForm(int $id): void
+    {
+        $eventModel = new Event($this->db);
+        $event = $eventModel->getById($id);
+        if (!$event) {
+            http_response_code(404);
+            die('Evento non trovato');
         }
+        require 'App/View/events_edit.php';
+    }
+
+// Salva le modifiche
+    public function updateEvent(int $id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+
+        $data = [
+            'id_evento'   => $id,
+            'prezzo'      => $_POST['prezzo'],
+            'min_persone' => $_POST['min_persone'],
+            'max_persone' => $_POST['max_persone'],
+        ];
+
+        $eventModel = new Event($this->db);
+        if ($eventModel->update($data)) {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+
+        die('Errore durante l\'aggiornamento dell\'evento');
     }
 
     /*public function createEvent(): void {
@@ -230,15 +254,6 @@ class AdminController
         exit;
     }
 
-    public function updateEvent(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $eventModel = new Event($this->db);
-            $eventModel->update($_POST);
-            header('Location: /Artifex/admin/dashboard');
-            exit;
-        }
-        header('Location: /Artifex/admin/dashboard');
-    }
 
     public function deleteEvent(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

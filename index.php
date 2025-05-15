@@ -85,16 +85,20 @@ $routerClass->addRoute('POST', 'events_create',          'AdminController', 'cre
 $routerClass->addRoute('POST', 'events_update',          'AdminController', 'updateEvent');
 $routerClass->addRoute('GET',  'events_delete/{id}',     'AdminController', 'deleteEvent');*/
 $routerClass->addRoute('GET', 'events_create', 'AdminController', 'createEventForm');
-$routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventForm'); // Parametro dinamico {id}
+//$routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventForm'); // Parametro dinamico {id}
 $routerClass->addRoute('POST', 'events_create', 'AdminController', 'createEvent');
-$routerClass->addRoute('POST', 'events_update', 'AdminController', 'updateEvent'); // Corretto per l'azione di aggiornamento
+//$routerClass->addRoute('POST', 'events_update', 'AdminController', 'updateEvent'); // Corretto per l'azione di aggiornamento
 $routerClass->addRoute('GET', 'events_delete/{id}', 'AdminController', 'deleteEvent');
+// GET: mostra il form di modifica
+$routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventForm');
+
+// POST: salva le modifiche
+$routerClass->addRoute('POST', 'events_edit/{id}', 'AdminController', 'updateEvent');
+
 // GET per mostrare il form
 $routerClass->addRoute('GET',  'admin/event_visits/create', 'AdminController', 'createEventVisitForm');
 // POST per salvarla
 $routerClass->addRoute('POST', 'admin/event_visits',        'AdminController', 'storeEventVisit');
-
-
 // VISITE
 $routerClass->addRoute('GET',  'visits_create',          'AdminController', 'createVisitForm');
 // Mostra il form (GET)

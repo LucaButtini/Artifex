@@ -82,24 +82,21 @@ class Event {
     }
 
 
-    public function update(array $data): bool {
-        $sql = "UPDATE eventi 
-            SET prezzo = :prezzo, 
-                min_persone = :min_persone, 
-                max_persone = :max_persone 
-            WHERE id_evento = :id_evento";
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':prezzo', $data['prezzo']);
-            $stmt->bindValue(':min_persone', $data['min_persone']);
-            $stmt->bindValue(':max_persone', $data['max_persone']);
-            $stmt->bindValue(':id_evento', $data['id_evento'], PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (Exception $e) {
-            logError($e);
-            return false;
-        }
+    public function update(array $data): bool
+    {
+        $sql = "UPDATE eventi
+            SET prezzo      = :prezzo,
+                min_persone = :min_persone,
+                max_persone = :max_persone
+            WHERE id_evento  = :id_evento";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':prezzo',      $data['prezzo']);
+        $stmt->bindValue(':min_persone', $data['min_persone'], PDO::PARAM_INT);
+        $stmt->bindValue(':max_persone', $data['max_persone'], PDO::PARAM_INT);
+        $stmt->bindValue(':id_evento',   $data['id_evento'],   PDO::PARAM_INT);
+        return $stmt->execute();
     }
+
 
 
 }
