@@ -150,18 +150,6 @@ class AdminController
         $totVisite = count($visiteModel->showAll());
         $totGuide  = count($guideModel->showAll());
 
-        // 2) Eventi recenti: prendi gli ultimi 5 dalla tabella eventi_visite
-        $sql = "
-          SELECT ev.id_evento, v.titolo, ev.data_visita
-          FROM eventi_visite ev
-          JOIN visite v        ON ev.id_visita = v.id_visita
-          ORDER BY ev.data_visita DESC
-          LIMIT 5
-        ";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $recentEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
 
         require 'App/View/dashboard.php';
     }
@@ -189,21 +177,21 @@ class AdminController
     public function createEvent(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $eventModel = new Event($this->db);
-            $eventModel->insert($_POST);
-            header('Location: /admin/events');
+            $eventModel->createOne($_POST);
+            header('Location: /Artifex/admin/dashboard');
             exit;
         }
-        header('Location: /admin/events');
+        header('Location: /Artifex/admin/dashboard');
     }
 
     public function updateEvent(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $eventModel = new Event($this->db);
             $eventModel->update($_POST);
-            header('Location: /admin/events');
+            header('Location: /Artifex/admin/dashboard');
             exit;
         }
-        header('Location: /admin/events');
+        header('Location: /Artifex/admin/dashboard');
     }
 
     public function deleteEvent(): void {
@@ -213,11 +201,12 @@ class AdminController
                 $eventModel = new Event($this->db);
                 $eventModel->delete($id);
             }
-            header('Location: /admin/events');
+            header('Location: /Artifex/admin/dashboard');
             exit;
         }
-        header('Location: /admin/events');
+        header('Location: /Artifex/admin/dashboard');
     }
+
 
 
     public function createVisitForm(): void {

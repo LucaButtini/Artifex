@@ -64,23 +64,42 @@ class Event {
         return true;
     }
 
-    public function deleteOne(int $id): bool {
+    public function delete(int $id): bool {
         $stmt = $this->db->prepare('DELETE FROM eventi WHERE id_evento = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+
+    public function getById(int $id): ?array {
+        $sql = "SELECT * FROM eventi WHERE id_evento = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $event = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $event ?: null;
+    }
+
+
     public function update(array $data): bool {
-        $sql = "UPDATE eventi SET titolo = :titolo, prezzo = :prezzo, guida = :guida WHERE id_evento = :id_evento";
+        $sql = "UPDATE eventi 
+            SET prezzo = :prezzo, 
+                min_persone = :min_persone, 
+                max_persone = :max_persone 
+            WHERE id_evento = :id_evento";
         try {
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':titolo', $data['event_title']);
-            $stmt->bindValue(':prezzo', $data['event_price']);
-            $stmt->bindValue(':guida', $data['event_guide']);
-            $stmt->bindValue(':id_evento', $data['event_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':prezzo', $data['prezzo']);
+            $stmt->bindValue(':min_persone', $data['min_persone']);
+            $stmt->bindValue(':max_persone', $data['max_persone']);
+            $stmt->bindValue(':id_evento', $data['id_evento'], PDO::PARAM_INT);
             return $stmt->execute();
         } catch (Exception $e) {
             logError($e);
             return false;
         }
     }
+
+
 }

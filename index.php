@@ -79,11 +79,16 @@ $routerClass->addRoute('GET',  'cart/checkout',  'CartController', 'checkoutForm
 $routerClass->addRoute('POST', 'cart/checkout',  'CartController', 'checkoutSubmit');
 
 // EVENTI
-$routerClass->addRoute('GET',  'events_create',          'AdminController', 'createEventForm');
+/*$routerClass->addRoute('GET',  'events_create',          'AdminController', 'createEventForm');
 $routerClass->addRoute('GET',  'events_edit/{id}',       'AdminController', 'editEventForm');
 $routerClass->addRoute('POST', 'events_create',          'AdminController', 'createEvent');
 $routerClass->addRoute('POST', 'events_update',          'AdminController', 'updateEvent');
-$routerClass->addRoute('GET',  'events_delete/{id}',     'AdminController', 'deleteEvent');
+$routerClass->addRoute('GET',  'events_delete/{id}',     'AdminController', 'deleteEvent');*/
+$routerClass->addRoute('GET', 'events_create', 'AdminController', 'createEventForm');
+$routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventForm'); // Parametro dinamico {id}
+$routerClass->addRoute('POST', 'events_create', 'AdminController', 'createEvent');
+$routerClass->addRoute('POST', 'events_update', 'AdminController', 'updateEvent'); // Corretto per l'azione di aggiornamento
+$routerClass->addRoute('GET', 'events_delete/{id}', 'AdminController', 'deleteEvent');
 
 // VISITE
 $routerClass->addRoute('GET',  'visits_create',          'AdminController', 'createVisitForm');
