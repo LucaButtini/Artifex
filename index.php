@@ -91,7 +91,7 @@ $routerClass->addRoute('GET',  'visits_create',          'AdminController', 'cre
 //$routerClass->addRoute('GET', 'visits_edit/{id}', 'AdminController', 'editVisitForm');
 
 // Salva le modifiche (POST)
-$routerClass->addRoute('POST', 'visits_edit/{id}', 'AdminController', 'editVisit');
+$routerClass->addRoute('GET', 'visits_edit/{id}', 'AdminController', 'editVisitForm');
 $routerClass->addRoute('POST', 'visits_create',          'AdminController', 'createVisit');
 $routerClass->addRoute('POST', 'visits_update',          'AdminController', 'updateVisit');
 $routerClass->addRoute('GET',  'visits_delete/{id}',     'AdminController', 'deleteVisit');
@@ -118,9 +118,18 @@ if (empty($reValue)) {
     die('Pagina non trovata');
 }
 
-$controller = 'App\Controller\\' . $reValue['controller'];
+/*$controller = 'App\Controller\\' . $reValue['controller'];
 $action = $reValue['action'];
 
 require $controller . '.php';
 $controllerObj = new $controller($db);
-$controllerObj->$action();
+$controllerObj->$action();*/
+$controllerName = 'App\\Controller\\' . $reValue['controller'];
+$action = $reValue['action'];
+$params = $reValue['params'] ?? []; // ottieni i parametri dinamici (es. ['id' => 5])
+
+require $controllerName . '.php';
+$controllerObj = new $controllerName($db);
+
+// Chiama l'azione passando i parametri
+call_user_func_array([$controllerObj, $action], $params);

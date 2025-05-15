@@ -111,6 +111,7 @@ require 'header.php';
             <th>Cognome</th>
             <th>Data Nascita</th>
             <th>Luogo Nascita</th>
+            <th>Titolo di Studio</th>
             <th>Azioni</th>
         </tr>
         </thead>
@@ -122,6 +123,7 @@ require 'header.php';
                 <td><?= htmlspecialchars($g['cognome']) ?></td>
                 <td><?= date('d/m/Y', strtotime($g['data_nascita'])) ?></td>
                 <td><?= htmlspecialchars($g['luogo_nascita']) ?></td>
+                <td><?= htmlspecialchars($g['titolo_studio']) ?></td>
                 <td>
                     <a href="<?= $baseUrl ?>guides_edit/<?= $g['id_guida'] ?>" class="btn btn-sm btn-primary">Modifica</a>
                     <a href="<?= $baseUrl ?>guides_delete/<?= $g['id_guida'] ?>" class="btn btn-sm btn-danger"

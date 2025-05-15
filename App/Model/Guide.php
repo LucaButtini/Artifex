@@ -28,13 +28,14 @@ class Guide {
     }
 
     public function createOne(array $guide): bool {
-        $query = 'INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita) VALUES (:nome, :cognome, :data_nascita, :luogo_nascita)';
+        $query = 'INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita, titolo_studio) VALUES (:nome, :cognome, :data_nascita, :luogo_nascita, :titolo_studio)';
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':nome', $guide['nome']);
             $stmt->bindValue(':cognome', $guide['cognome']);
             $stmt->bindValue(':data_nascita', $guide['data_nascita']);
             $stmt->bindValue(':luogo_nascita', $guide['luogo_nascita']);
+            $stmt->bindValue(':titolo_studio', $guide['titolo_studio']);
             if(!$stmt->execute()){
                 throw new Exception("Errore nell'esecuzione della query");
             }

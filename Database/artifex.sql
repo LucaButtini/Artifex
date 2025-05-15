@@ -38,7 +38,8 @@ create table guide(
                       nome varchar(100),
                       cognome varchar(100),
                       data_nascita date,
-                      luogo_nascita varchar(100)
+                      luogo_nascita varchar(100),
+                      titolo_studio varchar(100)
 );
 
 
@@ -124,11 +125,12 @@ INSERT INTO visite (titolo, durata_media, luogo) VALUES
                                                      ('Basilica di San Marco e Palazzo Ducale', '02:15:00', 'Venezia');
 
 -- 2) GUIDE
-INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita) VALUES
-                                                                   ('Marco',  'Rossi',  '1980-05-10', 'Milano'),
-                                                                   ('Anna',   'Bianchi','1975-09-22', 'Roma'),
-                                                                   ('Luca',   'Verdi',  '1990-12-05', 'Firenze'),
-                                                                   ('Giulia', 'Neri',   '1985-03-15', 'Napoli');
+INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita, titolo_studio) VALUES
+                                                                                  ('Marco',  'Rossi',  '1980-05-10', 'Milano',  'Laurea in Storia dell’Arte'),
+                                                                                  ('Anna',   'Bianchi','1975-09-22', 'Roma',    'Laurea in Lettere'),
+                                                                                  ('Luca',   'Verdi',  '1990-12-05', 'Firenze', 'Diploma di Scuola Superiore'),
+                                                                                  ('Giulia', 'Neri',   '1985-03-15', 'Napoli',  'Laurea in Archeologia');
+
 
 -- 3) RELAZIONE GUIDA ↔️ LINGUA ↔️ CONOSCENZA
 -- (lingue e conoscenze sono già state inserite con id 1–8 e 1–4)
@@ -183,6 +185,8 @@ SELECT * FROM eventi;
 -- Seleziona tutte le prenotazioni (relazione tra visitatori e eventi)
 SELECT * FROM prenotazioni;
 
+delete from prenotazioni;
+
 -- Seleziona tutte le associazioni tra eventi e visite
 SELECT * FROM eventi_visite;
 
@@ -210,6 +214,23 @@ FROM eventi e
          JOIN visite v ON ev.id_visita=v.id_visita
          JOIN guide g ON e.guida=g.id_guida
 WHERE e.id_evento = :id
+
+
+SELECT *
+FROM prenotazioni
+WHERE id_visitatore = 2 AND pagata = 1;
+
+SELECT
+    vi.data_visita,
+    vt.titolo,
+    vt.luogo
+FROM prenotazioni p
+         JOIN eventi_visite vi ON p.id_evento = vi.id_evento
+         JOIN visite vt ON vi.id_visita = vt.id_visita
+WHERE p.id_visitatore = 2
+  AND p.pagata = 1
+ORDER BY vi.data_visita
+
 
 
 SELECT vi.data_visita, vt.titolo, vt.luogo
