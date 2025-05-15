@@ -1,7 +1,8 @@
 <?php
 // App/View/events_create.php
-$appConfig = require dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'appConfig.php';
-$baseUrl   = rtrim($appConfig['baseURL'] . $appConfig['prjName'], '/');
+
+$appConfig = require dirname(__DIR__,2).DIRECTORY_SEPARATOR.'appConfig.php';
+$baseUrl   = rtrim($appConfig['baseURL'].$appConfig['prjName'], '/');
 $title     = 'Crea evento';
 require 'header.php';
 ?>
@@ -24,6 +25,24 @@ require 'header.php';
             <label for="guida" class="form-label">ID Guida</label>
             <input type="number" class="form-control" id="guida" name="guida" required>
         </div>
+
+        <div class="mb-3">
+            <label for="id_visita" class="form-label">Visita da associare</label>
+            <select id="id_visita" name="id_visita" class="form-select" required>
+                <option value="" disabled selected>– Scegli una visita –</option>
+                <?php foreach ($visits as $v): ?>
+                    <option value="<?= $v['id_visita'] ?>">
+                        <?= htmlspecialchars($v['titolo']) ?> (<?= htmlspecialchars($v['luogo']) ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="data_visita" class="form-label">Data e ora visita</label>
+            <input type="datetime-local" id="data_visita" name="data_visita" class="form-control" required>
+        </div>
+
         <button type="submit" class="btn btn-success">Crea</button>
         <a href="<?= $baseUrl ?>admin/dashboard" class="btn btn-secondary">Annulla</a>
     </form>

@@ -89,6 +89,11 @@ $routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventF
 $routerClass->addRoute('POST', 'events_create', 'AdminController', 'createEvent');
 $routerClass->addRoute('POST', 'events_update', 'AdminController', 'updateEvent'); // Corretto per l'azione di aggiornamento
 $routerClass->addRoute('GET', 'events_delete/{id}', 'AdminController', 'deleteEvent');
+// GET per mostrare il form
+$routerClass->addRoute('GET',  'admin/event_visits/create', 'AdminController', 'createEventVisitForm');
+// POST per salvarla
+$routerClass->addRoute('POST', 'admin/event_visits',        'AdminController', 'storeEventVisit');
+
 
 // VISITE
 $routerClass->addRoute('GET',  'visits_create',          'AdminController', 'createVisitForm');

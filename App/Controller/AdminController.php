@@ -6,6 +6,7 @@ use App\Model\Administrator;
 use App\Model\Event;
 use App\Model\Visit;
 use App\Model\Guide;
+use App\Model\EventVisit;
 
 use PDO;
 
@@ -13,6 +14,7 @@ require 'App/Model/Administrator.php';
 require 'App/Model/Event.php';
 require 'App/Model/Visit.php';
 require 'App/Model/Guide.php';
+require 'App/Model/EventVisit.php';
 
 class AdminController
 {
@@ -159,9 +161,17 @@ class AdminController
 
 // Eventi
 
-    public function createEventForm(): void {
-        require 'App/View/events_create.php'; // link corretto senza sottocartelle
+// App/Controller/AdminController.php
+
+    public function createEventForm(): void
+    {
+        // prendi tutte le visite
+        $visitModel = new Visit($this->db);
+        $visits     = $visitModel->showAll();   // ora abbiamo $visits
+
+        require 'App/View/events_create.php';
     }
+
 
     public function editEventForm(): void {
         $id = $_GET['id'] ?? null;
@@ -174,7 +184,7 @@ class AdminController
         }
     }
 
-    public function createEvent(): void {
+    /*public function createEvent(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $eventModel = new Event($this->db);
             $eventModel->createOne($_POST);
@@ -182,6 +192,42 @@ class AdminController
             exit;
         }
         header('Location: /Artifex/admin/dashboard');
+    }*/
+    public function createEvent(): void {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+
+        // 1) inserisci l'evento
+        $eventModel = new Event($this->db);
+        $ok = $eventModel->createOne([
+            'prezzo'      => $_POST['prezzo'],
+            'min_persone' => $_POST['min_persone'],
+            'max_persone' => $_POST['max_persone'],
+            'guida'       => $_POST['guida'],
+        ]);
+
+        if (!$ok) {
+            die('Errore creazione evento');
+        }
+
+        // 2) prendi l'id appena generato
+        $eventId = (int)$this->db->lastInsertId();
+
+        // 3) inserisci l'associazione evento–visita
+        $evModel = new EventVisit($this->db);
+        $assoc = [
+            'id_visita'   => $_POST['id_visita'],
+            'id_evento'   => $eventId,
+            'data_visita' => $_POST['data_visita'],
+        ];
+        if (!$evModel->createOne($assoc)) {
+            die('Errore associazione evento-visita');
+        }
+
+        header('Location: /Artifex/admin/dashboard');
+        exit;
     }
 
     public function updateEvent(): void {
@@ -208,53 +254,49 @@ class AdminController
     }
 
 
+    // App/Controller/AdminController.php
+// in cima, importa anche il model EventVisit
+
+
+    public function createEventVisitForm(): void
+    {
+        // prendi tutte le visite e tutti gli eventi
+        $visitModel = new Visit($this->db);
+        $eventModel = new Event($this->db);
+
+        $visits = $visitModel->showAll();   // array di ['id_visita', 'titolo', ...]
+        $events = $eventModel->showAll();   // array di ['id_evento', 'prezzo', ...]
+        require 'App/View/event_visits_create.php';
+    }
+
+    public function storeEventVisit(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+        $evModel = new EventVisit($this->db);
+        $data = [
+            'id_visita'   => $_POST['id_visita'],
+            'id_evento'   => $_POST['id_evento'],
+            'data_visita' => $_POST['data_visita'],
+        ];
+        if ($evModel->createOne($data)) {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+        die('Errore durante l\'associazione evento–visita');
+    }
+
+
+
+
+
 
     public function createVisitForm(): void {
         require 'App/View/visits_create.php'; // link corretto senza sottocartelle
     }
 
-// Mostra il form
-    /*public function editVisitForm($id)
-    {
-        // Recupera i dati della visita
-        $visitModel = new \App\Model\Visit($this->db);
-        $visit = $visitModel->showOne($id);
-
-        if (!$visit) {
-            http_response_code(404);
-            die('Visita non trovata');
-        }
-
-        // Passa i dati alla vista
-        require 'App/View/visits_edit.php';  // passa $visit se serve alla view
-    }
-
-
-
-// Salva modifiche
-    public function editVisit($id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Recupera i dati dal modulo
-            $newVisitData = [
-                'titolo' => $_POST['titolo'],
-                'durata_media' => $_POST['durata_media'],
-                'luogo' => $_POST['luogo']
-            ];
-
-            // Modifica la visita nel database
-            $visitModel = new \App\Model\Visit($this->db);
-            $success = $visitModel->updateOne($id, $newVisitData);
-
-            if ($success) {
-                header('Location: /Artifex/admin/dashboard'); // o come è definito nel tuo router
-                exit();
-            } else {
-                // Gestisci l'errore (es. mostra un messaggio all'utente)
-                die('Errore durante l\'aggiornamento della visita');
-            }
-        }
-    }*/
 
     // Signature deve accettare $id!
     public function editVisitForm(int $id): void
