@@ -37,28 +37,8 @@ require 'header.php';
         </div>
     </div>
 
-    <!-- 2) Ultimi 5 eventi pianificati -->
-    <h2>Ultimi eventi pianificati</h2>
-    <table class="table table-striped mb-5">
-        <thead>
-        <tr>
-            <th>ID Evento</th>
-            <th>Titolo Visita</th>
-            <th>Data Visita</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($recentEvents as $ev): ?>
-            <tr>
-                <td><?= htmlspecialchars($ev['id_evento']) ?></td>
-                <td><?= htmlspecialchars($ev['titolo']) ?></td>
-                <td><?= date('d/m/Y H:i', strtotime($ev['data_visita'])) ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
 
-    <!-- 3) Elenco completo di Visite -->
+    <!--  Elenco completo di Visite -->
     <h2>Visite guidate</h2>
     <a href="<?= $baseUrl ?>visits_create" class="btn btn-sm btn-success mb-3">Nuova Visita</a>
     <table class="table table-bordered mb-5">
@@ -79,7 +59,7 @@ require 'header.php';
                 <td><?= substr($v['durata_media'],0,5) ?></td>
                 <td><?= htmlspecialchars($v['luogo']) ?></td>
                 <td>
-                    <a href="<?= $baseUrl ?>visits_edit/<?= $v['id_visita'] ?>" class="btn btn-sm btn-primary">Modifica</a>
+                    <a href="<?= $baseUrl ?>admin/visits_edit/<?= $v['id_visita'] ?>" class="btn btn-sm btn-primary">Modifica</a>
                     <a href="<?= $baseUrl ?>visits_delete/<?= $v['id_visita'] ?>" class="btn btn-sm btn-danger"
                        onclick="return confirm('Sei sicuro di voler eliminare questa visita?')">Elimina</a>
                 </td>

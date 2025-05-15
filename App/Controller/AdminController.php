@@ -170,12 +170,6 @@ class AdminController
     //zona dashboard
 
 // Eventi
-    public function events(): void {
-        session_start();
-        $eventModel = new Event($this->db);
-        $events = $eventModel->showAll();
-        require 'App/View/events_index.php'; // link corretto senza sottocartelle
-    }
 
     public function createEventForm(): void {
         require 'App/View/events_create.php'; // link corretto senza sottocartelle
@@ -225,34 +219,61 @@ class AdminController
         header('Location: /admin/events');
     }
 
-// Visite
-    public function visits(): void {
-        session_start();
-        $visitModel = new Visit($this->db);
-        $visits = $visitModel->showAll();
-        require 'App/View/visits_index.php'; // link corretto senza sottocartelle
-    }
 
     public function createVisitForm(): void {
         require 'App/View/visits_create.php'; // link corretto senza sottocartelle
     }
 
-    public function editVisitForm(): void {
+// Mostra il form
+    public function editVisitForm()
+    {
         $id = $_GET['id'] ?? null;
-        if ($id) {
-            $visitModel = new Visit($this->db);
-            $visit = $visitModel->getById($id);
-            require 'App/View/visits_edit.php'; // link corretto senza sottocartelle
-        } else {
-            header('Location: /admin/visits');
+        // Recupera i dati della visita
+        $visitModel = new \App\Model\Visit($this->db);
+        $visit = $visitModel->showOne($id);
+
+        if (!$visit) {
+            http_response_code(404);
+            die('Visita non trovata');
+        }
+
+        // Passa i dati alla vista del modulo di modifica
+        require 'App/View/visits_edit.php'; // Assicurati di passare i dettagli della visita alla vista
+    }
+
+
+// Salva modifiche
+    public function editVisit($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Recupera i dati dal modulo
+            $newVisitData = [
+                'titolo' => $_POST['titolo'],
+                'durata_media' => $_POST['durata_media'],
+                'luogo' => $_POST['luogo']
+            ];
+
+            // Modifica la visita nel database
+            $visitModel = new \App\Model\Visit($this->db);
+            $success = $visitModel->updateOne($id, $newVisitData);
+
+            if ($success) {
+                header('Location: /Artifex/admin/dashboard'); // o come è definito nel tuo router
+                exit();
+            } else {
+                // Gestisci l'errore (es. mostra un messaggio all'utente)
+                die('Errore durante l\'aggiornamento della visita');
+            }
         }
     }
+
+
 
     public function createVisit(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $visitModel = new Visit($this->db);
-            $visitModel->insert($_POST);
-            header('Location: /admin/visits');
+            $visitModel->createOne($_POST);
+            header('Location: /Artifex/admin/dashboard');
             exit;
         }
         header('Location: /admin/visits');
@@ -282,12 +303,6 @@ class AdminController
     }
 
 // Guide
-    public function guides(): void {
-        session_start();
-        $guideModel = new Guide($this->db);
-        $guides = $guideModel->showAll();
-        require 'App/View/guides_index.php'; // link corretto senza sottocartelle
-    }
 
     public function createGuideForm(): void {
         require 'App/View/guides_create.php'; // link corretto senza sottocartelle

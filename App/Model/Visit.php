@@ -11,6 +11,30 @@ class Visit {
         $this->db = $db;
     }
 
+    // Restituisce una visita specifica per ID
+    public function showOne(int $id): ?array {
+        $query = 'SELECT * FROM visite WHERE id = :id';
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Se non ci sono risultati, restituisci null
+            if ($stmt->rowCount() == 0) {
+                return null;
+            }
+
+            $visit = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            return $visit;
+        } catch (Exception $e) {
+            logError($e);
+            return null;
+        }
+    }
+
+
     // Restituisce tutte le visite
     public function showAll(): array {
         $visits = [];
@@ -50,4 +74,23 @@ class Visit {
         }
         return true;
     }
+
+    // Aggiorna una visita esistente
+    public function updateOne(int $id, array $data): bool
+    {
+        $sql = "UPDATE visite
+            SET titolo = :titolo, durata_media = :durata, luogo = :luogo
+            WHERE id_visita = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':titolo', $data['titolo']);
+        $stmt->bindValue(':durata', $data['durata_media']);
+        $stmt->bindValue(':luogo',  $data['luogo']);
+        $stmt->bindValue(':id',     $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+
+
 }
