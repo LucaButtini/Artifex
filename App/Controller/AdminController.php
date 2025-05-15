@@ -289,18 +289,14 @@ class AdminController
         header('Location: /admin/visits');
     }
 
-    public function deleteVisit(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'] ?? null;
-            if ($id) {
-                $visitModel = new Visit($this->db);
-                $visitModel->delete($id);
-            }
-            header('Location: /admin/visits');
-            exit;
-        }
-        header('Location: /admin/visits');
+    public function deleteVisit($id): void {
+        $visitModel = new Visit($this->db);
+        $visitModel->delete($id);
+
+        header('Location: /Artifex/admin/dashboard');
+        exit;
     }
+
 
 // Guide
 
