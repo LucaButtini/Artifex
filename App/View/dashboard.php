@@ -6,8 +6,7 @@ $title     = 'Dashboard Amministratore';
 require 'header.php';
 ?>
 
-<div class="container mt-5">
-    <h1 class="mb-4">Dashboard Amministratore</h1>
+<h1 class="mb-4 text-center text-danger"><strong>Dashboard Amministratore</strong></h1>
 
     <!-- 1) Contatori -->
     <div class="row mb-5">
@@ -92,8 +91,6 @@ require 'header.php';
                 <td><?= htmlspecialchars($e['guida']) ?></td>
                 <td>
                     <a href="<?= $baseUrl ?>events_edit/<?= $e['id_evento'] ?>" class="btn btn-sm btn-primary">Modifica</a>
-                    <a href="<?= $baseUrl ?>events_delete/<?= $e['id_evento'] ?>" class="btn btn-sm btn-danger"
-                       onclick="return confirm('Eliminare questo evento?')">Elimina</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -133,7 +130,5 @@ require 'header.php';
         <?php endforeach; ?>
         </tbody>
     </table>
-
-</div>
 
 <?php require 'footer.php'; ?>

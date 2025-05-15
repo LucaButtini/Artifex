@@ -7,6 +7,8 @@ use App\Model\Event;
 use App\Model\Visit;
 use App\Model\Guide;
 use App\Model\EventVisit;
+use App\Model\GuideLanguageCompetence;
+use App\Model\Language;
 
 use PDO;
 
@@ -15,6 +17,8 @@ require 'App/Model/Event.php';
 require 'App/Model/Visit.php';
 require 'App/Model/Guide.php';
 require 'App/Model/EventVisit.php';
+require 'App/Model/GuideLanguageCompetence.php';
+require 'App/Model/Language.php';
 
 class AdminController
 {
@@ -259,14 +263,26 @@ class AdminController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
             if ($id) {
+                $eventVisitModel = new EventVisit($this->db);
                 $eventModel = new Event($this->db);
-                $eventModel->delete($id);
+
+                // Elimina prima le associazioni eventi-visite
+                $this->deleteAllEventVisitsForEvent((int)$id, $eventVisitModel);
+
+                // Poi elimina l'evento vero e proprio
+                $eventModel->delete((int)$id);
             }
             header('Location: /Artifex/admin/dashboard');
             exit;
         }
         header('Location: /Artifex/admin/dashboard');
     }
+
+    /*private function deleteAllEventVisitsForEvent(int $eventId, EventVisit $evModel): void {
+        $evModel->deleteAllByEventId($eventId);
+    }*/
+
+
 
 
     // App/Controller/AdminController.php
@@ -302,8 +318,6 @@ class AdminController
         }
         die('Errore durante l\'associazione evento–visita');
     }
-
-
 
 
 
@@ -372,54 +386,102 @@ class AdminController
     }
 
 
-// Guide
-
-    public function createGuideForm(): void {
-        require 'App/View/guides_create.php'; // link corretto senza sottocartelle
+    public function createGuideForm(): void
+    {
+        require 'App/View/guides_create.php';
     }
 
-    public function editGuideForm(): void {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $guideModel = new Guide($this->db);
-            $guide = $guideModel->getById($id);
-            require 'App/View/guides_edit.php'; // link corretto senza sottocartelle
-        } else {
-            header('Location: /admin/guides');
-        }
-    }
-
-    public function createGuide(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $guideModel = new Guide($this->db);
-            $guideModel->createOne($_POST);
-            header('Location: /admin/guides');
+    public function storeGuide(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /Artifex/admin/dashboard');
             exit;
         }
-        header('Location: /admin/guides');
-    }
 
-    public function updateGuide(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $guideModel = new Guide($this->db);
-            $guideModel->update($_POST);
-            header('Location: /admin/guides');
-            exit;
+        // 1. Salva i dati della guida
+        $data = [
+            'nome'          => $_POST['nome'],
+            'cognome'       => $_POST['cognome'],
+            'data_nascita'  => $_POST['data_nascita'],
+            'luogo_nascita' => $_POST['luogo_nascita'],
+            'titolo_studio' => $_POST['titolo_studio'],
+        ];
+
+        $guideModel = new Guide($this->db);
+        $idGuida = $guideModel->createOne($data);
+
+        if ($idGuida === false) {
+            die("Errore nella creazione della guida.");
         }
-        header('Location: /admin/guides');
-    }
 
-    public function deleteGuide(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'] ?? null;
-            if ($id) {
-                $guideModel = new Guide($this->db);
-                $guideModel->delete($id);
+        // 2. Associa lingua e livello
+        $idLingua       = $_POST['id_lingua'] ?? null;
+        $idConoscenza   = $_POST['id_conoscenza'] ?? null;
+
+        if ($idLingua && $idConoscenza) {
+            $glcModel = new GuideLanguageCompetence($this->db);
+            $ok = $glcModel->createOne([
+                'id_guida'      => $idGuida,
+                'id_lingua'     => $idLingua,
+                'id_conoscenza' => $idConoscenza,
+            ]);
+
+            if (!$ok) {
+                die("Errore nell'associazione guida–lingua.");
             }
-            header('Location: /admin/guides');
+        }
+
+        header('Location: /Artifex/admin/dashboard');
+        exit;
+    }
+
+
+
+    public function editGuideForm(int $id): void
+    {
+        $guideModel = new Guide($this->db);
+        $guida = $guideModel->getById($id);  // Devi aggiungere getById() nel modello se non c'è
+        if (!$guida) {
+            http_response_code(404);
+            die('Guida non trovata');
+        }
+        require 'App/View/guides_edit.php';
+    }
+
+    public function updateGuide(int $id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /Artifex/admin/dashboard');
             exit;
         }
-        header('Location: /admin/guides');
+
+        $data = [
+            'id_guida'      => $id,
+            'nome'          => $_POST['nome'],
+            'cognome'       => $_POST['cognome'],
+            'data_nascita'  => $_POST['data_nascita'],
+            'luogo_nascita' => $_POST['luogo_nascita'],
+            'titolo_studio' => $_POST['titolo_studio'] ?? '',
+        ];
+
+        $guideModel = new Guide($this->db);
+        if ($guideModel->update($data)) {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+
+        die('Errore nell\'aggiornamento della guida.');
+    }
+
+
+    public function deleteGuide(int $id): void
+    {
+        $guideModel = new Guide($this->db);
+        if ($guideModel->deleteOne($id)) {
+            header('Location: /Artifex/admin/dashboard');
+            exit;
+        }
+        die('Errore durante l\'eliminazione della guida.');
     }
 
 

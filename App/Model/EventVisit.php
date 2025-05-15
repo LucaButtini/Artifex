@@ -49,15 +49,17 @@ class EventVisit {
         return true;
     }
 
-    public function deleteOne(int $idVisita, int $idEvento): bool {
+        //FACCIO CHE GLI EVENTI NON SI CANCELLANO PER COERENZA PER FARE SI CHE CHE CI SIA UNA LISTA DI TUTTI GLI EVENTI, È UNA MIA SUPPOSIZIONE
+    /*public function deleteAllByEventId(int $idEvento): bool {
         try {
-            $stmt = $this->db->prepare('DELETE FROM eventi_visite WHERE id_visita = :v AND id_evento = :e');
-            $stmt->bindParam(':v', $idVisita, PDO::PARAM_INT);
-            $stmt->bindParam(':e', $idEvento, PDO::PARAM_INT);
+            $stmt = $this->db->prepare('DELETE FROM eventi_visite WHERE id_evento = :id');
+            $stmt->bindValue(':id', $idEvento, PDO::PARAM_INT);
             return $stmt->execute();
         } catch(Exception $e){
             logError($e);
             return false;
         }
-    }
+    }*/
+
+
 }

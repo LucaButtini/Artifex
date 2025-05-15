@@ -88,7 +88,7 @@ $routerClass->addRoute('GET', 'events_create', 'AdminController', 'createEventFo
 //$routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventForm'); // Parametro dinamico {id}
 $routerClass->addRoute('POST', 'events_create', 'AdminController', 'createEvent');
 //$routerClass->addRoute('POST', 'events_update', 'AdminController', 'updateEvent'); // Corretto per l'azione di aggiornamento
-$routerClass->addRoute('GET', 'events_delete/{id}', 'AdminController', 'deleteEvent');
+//$routerClass->addRoute('GET', 'events_delete/{id}', 'AdminController', 'deleteEvent');
 // GET: mostra il form di modifica
 $routerClass->addRoute('GET', 'events_edit/{id}', 'AdminController', 'editEventForm');
 
@@ -115,13 +115,11 @@ $routerClass->addRoute('GET',  'visits_delete/{id}',     'AdminController', 'del
 $routerClass->addRoute('GET',  'guides',                 'AdminController', 'guides');
 $routerClass->addRoute('GET',  'guides_create',          'AdminController', 'createGuideForm');
 $routerClass->addRoute('GET',  'guides_edit/{id}',       'AdminController', 'editGuideForm');
-$routerClass->addRoute('POST', 'guides_create',          'AdminController', 'createGuide');
+$routerClass->addRoute('POST', 'guides_create', 'AdminController', 'storeGuide');
+
+//$routerClass->addRoute('POST', 'guides_create',          'AdminController', 'createGuide');
 $routerClass->addRoute('POST', 'guides_update',          'AdminController', 'updateGuide');
 $routerClass->addRoute('GET',  'guides_delete/{id}',     'AdminController', 'deleteGuide');
-
-
-
-
 
 
 

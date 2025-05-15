@@ -27,8 +27,25 @@ class Guide {
         return $guides;
     }
 
-    public function createOne(array $guide): bool {
-        $query = 'INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita, titolo_studio) VALUES (:nome, :cognome, :data_nascita, :luogo_nascita, :titolo_studio)';
+
+    public function getById(int $id): ?array {
+        try {
+            $stmt = $this->db->prepare('SELECT * FROM guide WHERE id_guida = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $result ?: null;
+        } catch (Exception $e) {
+            logError($e);
+            return null;
+        }
+    }
+
+
+    public function createOne(array $guide): int|false {
+        $query = 'INSERT INTO guide (nome, cognome, data_nascita, luogo_nascita, titolo_studio) 
+              VALUES (:nome, :cognome, :data_nascita, :luogo_nascita, :titolo_studio)';
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':nome', $guide['nome']);
@@ -36,20 +53,18 @@ class Guide {
             $stmt->bindValue(':data_nascita', $guide['data_nascita']);
             $stmt->bindValue(':luogo_nascita', $guide['luogo_nascita']);
             $stmt->bindValue(':titolo_studio', $guide['titolo_studio']);
-            if(!$stmt->execute()){
+            if (!$stmt->execute()) {
                 throw new Exception("Errore nell'esecuzione della query");
             }
-            if($stmt->rowCount() == 0){
-                throw new Exception("Nessuna riga inserita");
-            }
+            $id = $this->db->lastInsertId();
             $stmt->closeCursor();
+            return (int)$id;
         } catch(Exception $e) {
-            $stmt->closeCursor();
             logError($e);
             return false;
         }
-        return true;
     }
+
 
     public function deleteOne(int $id): bool {
         try {

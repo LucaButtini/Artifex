@@ -24,8 +24,30 @@ require 'header.php';
             <label for="luogo_nascita" class="form-label">Luogo di Nascita</label>
             <input type="text" class="form-control" id="luogo_nascita" name="luogo_nascita" required>
         </div>
+        <div class="mb-3">
+            <label for="titolo_studio" class="form-label">Titolo di Studio</label>
+            <input type="text" class="form-control" id="titolo_studio" name="titolo_studio" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_lingua" class="form-label">Lingua</label>
+            <select name="id_lingua" id="id_lingua" class="form-control" required>
+                <?php foreach ($lingue as $l): ?>
+                    <option value="<?= $l['id_lingua'] ?>"><?= htmlspecialchars($l['nome']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="id_conoscenza" class="form-label">Livello</label>
+            <select name="id_conoscenza" id="id_conoscenza" class="form-control" required>
+                <?php foreach ($conoscenze as $c): ?>
+                    <option value="<?= $c['id_conoscenza'] ?>"><?= htmlspecialchars($c['livello']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-success">Crea</button>
         <a href="<?= $baseUrl ?>dashboard" class="btn btn-secondary">Annulla</a>
     </form>
+
 </div>
 <?php require 'footer.php'; ?>
