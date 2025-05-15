@@ -225,9 +225,8 @@ class AdminController
     }
 
 // Mostra il form
-    public function editVisitForm()
+    /*public function editVisitForm($id)
     {
-        $id = $_GET['id'] ?? null;
         // Recupera i dati della visita
         $visitModel = new \App\Model\Visit($this->db);
         $visit = $visitModel->showOne($id);
@@ -237,9 +236,10 @@ class AdminController
             die('Visita non trovata');
         }
 
-        // Passa i dati alla vista del modulo di modifica
-        require 'App/View/visits_edit.php'; // Assicurati di passare i dettagli della visita alla vista
+        // Passa i dati alla vista
+        require 'App/View/visits_edit.php';  // passa $visit se serve alla view
     }
+
 
 
 // Salva modifiche
@@ -265,7 +265,35 @@ class AdminController
                 die('Errore durante l\'aggiornamento della visita');
             }
         }
+    }*/
+
+    // Signature deve accettare $id!
+    public function editVisitForm(int $id): void
+    {
+        $visitModel = new Visit($this->db);
+        $visit = $visitModel->showOne($id);
+        if (!$visit) {
+            http_response_code(404); die('Visita non trovata');
+        }
+        // passa $visit alla view
+        require 'App/View/visits_edit.php';
     }
+
+// POST
+    public function editVisit(int $id): void
+    {
+        $newData = [
+            'titolo'       => $_POST['titolo'],
+            'durata_media' => $_POST['durata_media'],
+            'luogo'        => $_POST['luogo']
+        ];
+        $visitModel = new Visit($this->db);
+        if ($visitModel->updateOne($id, $newData)) {
+            header('Location: /Artifex/admin/dashboard'); exit;
+        }
+        die('Errore durante l\'aggiornamento');
+    }
+
 
 
 
