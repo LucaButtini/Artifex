@@ -45,25 +45,24 @@ $username = $visitorSession['nome']
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= $page==='index.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>">Home</a>
+                    <a class="nav-link" href="<?= $baseUrl ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page==='listVisits.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>visits">Visite</a>
+                    <a class="nav-link" href="<?= $baseUrl ?>visits">Visite</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page==='listvents.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>events">Eventi</a>
+                    <a class="nav-link" href="<?= $baseUrl ?>events">Eventi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page==='events.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>cart">Carrello</a>
+                    <a class="nav-link" href="<?= $baseUrl ?>cart">Carrello</a>
                 </li>
                 <?php if ($adminSession): ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= $page==='adminDashboard.php' ? 'active' : '' ?>" href="<?= $baseUrl ?>admin/dashboard">
+                        <a class="nav-link" href="<?= $baseUrl ?>admin/dashboard">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
                     </li>
                 <?php endif; ?>
-
             </ul>
             <div class="d-flex">
                 <?php if ($username): ?>
