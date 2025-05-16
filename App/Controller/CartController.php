@@ -202,25 +202,33 @@ class CartController
     }
 
 
+    // … all'interno di CartController …
+
     public function checkoutAndGeneratePDF(): void
     {
-        /*session_start();
         $visitor = $_SESSION['visitor'] ?? null;
         if (!$visitor) {
             header('Location: /Artifex/form/login/visitor');
             exit;
-        }*/
-        $visitor = $_SESSION['visitor'] ?? null;
+        }
+
+        // 1) Preleva tutte le prenotazioni NON pagate
         $stmt = $this->db->prepare(
-            "SELECT p.id_prenotazione, ev.data_visita, vis.titolo AS event_title, vis.luogo AS event_place,
-                g.nome AS guida_nome, g.cognome AS guida_cognome,
-                v.nome AS visitor_name, v.cognome AS visitor_lastname
+            "SELECT 
+            p.id_visitatore, 
+            p.id_evento, 
+            ev.data_visita, 
+            vis.titolo   AS event_title, 
+            vis.luogo    AS event_place,
+            g.nome       AS guida_nome, 
+            g.cognome    AS guida_cognome,
+            v.nome       AS visitor_name      -- <--- solo v.nome
          FROM prenotazioni p
-         JOIN eventi e            ON p.id_evento = e.id_evento
-         JOIN eventi_visite ev    ON e.id_evento = ev.id_evento
-         JOIN visite vis          ON ev.id_visita = vis.id_visita
-         JOIN guide g             ON e.guida = g.id_guida
-         JOIN visitatori v        ON p.id_visitatore = v.id_visitatore
+         JOIN eventi e         ON p.id_evento = e.id_evento
+         JOIN eventi_visite ev ON e.id_evento = ev.id_evento
+         JOIN visite vis      ON ev.id_visita = vis.id_visita
+         JOIN guide g         ON e.guida = g.id_guida
+         JOIN visitatori v    ON p.id_visitatore = v.id_visitatore
          WHERE p.id_visitatore = :vid AND p.pagata = FALSE"
         );
         $stmt->execute([':vid' => $visitor['id_visitatore']]);
@@ -230,26 +238,29 @@ class CartController
             die('Nessuna prenotazione da processare.');
         }
 
-        // Marca tutte come pagate
-        $stmt = $this->db->prepare("UPDATE prenotazioni SET pagata = TRUE WHERE id_visitatore = :vid");
-        $stmt->execute([':vid' => $visitor['id_visitatore']]);
+        // 2) Marca tutte come pagate
+        $upd = $this->db->prepare("UPDATE prenotazioni SET pagata = TRUE WHERE id_visitatore = :vid");
+        $upd->execute([':vid' => $visitor['id_visitatore']]);
 
-        // Crea PDF
+        // 3) Genera PDF
         $pdf = new \TCPDF();
         $pdf->SetTitle('Biglietti Artifex');
 
         foreach ($prenotazioni as $row) {
             $pdf->AddPage();
+            // Header
             $pdf->SetFont('helvetica', 'B', 18);
             $pdf->Cell(0, 12, 'Biglietto Artifex', 0, 1, 'C');
             $pdf->Ln(5);
 
+            // Visitatore (solo nome)
             $pdf->SetFont('helvetica', '', 12);
-            $pdf->Cell(0, 8, "Nome: {$row['visitor_name']}", 0, 1);
-            $pdf->Cell(0, 8, "Cognome: {$row['visitor_lastname']}", 0, 1);
+            $pdf->Cell(0, 8, "Visitatore: {$row['visitor_name']}", 0, 1);
+            $pdf->Ln(3);
 
+            // Evento
             $pdf->SetFont('helvetica', 'B', 14);
-            $pdf->SetTextColor(0, 102, 204);
+            $pdf->SetTextColor(235, 79, 52);
             $pdf->Cell(0, 10, "Evento: {$row['event_title']}", 0, 1);
             $pdf->SetFont('helvetica', '', 12);
             $pdf->SetTextColor(0);
@@ -257,21 +268,30 @@ class CartController
             $pdf->Cell(0, 8, "Data: " . date('d/m/Y H:i', strtotime($row['data_visita'])), 0, 1);
             $pdf->Ln(8);
 
-            $qrText = "Prenotazione: {$row['id_prenotazione']}\n"
-                . "Visitatore: {$row['visitor_name']} {$row['visitor_lastname']}\n"
+            // Emissione
+            $pdf->SetFont('helvetica', 'I', 10);
+            $pdf->Cell(0, 6, 'Emissione: ' . date('d/m/Y H:i'), 0, 1, 'R');
+            $pdf->Ln(10);
+
+            // QR code
+            $qrText = "Visitatore: {$row['visitor_name']}\n"
                 . "Evento: {$row['event_title']}\n"
                 . "Luogo: {$row['event_place']}\n"
-                . "Data: " . date('d/m/Y H:i', strtotime($row['data_visita']));
+                . "Data: " . date('d/m/Y H:i', strtotime($row['data_visita'])) . "\n"
+                . "IDs: vis={$row['id_visitatore']} evt={$row['id_evento']}";
 
             $pdf->write2DBarcode($qrText, 'QRCODE,H', 80, $pdf->GetY(), 50, 50, [], 'N');
             $pdf->Ln(60);
 
+            // Footer
             $pdf->SetFont('helvetica', 'I', 9);
             $pdf->Cell(0, 5, 'Grazie per aver scelto Artifex!', 0, 1, 'C');
         }
 
         $pdf->Output('Biglietti_Artifex.pdf', 'I');
     }
+
+
 
 
 
