@@ -8,7 +8,7 @@ require 'header.php';
 
     <h2><?= $title ?></h2>
 
-    <form action="<?= $baseUrl ?>/guides_update/<?= htmlspecialchars($guida['id_guida']) ?>" method="post">
+    <form action="<?= $baseUrl ?>/guides_update/<?= /**@var $guida*/htmlspecialchars($guida['id_guida']) ?>" method="post">
         <input type="hidden" name="id_guida" value="<?= htmlspecialchars($guida['id_guida']) ?>">
 
         <div class="mb-3">
@@ -44,7 +44,9 @@ require 'header.php';
         <div class="mb-3">
             <label for="id_lingua" class="form-label">Lingua</label>
             <select name="id_lingua" id="id_lingua" class="form-control" required>
-                <?php foreach($lingue as $l): ?>
+                <?php
+                /**@var $lingue*/
+                foreach($lingue as $l): ?>
                     <option value="<?= $l['id_lingua'] ?>"
                         <?= ($guida['id_lingua'] ?? null) == $l['id_lingua'] ? 'selected' : '' ?>>
                         <?= htmlspecialchars($l['nome']) ?>
@@ -56,7 +58,9 @@ require 'header.php';
         <div class="mb-3">
             <label for="id_conoscenza" class="form-label">Livello</label>
             <select name="id_conoscenza" id="id_conoscenza" class="form-control" required>
-                <?php foreach($conoscenze as $c): ?>
+                <?php
+                /**@var $conoscenze*/
+                foreach($conoscenze as $c): ?>
                     <option value="<?= $c['id_conoscenza'] ?>"
                         <?= ($guida['id_conoscenza'] ?? null) == $c['id_conoscenza'] ? 'selected' : '' ?>>
                         <?= htmlspecialchars($c['livello']) ?>

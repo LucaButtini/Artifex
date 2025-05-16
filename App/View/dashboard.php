@@ -14,7 +14,7 @@ require 'header.php';
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Eventi</h5>
-                    <p class="card-text display-4"><?= $totEventi ?></p>
+                    <p class="card-text display-4"><?= /**@var $totEventi*/$totEventi ?></p>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@ require 'header.php';
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Visite programmate</h5>
-                    <p class="card-text display-4"><?= $totVisite ?></p>
+                    <p class="card-text display-4"><?=/**@var $totVisite*/ $totVisite ?></p>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@ require 'header.php';
             <div class="card text-white bg-warning mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Guide</h5>
-                    <p class="card-text display-4"><?= $totGuide ?></p>
+                    <p class="card-text display-4"><?= /**@var $totGuide*/$totGuide ?></p>
                 </div>
             </div>
         </div>
@@ -51,7 +51,9 @@ require 'header.php';
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($visiteModel->showAll() as $v): ?>
+        <?php
+        /**@var $visiteModel*/
+        foreach ($visiteModel->showAll() as $v): ?>
             <tr>
                 <td><?= $v['id_visita'] ?></td>
                 <td><?= htmlspecialchars($v['titolo']) ?></td>
@@ -81,7 +83,9 @@ require 'header.php';
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($eventModel->showAll() as $e): ?>
+        <?php
+        /**@var $eventModel*/
+        foreach ($eventModel->showAll() as $e): ?>
             <tr>
                 <td><?= $e['id_evento'] ?></td>
                 <td>€<?= number_format($e['prezzo'],2,',','.') ?></td>
@@ -112,7 +116,9 @@ require 'header.php';
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($guideModel->showAll() as $g): ?>
+        <?php
+        /**@var $guideModel*/
+        foreach ($guideModel->showAll() as $g): ?>
             <tr>
                 <td><?= $g['id_guida'] ?></td>
                 <td><?= htmlspecialchars($g['nome']) ?></td>

@@ -30,7 +30,9 @@ require 'header.php';
             <label for="id_visita" class="form-label">Visita da associare</label>
             <select id="id_visita" name="id_visita" class="form-select" required>
                 <option value="" disabled selected>– Scegli una visita –</option>
-                <?php foreach ($visits as $v): ?>
+                <?php
+                /**@var $visits*/
+                foreach ($visits as $v): ?>
                     <option value="<?= $v['id_visita'] ?>">
                         <?= htmlspecialchars($v['titolo']) ?> (<?= htmlspecialchars($v['luogo']) ?>)
                     </option>

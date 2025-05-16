@@ -31,7 +31,9 @@ require 'header.php';
         <div class="mb-3">
             <label for="id_lingua" class="form-label">Lingua</label>
             <select name="id_lingua" id="id_lingua" class="form-control" required>
-                <?php foreach ($lingue as $l): ?>
+                <?php
+                /**@var $lingue*/
+                foreach ($lingue as $l): ?>
                     <option value="<?= $l['id_lingua'] ?>"><?= htmlspecialchars($l['nome']) ?></option>
                 <?php endforeach; ?>
             </select>
@@ -39,7 +41,9 @@ require 'header.php';
         <div class="mb-3">
             <label for="id_conoscenza" class="form-label">Livello</label>
             <select name="id_conoscenza" id="id_conoscenza" class="form-control" required>
-                <?php foreach ($conoscenze as $c): ?>
+                <?php
+                /**@var $conoscenze*/
+                foreach ($conoscenze as $c): ?>
                     <option value="<?= $c['id_conoscenza'] ?>"><?= htmlspecialchars($c['livello']) ?></option>
                 <?php endforeach; ?>
             </select>

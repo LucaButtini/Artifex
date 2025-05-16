@@ -5,7 +5,7 @@ $title     = 'Modifica Evento';
 require 'header.php';
 ?>
 <div class="container mt-5">
-    <h2>Modifica Evento #<?= htmlspecialchars($event['id_evento']) ?></h2>
+    <h2>Modifica Evento #<?=  /**@var $event*/ htmlspecialchars($event['id_evento']) ?></h2>
     <form action="<?= $baseUrl ?>/events_edit/<?= $event['id_evento'] ?>" method="POST">
         <div class="mb-3">
             <label for="prezzo" class="form-label">Prezzo (€)</label>

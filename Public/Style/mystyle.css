@@ -28,7 +28,9 @@ body {
 }
 
 
-
+#divCard{
+    width: 350px;
+}
 
 .navbar-nav .nav-link {
     color: #fff;

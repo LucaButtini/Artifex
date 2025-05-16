@@ -13,7 +13,9 @@ require 'header.php';
         <div class="card-body">
             <h2 class="text-center text-primary mb-4">Registrati</h2>
 
-            <?php if (isset($error)): ?>
+            <?php
+            //sono dinamici i forms come fatto in classe
+            if (isset($error)): ?>
                 <div class="alert alert-danger"><?= $error ?></div>
             <?php endif; ?>
 

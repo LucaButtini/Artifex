@@ -6,8 +6,8 @@ $baseUrl   = $appConfig['baseURL'] . $appConfig['prjName'];
 require 'header.php'; ?>
 
 <div class="container mt-5">
-    <div class="alert alert-<?= htmlspecialchars($messageType) ?> text-center">
-        <?= htmlspecialchars($message) ?>
+    <div class="alert alert-<?=  /**@var $messageType*/htmlspecialchars($messageType) ?> text-center">
+        <?=  /**@var $message*/htmlspecialchars($message) ?>
     </div>
     <div class="text-center mt-3">
         <a href="<?= $baseUrl ?>" class="btn btn-outline-primary">Torna alla home</a>

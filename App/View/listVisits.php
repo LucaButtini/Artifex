@@ -34,7 +34,6 @@ require 'header.php';
                             <ul class="list-unstyled mt-2">
                                 <li><strong>Durata:</strong> <?= $ore ?> ore <?= $minuti ?> minuti</li>
                             </ul>
-                            <!--<a href="/artifex/home/book-events?id=<?= $visita['id_visita'] ?>" class="btn btn-dark mt-3">Prenota</a>-->
                         </div>
                     </div>
                 </div>
