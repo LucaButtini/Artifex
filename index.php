@@ -105,21 +105,35 @@ $routerClass->addRoute('GET',  'visits_create',          'AdminController', 'cre
 //$routerClass->addRoute('GET', 'visits_edit/{id}', 'AdminController', 'editVisitForm');
 
 // Salva le modifiche (POST)
-$routerClass->addRoute('GET',  'admin/visits_edit/{id}', 'AdminController', 'editVisitForm');
-$routerClass->addRoute('POST', 'admin/visits_edit/{id}', 'AdminController', 'editVisit');
+$routerClass->addRoute('GET',  'visits_edit/{id}', 'AdminController', 'editVisitForm');
+$routerClass->addRoute('POST', 'visits_edit/{id}', 'AdminController', 'editVisit');
 $routerClass->addRoute('POST', 'visits_create',          'AdminController', 'createVisit');
 $routerClass->addRoute('POST', 'visits_update',          'AdminController', 'updateVisit');
-$routerClass->addRoute('GET',  'visits_delete/{id}',     'AdminController', 'deleteVisit');
+// GET per mostrare il form di conferma
+$routerClass->addRoute('GET', 'visits_delete/{id}', 'AdminController', 'deleteVisit');
 
-// GUIDE
+// POST per processare l'eliminazione
+$routerClass->addRoute('POST', 'visits_delete/{id}', 'AdminController', 'deleteVisit');
+
+
+//GUIDE
+// GET per lista
 $routerClass->addRoute('GET',  'guides',                 'AdminController', 'guides');
+// GET per creazione
 $routerClass->addRoute('GET',  'guides_create',          'AdminController', 'createGuideForm');
+// POST creazione
+$routerClass->addRoute('POST', 'guides_create',          'AdminController', 'storeGuide');
+// GET modifica (questa mancava!)
 $routerClass->addRoute('GET',  'guides_edit/{id}',       'AdminController', 'editGuideForm');
-$routerClass->addRoute('POST', 'guides_create', 'AdminController', 'storeGuide');
+// POST modifica
+$routerClass->addRoute('POST', 'guides_update/{id}',     'AdminController', 'updateGuide');
 
-//$routerClass->addRoute('POST', 'guides_create',          'AdminController', 'createGuide');
-$routerClass->addRoute('POST', 'guides_update',          'AdminController', 'updateGuide');
-$routerClass->addRoute('GET',  'guides_delete/{id}',     'AdminController', 'deleteGuide');
+// GET per mostrare il form di conferma
+$routerClass->addRoute('GET', 'guides_delete/{id}', 'AdminController', 'deleteGuide');
+
+// POST per processare l'eliminazione
+$routerClass->addRoute('POST', 'guides_delete/{id}', 'AdminController', 'deleteGuide');
+
 
 
 
