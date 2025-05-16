@@ -1,6 +1,6 @@
 <?php
 /*
- * VERSIONE ORIGINALE
+ * VERSIONE ORIGINALE MODIFICA PER IL FATTO DEI LINK DINAMICI COL GET (QUERY STRING)
  * <?php
 namespace  Router;
 class Router
