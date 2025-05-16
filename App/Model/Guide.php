@@ -68,11 +68,17 @@ class Guide {
 
     public function deleteOne(int $id): bool {
         try {
+            // Prima elimina le associazioni della guida con lingue/conoscenze
+            $glcModel = new GuideLanguageCompetence($this->db);
+            $glcModel->deleteForGuide($id);
+            // Poi elimina la guida
             $stmt = $this->db->prepare('DELETE FROM guide WHERE id_guida = :id');
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            return $stmt->execute();
+            $result = $stmt->execute();
+            $stmt->closeCursor();
+            return $result;
         } catch(Exception $e) {
-            logError($e);
+            error_log('Errore eliminazione guida: ' . $e->getMessage());
             return false;
         }
     }

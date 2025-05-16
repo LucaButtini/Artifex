@@ -58,9 +58,8 @@ require 'header.php';
                 <td><?= substr($v['durata_media'],0,5) ?></td>
                 <td><?= htmlspecialchars($v['luogo']) ?></td>
                 <td>
-                    <a href="<?= $baseUrl ?>admin/visits_edit/<?= $v['id_visita'] ?>" class="btn btn-sm btn-primary">Modifica</a>
-                    <a href="<?= $baseUrl ?>visits_delete/<?= $v['id_visita'] ?>" class="btn btn-sm btn-danger"
-                       onclick="return confirm('Sei sicuro di voler eliminare questa visita?')">Elimina</a>
+                    <a href="<?= $baseUrl ?>visits_edit/<?= $v['id_visita'] ?>" class="btn btn-sm btn-primary">Modifica</a>
+                    <a href="<?= $baseUrl ?>visits_delete/<?= $v['id_visita'] ?>" class="btn btn-sm btn-danger">Elimina</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -123,8 +122,7 @@ require 'header.php';
                 <td><?= htmlspecialchars($g['titolo_studio']) ?></td>
                 <td>
                     <a href="<?= $baseUrl ?>guides_edit/<?= $g['id_guida'] ?>" class="btn btn-sm btn-primary">Modifica</a>
-                    <a href="<?= $baseUrl ?>guides_delete/<?= $g['id_guida'] ?>" class="btn btn-sm btn-danger"
-                       onclick="return confirm('Eliminare questa guida?')">Elimina</a>
+                    <a href="<?= $baseUrl ?>guides_delete/<?= $g['id_guida'] ?>" class="btn btn-sm btn-danger">Elimina</a>
                 </td>
             </tr>
         <?php endforeach; ?>

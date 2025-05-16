@@ -103,16 +103,16 @@ class Visit {
 
 
 // Elimina una visita per ID
-    public function delete(int $id): bool {
-        $query = 'DELETE FROM visite WHERE id_visita = :id';
+    public function delete(int $id): bool
+    {
         try {
-            $stmt = $this->db->prepare($query);
-            $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+            $stmt = $this->db->prepare('DELETE FROM visite WHERE id_visita = :id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $result = $stmt->execute();
             $stmt->closeCursor();
             return $result;
-        } catch (\Exception $e) {
-            logError($e);
+        } catch (Exception $e) {
+            error_log('Errore eliminazione visita: ' . $e->getMessage());
             return false;
         }
     }

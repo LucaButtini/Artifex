@@ -7,7 +7,7 @@ require 'header.php';
 ?>
 <div class="container mt-5">
     <h2>Modifica Visita Guidata #<?= htmlspecialchars($visit['id_visita']) ?></h2>
-    <form action="<?= $baseUrl ?>/admin/visits_edit/<?= $visit['id_visita'] ?>" method="POST">
+    <form action="<?= $baseUrl ?>visits_edit/<?= $visit['id_visita'] ?>" method="POST">
         <div class="mb-3">
             <label for="titolo" class="form-label">Titolo</label>
             <input type="text" class="form-control" id="titolo" name="titolo"

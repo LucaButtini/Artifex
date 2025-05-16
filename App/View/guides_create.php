@@ -46,7 +46,7 @@ require 'header.php';
         </div>
 
         <button type="submit" class="btn btn-success">Crea</button>
-        <a href="<?= $baseUrl ?>dashboard" class="btn btn-secondary">Annulla</a>
+        <a href="<?= $baseUrl ?>admin/dashboard" class="btn btn-secondary">Annulla</a>
     </form>
 
 </div>

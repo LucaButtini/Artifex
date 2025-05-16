@@ -212,15 +212,6 @@ class AdminController
         die('Errore durante l\'aggiornamento dell\'evento');
     }
 
-    /*public function createEvent(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $eventModel = new Event($this->db);
-            $eventModel->createOne($_POST);
-            header('Location: /Artifex/admin/dashboard');
-            exit;
-        }
-        header('Location: /Artifex/admin/dashboard');
-    }*/
     public function createEvent(): void {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /Artifex/admin/dashboard');
@@ -277,16 +268,6 @@ class AdminController
         }
         header('Location: /Artifex/admin/dashboard');
     }
-
-    /*private function deleteAllEventVisitsForEvent(int $eventId, EventVisit $evModel): void {
-        $evModel->deleteAllByEventId($eventId);
-    }*/
-
-
-
-
-    // App/Controller/AdminController.php
-// in cima, importa anche il model EventVisit
 
 
     public function createEventVisitForm(): void
@@ -377,19 +358,53 @@ class AdminController
         header('Location: /admin/visits');
     }
 
-    public function deleteVisit($id): void {
-        $visitModel = new Visit($this->db);
-        $visitModel->delete($id);
+    public function deleteVisit(int $id): void
+    {
+        session_start();
+        if (!isset($_SESSION['admin'])) {
+            header('Location: /Artifex/form/login/admin');
+            exit;
+        }
 
-        header('Location: /Artifex/admin/dashboard');
-        exit;
+        $visitModel = new Visit($this->db);
+        $visit = $visitModel->showOne($id);
+
+        if (!$visit) {
+            http_response_code(404);
+            die('Visita non trovata');
+        }
+
+        // Se la richiesta è GET, mostra la pagina di conferma
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            require 'App/View/visits_delete.php';
+            return;
+        }
+
+        // Se la richiesta è POST, procedi con l'eliminazione
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($visitModel->delete($id)) {
+                header('Location: /Artifex/admin/dashboard');
+                exit;
+            } else {
+                die('Errore durante l\'eliminazione della visita.');
+            }
+        }
     }
 
 
     public function createGuideForm(): void
     {
+        // Recupera tutte le lingue
+        $langModel = new Language($this->db);
+        $lingue    = $langModel->showAll();
+
+        // Recupera tutti i livelli di conoscenza
+        $conModel  = new GuideLanguageCompetence($this->db);
+        $conoscenze = $conModel->showAllConoscenze(); // vedremo sotto come
+
         require 'App/View/guides_create.php';
     }
+
 
     public function storeGuide(): void
     {
@@ -440,11 +455,28 @@ class AdminController
     public function editGuideForm(int $id): void
     {
         $guideModel = new Guide($this->db);
-        $guida = $guideModel->getById($id);  // Devi aggiungere getById() nel modello se non c'è
+        $guida = $guideModel->getById($id);
+
         if (!$guida) {
             http_response_code(404);
             die('Guida non trovata');
         }
+
+        // Recupera le lingue e le conoscenze
+        $langModel = new Language($this->db);
+        $lingue = $langModel->showAll();
+
+        $conModel = new GuideLanguageCompetence($this->db);
+        $conoscenze = $conModel->showAllConoscenze();
+
+        // Recupera la lingua e il livello attuali della guida
+        $currentLang = $conModel->getLanguageForGuide($id);
+        $currentLevel = $conModel->getLevelForGuide($id);
+
+        // Aggiungi queste informazioni all'array $guida
+        $guida['id_lingua'] = $currentLang['id_lingua'] ?? null;
+        $guida['id_conoscenza'] = $currentLevel['id_conoscenza'] ?? null;
+
         require 'App/View/guides_edit.php';
     }
 
@@ -476,12 +508,35 @@ class AdminController
 
     public function deleteGuide(int $id): void
     {
-        $guideModel = new Guide($this->db);
-        if ($guideModel->deleteOne($id)) {
-            header('Location: /Artifex/admin/dashboard');
+        session_start();
+        if (!isset($_SESSION['admin'])) {
+            header('Location: /Artifex/form/login/admin');
             exit;
         }
-        die('Errore durante l\'eliminazione della guida.');
+
+        $guideModel = new Guide($this->db);
+        $guide = $guideModel->getById($id);
+
+        if (!$guide) {
+            http_response_code(404);
+            die('Guida non trovata');
+        }
+
+        // Se la richiesta è GET, mostra la pagina di conferma
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            require 'App/View/guides_delete.php';
+            return;
+        }
+
+        // Se la richiesta è POST, procedi con l'eliminazione
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($guideModel->deleteOne($id)) {
+                header('Location: /Artifex/admin/dashboard');
+                exit;
+            } else {
+                die('Errore durante l\'eliminazione della guida.');
+            }
+        }
     }
 
 
