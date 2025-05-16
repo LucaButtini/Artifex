@@ -77,6 +77,10 @@ $routerClass->addRoute('POST', 'cart/remove', 'CartController', 'remove');
 // Cart checkout
 $routerClass->addRoute('GET',  'cart/checkout',  'CartController', 'checkoutForm');
 $routerClass->addRoute('POST', 'cart/checkout',  'CartController', 'checkoutSubmit');
+// in Router definition, dopo 'cart' GET
+$routerClass->addRoute('GET',  'cart/generateTicket/{id}', 'CartController', 'generateTicket');
+$routerClass->addRoute('POST', 'cart/checkout/pdf', 'CartController', 'checkoutAndGeneratePDF');
+
 
 // EVENTI
 /*$routerClass->addRoute('GET',  'events_create',          'AdminController', 'createEventForm');
