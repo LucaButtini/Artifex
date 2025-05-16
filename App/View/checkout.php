@@ -42,8 +42,8 @@ require 'header.php'; ?>
 
         <h3 class="text-end">Totale da pagare: €<?= number_format($total,2,',','.') ?></h3>
 
-        <form method="POST" action="/Artifex/cart/checkout" class="text-center mt-4">
-            <button type="submit" class="btn btn-success btn-lg">Conferma Pagamento</button>
+        <form method="POST" action="<?= $baseUrl ?>cart/checkout/pdf" class="text-center mt-4">
+        <button type="submit" class="btn btn-success btn-lg">Conferma Pagamento</button>
             <a href="<?= $baseUrl?>cart" class="btn btn-lg ms-2 btn-outline-primary">Annulla</a>
         </form>
     <?php endif; ?>
