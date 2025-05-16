@@ -100,6 +100,7 @@ class AdminController
         }
     }
 
+    //cambio pwd admin
     public function changePassword(): void
     {
         session_start();
@@ -140,6 +141,8 @@ class AdminController
         require 'App/View/profile.php';
     }
 
+
+    //dashboard amministratore
     public function dashboard(): void
     {
         session_start();
@@ -165,7 +168,6 @@ class AdminController
 
 // Eventi
 
-// App/Controller/AdminController.php
 
     public function createEventForm(): void
     {
@@ -538,7 +540,6 @@ class AdminController
             }
         }
     }
-
 
 
     // Logout

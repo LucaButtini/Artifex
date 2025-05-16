@@ -1,6 +1,5 @@
 <?php
 namespace App\Model;
-require dirname(__DIR__,2). '/Functions/functions.php';
 use Exception;
 use PDO;
 
@@ -11,7 +10,7 @@ class Booking {
         $this->db = $db;
     }
 
-    // Restituisce tutte le prenotazioni (eventualmente filtrabili per visitatore)
+    // Restituisce tutte le prenotazioni
     public function showAll(): array {
         $bookings = [];
         $query = 'SELECT * FROM prenotazioni';

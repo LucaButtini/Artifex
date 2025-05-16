@@ -9,22 +9,22 @@ require 'header.php';
 
 <h1 class="display-4 text-center""><strong>Il tuo Carrello</strong></h1>
 
-<?php if (empty($eventDs)): ?>
+<?php if (empty($eventDs)){?>
     <div class="alert alert-warning text-center">
         Non hai ancora prenotato nessun evento.
     </div>
-<?php else: ?>
+<?php }else{ ?>
 
         <div class="row justify-content-center"> <!-- Center the row -->
             <?php
-            $totalPrice = 0; // Variabile per il totale
-            foreach ($eventDs as $evento):
+            $totalPrice = 0; // var per il totale
+            foreach ($eventDs as $evento){
                 // calcolo durata e data
                 [$h, $m] = explode(':', $evento['durata_media']);
                 $data = date("d/m/Y H:i", strtotime($evento['data_visita']));
-                $totalPrice += $evento['prezzo']; // Aggiungi il prezzo al totale
+                $totalPrice += $evento['prezzo']; // Aggiunge il prezzo al totale
                 ?>
-                <div class="col-12 col-md-8 mb-4"> <!-- Ensure it takes full width on small screens and 8 columns on larger screens -->
+                <div class="col-12 col-md-8 mb-4">
                     <div class="card shadow-sm">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?= htmlspecialchars($evento['titolo_visita']) ?></h5>
@@ -42,14 +42,14 @@ require 'header.php';
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php } ?>
         </div>
 
         <div class="text-center mt-4">
             <h4>Totale: €<?= number_format($totalPrice, 2, ',', '.') ?></h4>
             <a href="<?= $baseUrl?>cart/checkout" class="btn btn-success">Vai al pagamento</a>
         </div>
-<?php endif; ?>
+<?php } ?>
 
 <div class="text-center mt-4">
     <a href="<?= $baseUrl?>events" class="btn btn-outline-primary">Torna agli eventi</a>

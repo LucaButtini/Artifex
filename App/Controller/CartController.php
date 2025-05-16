@@ -114,7 +114,7 @@ class CartController
                WHERE e.id_evento=:id"
             );
             $stmt->execute([':id'=>$b['id_evento']]);
-            if ($evt = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if ($evt = $stmt->fetch()) {
                 $events[] = $evt;
             }
         }
@@ -202,7 +202,6 @@ class CartController
     }
 
 
-    // … all'interno di CartController …
 
     public function checkoutAndGeneratePDF(): void
     {
@@ -320,7 +319,7 @@ class CartController
          WHERE p.id_visitatore = :vid AND p.pagata = FALSE"
         );
         $stmt->execute([':vid' => $visitor['id_visitatore']]);
-        $prenotazioni = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $prenotazioni = $stmt->fetchAll();
 
         if (empty($prenotazioni)) {
             die('Nessuna prenotazione da mostrare.');

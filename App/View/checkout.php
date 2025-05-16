@@ -18,7 +18,7 @@ require 'header.php'; ?>
         </div>
     <?php else: ?>
         <div class="row">
-            <?php $total = 0; foreach ($events as $e):
+            <?php $total = 0; foreach ($events as $e){
                 [$h,$m] = explode(':',$e['durata_media']);
                 $data   = date("d/m/Y H:i", strtotime($e['data_visita']));
                 $total += $e['prezzo'];
@@ -37,7 +37,7 @@ require 'header.php'; ?>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php } ?>
         </div>
 
         <h3 class="text-end">Totale da pagare: €<?= number_format($total,2,',','.') ?></h3>

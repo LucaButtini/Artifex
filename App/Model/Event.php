@@ -64,7 +64,7 @@ class Event {
         return true;
     }
 
-    //FACCIO CHE GLI EVENTI NON SI CANCELLANO PER COERENZA PER FARE SI CHE CHE CI SIA UNA LISTA DI TUTTI GLI EVENTI, È UNA MIA SUPPOSIZIONE
+    //FACCIO CHE GLI EVENTI NON SI CANCELLANO PER MIA SUPPOSIZIONE DEL PROGETTO PER FARE SI CHE CHE SIA ARCHIVIATA UNA LISTA DI TUTTI GLI EVENTI FATTI
     /*public function delete(int $id): bool {
         $stmt = $this->db->prepare('DELETE FROM eventi WHERE id_evento = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);

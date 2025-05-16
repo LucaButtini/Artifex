@@ -11,6 +11,7 @@ class Administrator {
         $this->db = $db;
     }
 
+    //aggiorna pwd
     public function updatePassword(string $username, string $hashedPassword): bool
     {
         $sql = 'UPDATE amministratori SET password = :password WHERE username = :username';
