@@ -293,6 +293,83 @@ class CartController
 
 
 
+    public function previewPDF(): void
+    {
+        $visitor = $_SESSION['visitor'] ?? null;
+        if (!$visitor) {
+            header('Location: /Artifex/form/login/visitor');
+            exit;
+        }
+
+        $stmt = $this->db->prepare(
+            "SELECT 
+            p.id_visitatore, 
+            p.id_evento, 
+            ev.data_visita, 
+            vis.titolo   AS event_title, 
+            vis.luogo    AS event_place,
+            g.nome       AS guida_nome, 
+            g.cognome    AS guida_cognome,
+            v.nome       AS visitor_name
+         FROM prenotazioni p
+         JOIN eventi e         ON p.id_evento = e.id_evento
+         JOIN eventi_visite ev ON e.id_evento = ev.id_evento
+         JOIN visite vis       ON ev.id_visita = vis.id_visita
+         JOIN guide g          ON e.guida = g.id_guida
+         JOIN visitatori v     ON p.id_visitatore = v.id_visitatore
+         WHERE p.id_visitatore = :vid AND p.pagata = FALSE"
+        );
+        $stmt->execute([':vid' => $visitor['id_visitatore']]);
+        $prenotazioni = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (empty($prenotazioni)) {
+            die('Nessuna prenotazione da mostrare.');
+        }
+
+        $pdf = new \TCPDF();
+        $pdf->SetTitle('Anteprima Biglietti Artifex');
+
+        foreach ($prenotazioni as $row) {
+            $pdf->AddPage();
+            $pdf->SetFont('helvetica', 'B', 18);
+            $pdf->Cell(0, 12, 'Anteprima Biglietto', 0, 1, 'C');
+            $pdf->Ln(5);
+
+            $pdf->SetFont('helvetica', '', 12);
+            $pdf->Cell(0, 8, "Visitatore: {$row['visitor_name']}", 0, 1);
+            $pdf->Ln(3);
+
+            $pdf->SetFont('helvetica', 'B', 14);
+            $pdf->SetTextColor(235, 79, 52);
+            $pdf->Cell(0, 10, "Evento: {$row['event_title']}", 0, 1);
+            $pdf->SetFont('helvetica', '', 12);
+            $pdf->SetTextColor(0);
+            $pdf->Cell(0, 8, "Luogo: {$row['event_place']}", 0, 1);
+            $pdf->Cell(0, 8, "Data: " . date('d/m/Y H:i', strtotime($row['data_visita'])), 0, 1);
+            $pdf->Ln(8);
+
+            $pdf->SetFont('helvetica', 'I', 10);
+            $pdf->Cell(0, 6, 'Emissione: ' . date('d/m/Y H:i'), 0, 1, 'R');
+            $pdf->Ln(10);
+
+            $qrText = "Visitatore: {$row['visitor_name']}\n"
+                . "Evento: {$row['event_title']}\n"
+                . "Luogo: {$row['event_place']}\n"
+                . "Data: " . date('d/m/Y H:i', strtotime($row['data_visita'])) . "\n"
+                . "IDs: vis={$row['id_visitatore']} evt={$row['id_evento']}";
+
+            $pdf->write2DBarcode($qrText, 'QRCODE,H', 80, $pdf->GetY(), 50, 50, [], 'N');
+            $pdf->Ln(60);
+
+            $pdf->SetFont('helvetica', 'I', 9);
+            $pdf->Cell(0, 5, 'Grazie per aver scelto Artifex!', 0, 1, 'C');
+        }
+
+        $pdf->Output('Anteprima_Biglietti_Artifex.pdf', 'I');
+    }
+
+
+
 
 
     // Elabora il pagamento e svuota il carrello

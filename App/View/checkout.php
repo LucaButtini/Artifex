@@ -42,10 +42,16 @@ require 'header.php'; ?>
 
         <h3 class="text-end">Totale da pagare: €<?= number_format($total,2,',','.') ?></h3>
 
-        <form method="POST" action="<?= $baseUrl ?>cart/checkout/pdf" class="text-center mt-4">
-        <button type="submit" class="btn btn-success btn-lg">Conferma Pagamento</button>
-            <a href="<?= $baseUrl?>cart" class="btn btn-lg ms-2 btn-outline-primary">Annulla</a>
-        </form>
+        <div class="text-center mt-4">
+            <form method="POST" action="<?= $baseUrl ?>cart/checkout" class="d-inline">
+                <button type="submit" class="btn btn-success btn-lg">Conferma Pagamento</button>
+            </form>
+            <form method="POST" action="<?= $baseUrl ?>cart/pdf-preview" class="d-inline ms-2">
+                <button type="submit" class="btn btn-secondary btn-lg">Scarica Biglietto in PDF</button>
+            </form>
+            <a href="<?= $baseUrl ?>cart" class="btn btn-lg ms-2 btn-outline-primary">Annulla</a>
+        </div>
+
     <?php endif; ?>
 </div>
 

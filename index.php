@@ -80,6 +80,7 @@ $routerClass->addRoute('POST', 'cart/checkout',  'CartController', 'checkoutSubm
 // in Router definition, dopo 'cart' GET
 $routerClass->addRoute('GET',  'cart/generateTicket/{id}', 'CartController', 'generateTicket');
 $routerClass->addRoute('POST', 'cart/checkout/pdf', 'CartController', 'checkoutAndGeneratePDF');
+$routerClass->addRoute('POST', 'cart/pdf-preview', 'CartController', 'previewPDF');
 
 
 // EVENTI
