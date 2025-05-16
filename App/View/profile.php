@@ -79,7 +79,7 @@ $admin = $_SESSION['admin'] ?? null;
                     <div class="alert alert-success"><?= $pwdSuccess ?></div>
                 <?php endif; ?>
 
-                <?php if($_SESSION['visitor']) {?>
+                <?php if (isset($visitor)) {?>
                 <form action="<?= $baseUrl ?>visitor/changePwd" method="POST" class="row g-3">
                     <div class="col-md-4">
                         <label for="old_password" class="form-label">Password Attuale</label>
